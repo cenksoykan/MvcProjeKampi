@@ -1,0 +1,40 @@
+﻿using BusinessLayer.Concrete;
+using DataAccessLayer.EntityFramework;
+using MvcProjeKampi.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+
+namespace MvcProjeKampi.Controllers
+{
+    public class AdminStatisticController : Controller
+    {
+        // GET: AdminStatistic
+        CategoryManager cm = new CategoryManager(new EfCategoryDal());
+        WriterManager wm = new WriterManager(new EfWriterDal());
+        HeadingManager hm = new HeadingManager(new EfHeadingDal());
+        public ActionResult Index()
+        {
+            var categoryValues = cm.List();
+            var writerValues = wm.List();
+            var headingValues = hm.List();
+            StatisticModel statisticModel = new StatisticModel
+            {
+                CategoryCount = categoryValues.Count(),
+                HeadingCountSoftware = headingValues.Count(h => h.CategoryId == 13),
+                WriterCountFiltered = writerValues.Count(w => w.WriterName.ToUpper().Contains("A")),
+                CategoryTopHeading = categoryValues.Where(
+                    c => c.CategoryId == headingValues
+                        .GroupBy(h => h.CategoryId)
+                        .OrderByDescending(h => h.Count())
+                        .Select(h => h.Key)
+                        .FirstOrDefault()
+                ).Select(c => c.CategoryName).FirstOrDefault(),
+                CategoryStatusDiff = Math.Abs(categoryValues.Count(c => c.CategoryStatus) - categoryValues.Count(c => !c.CategoryStatus))
+            };
+            return View(statisticModel);
+        }
+    }
+}

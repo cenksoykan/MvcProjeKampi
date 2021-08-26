@@ -1,0 +1,91 @@
+﻿<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - MVC Proje Kampı</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body class="d-flex flex-nowrap">
+    <nav class="d-flex flex-column flex-shrink-0 px-3 pt-4 pb-3 text-white bg-dark sidebar">
+        @Html.ActionLink("MVC Proje Kampı", "Index", "Home", new { area = "" }, new { @class = "d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none fs-4" })
+        <hr />
+        <div class="nav nav-pills flex-column mb-auto">
+            <a href="@Url.Action("Index", "AdminStatistic")" class="nav-link link-light">
+                <i class="bi-house me-2"></i>Home
+            </a>
+            <a href="@Url.Action("Index", "AdminCategory")" class="nav-link link-light">
+                <i class="bi-tags me-2"></i>Categories
+            </a>
+            @*<a href="@Url.Action("CategoryList", "AdminCategory")" class="nav-link link-light">
+            <i class="bi-table me-2"></i>Category List
+        </a>
+        <a href="@Url.Action("CategoryInsert", "AdminCategory")" class="nav-link link-light">
+            <i class="bi-plus-square me-2"></i>New Category
+        </a>*@
+            <a href="#" class="nav-link link-light">
+                <i class="bi-app me-2"></i>Başlıklar
+            </a>
+            <a href="#" class="nav-link link-light">
+                <i class="bi-app me-2"></i>Yazarlar
+            </a>
+            <a href="#" class="nav-link link-light">
+                <i class="bi-app me-2"></i>Grafikler
+            </a>
+            <a href="#" class="nav-link link-light">
+                <i class="bi-app me-2"></i>Hakkımızda
+            </a>
+            <a href="#" class="nav-link link-light">
+                <i class="bi-app me-2"></i>İletişim
+            </a>
+            <a href="#" class="nav-link link-light">
+                <i class="bi-app me-2"></i>Yazılar
+            </a>
+            <a href="#" class="nav-link link-light">
+                <i class="bi-app me-2"></i>Yetkilendirmeler
+            </a>
+            <a href="#" class="nav-link link-light">
+                <i class="bi-app me-2"></i>Galeri
+            </a>
+            <a href="#" class="nav-link link-light">
+                <i class="bi-app me-2"></i>Hata Sayfaları
+            </a>
+            <a href="@Url.Action("Index", "Home")" class="nav-link active">
+                <i class="bi-door-open me-2"></i>Siteye Git
+            </a>
+        </div>
+        <hr />
+        <div class="dropdown">
+            <a href="#" class="d-flex align-items-center link-light text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                <img src="https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y" alt="user profile picture" width="32" height="32" class="rounded-circle me-2">
+                <strong>user</strong>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser1">
+                <li><a class="dropdown-item" href="#">New project</a></li>
+                <li><a class="dropdown-item" href="#">Settings</a></li>
+                <li><a class="dropdown-item" href="#">Profile</a></li>
+                <li><hr class="dropdown-divider" /></li>
+                <li><a class="dropdown-item" href="#">Sign out</a></li>
+            </ul>
+        </div>
+    </nav>
+    <div class="d-flex flex-column flex-fill">
+        <main class="mt-4 mb-5">
+            <div class="container">
+                @RenderBody()
+            </div>
+        </main>
+        <footer class="bg-light py-5 mt-auto">
+            <div class="container">
+                <span class="text-muted"><small>&copy; @DateTime.Now.Year - MVC Proje Kampı</small></span>
+            </div>
+        </footer>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/app")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

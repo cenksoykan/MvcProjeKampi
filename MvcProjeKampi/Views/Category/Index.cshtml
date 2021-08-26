@@ -1,34 +1,49 @@
 ﻿
 @{
-    ViewBag.Title = "Category";
+    ViewBag.Title = "Kategoriler";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>@ViewBag.Title</h2>
+<div class="row">
+    <div class="col-12 col-md">
+        <h2>@ViewBag.Title</h2>
+    </div>
+    <div class="col-12 col-md order-last text-end">
+        <button type="button" class="btn btn-outline-info">Açıklamalar</button>
+        @Html.ActionLink("Liste", "CategoryList", "Category", new { area = "" }, new { @class = "btn btn-outline-primary" })
+    </div>
+</div>
 
-<div class="table-responsive">
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th scope="col">Id</th>
-                <th scope="col">Adı</th>
-                <th scope="col">Açıklama</th>
-                <th scope="col">Durum</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <th scope="row">1</th>
-                <td>Eğitim</td>
-                <td>Açıklama yaptık</td>
-                <td>True</td>
-            </tr>
-            <tr>
-                <th scope="row">2</th>
-                <td>Spor</td>
-                <td>Açıklama yaptık</td>
-                <td>True</td>
-            </tr>
-        </tbody>
-    </table>
+<div class="row mt-4">
+    <div class="col">
+        <div class="table-responsive">
+            <table class="table table-striped align-middle">
+                <caption>Kategori listesi</caption>
+                <thead class="table-light">
+                    <tr>
+                        <th scope="col" class="text-end">#</th>
+                        <th scope="col">Adı</th>
+                        <th scope="col">Açıklama</th>
+                        <th scope="col" colspan="2">Durum</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th scope="row" class="text-end">1</th>
+                        <td>Eğitim</td>
+                        <td>Açıklama yaptık</td>
+                        <td>True</td>
+                        <td><button type="button" class="btn btn-link py-0 border-0 align-top">Güncelle</button></td>
+                    </tr>
+                    <tr>
+                        <th scope="row" class="text-end">2</th>
+                        <td>Spor</td>
+                        <td>Açıklama yaptık</td>
+                        <td>True</td>
+                        <td><button type="button" class="btn btn-link py-0 border-0 align-top">Güncelle</button></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>

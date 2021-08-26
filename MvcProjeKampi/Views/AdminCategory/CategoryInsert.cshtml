@@ -1,0 +1,33 @@
+﻿@model EntityLayer.Concrete.Category
+
+@{
+    ViewBag.Title = "Yeni Kategori Ekle";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2 class="text-center">@ViewBag.Title</h2>
+
+<div class="row mt-4">
+    <div class="col-12 col-sm-10 col-md-8 col-lg-6 col-xl-5 mx-auto">
+        @using (Html.BeginForm("CategoryInsert", "AdminCategory", FormMethod.Post))
+        {
+            <div class="form-floating mb-3">
+                @Html.TextBoxFor(x => x.CategoryName, new { @class = "form-control", @placeholder = "Kategori adı", @requiered = "" })
+                @Html.LabelFor(x => x.CategoryName, "Kategori adı")
+                @Html.ValidationMessageFor(x => x.CategoryName)
+            </div>
+            <div class="form-floating mb-3">
+                @Html.TextAreaFor(x => x.CategoryDescription, new { @class = "form-control", @placeholder = "Kategori açıklaması", @requiered = "" })
+                @Html.LabelFor(x => x.CategoryDescription, "Kategori açıklaması")
+                @Html.ValidationMessageFor(x => x.CategoryDescription)
+            </div>
+            <div class="mb-3 form-check form-switch">
+                @Html.CheckBoxFor(x => x.CategoryStatus, new { @class = "form-check-input", @onclick = "this.value = this.checked;", @value = "true", @checked = "" })
+                @Html.LabelFor(x => x.CategoryStatus, "Görünürlük durumu", new { @class = "form-check-label" })
+            </div>
+            <div class="d-grid">
+                <button type="submit" class="btn btn-primary btn-lg">Ekle</button>
+            </div>
+        }
+    </div>
+</div>

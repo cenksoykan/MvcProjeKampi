@@ -1,5 +1,5 @@
 ﻿<!DOCTYPE html>
-<html>
+<html lang="tr" class="h-100">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,38 +7,39 @@
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
 </head>
-<body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
+<body class="d-flex flex-column h-100">
+    <nav class="navbar navbar-expand-lg navbar-light sticky-top">
         <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                @Html.ActionLink("MVC Proje Kampı", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
-            </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li>@Html.ActionLink("About", "About", "Home")</li>
-                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
-                    <li>@Html.ActionLink("Test", "Test", "Home")</li>
-                    <li>@Html.ActionLink("Category", "Index", "Category")</li>
-                </ul>
+            @Html.ActionLink("MVC Proje Kampı", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <div class="nav navbar-nav">
+                    @Html.ActionLink("Home", "Index", "Home", new { area = "" }, new { @class = "nav-item nav-link" })
+                    @Html.ActionLink("About", "About", "Home", new { area = "" }, new { @class = "nav-item nav-link" })
+                    @Html.ActionLink("Contact", "Contact", "Home", new { area = "" }, new { @class = "nav-item nav-link" })
+                </div>
+                <div class="nav navbar-nav ms-auto">
+                    @Html.ActionLink("Admin", "Index", "AdminStatistic", new { area = "" }, new { @class = "nav-item nav-link" })
+                </div>
             </div>
         </div>
-    </div>
-    <div class="container body-content">
-        @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - MVC Proje Kampı</p>
-        </footer>
-    </div>
+    </nav>
+    <main class="flex-shrink-0 mt-4 mb-5">
+        <div class="container">
+            @RenderBody()
+        </div>
+    </main>
+    <footer class="bg-light py-5 mt-auto">
+        <div class="container">
+            <span class="text-muted"><small>&copy; @DateTime.Now.Year - MVC Proje Kampı</small></span>
+        </div>
+    </footer>
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/app")
     @RenderSection("scripts", required: false)
 </body>
 </html>
