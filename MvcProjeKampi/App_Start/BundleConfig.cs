@@ -23,10 +23,14 @@ namespace MvcProjeKampi
                       "~/Scripts/bootstrap.bundle.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/app").Include(
+                      "~/Scripts/summernote-lite-0.8.18.min.js",
+                      "~/Scripts/summernote-tr-TR-0.8.18.js",
                       "~/Scripts/app.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
+                      "~/Content/bootstrap-icons-1.5.0.css",
+                      "~/Content/summernote-lite-0.8.18.min.css",
                       "~/Content/site.css"));
         }
     }

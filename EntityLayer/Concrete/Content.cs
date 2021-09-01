@@ -11,12 +11,20 @@ namespace EntityLayer.Concrete
     {
         [Key]
         public int ContentId { get; set; }
+
         [StringLength(4000)]
         public string ContentValue { get; set; }
+
         public DateTime ContentCreatedOn { get; set; }
+
+        public bool ContentStatus { get; set; }
+
         public int HeadingId { get; set; }
+
         public virtual Heading Heading { get; set; }
+
         public int? WriterId { get; set; }
+
         public virtual Writer Writer { get; set; }
     }
 }

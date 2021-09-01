@@ -12,14 +12,14 @@ namespace MvcProjeKampi.Controllers
     public class AdminStatisticController : Controller
     {
         // GET: AdminStatistic
-        CategoryManager cm = new CategoryManager(new EfCategoryDal());
-        WriterManager wm = new WriterManager(new EfWriterDal());
-        HeadingManager hm = new HeadingManager(new EfHeadingDal());
+        CategoryManager categoryManager = new CategoryManager(new EfCategoryDal());
+        WriterManager writerManager = new WriterManager(new EfWriterDal());
+        HeadingManager headingManager = new HeadingManager(new EfHeadingDal());
         public ActionResult Index()
         {
-            var categoryValues = cm.List();
-            var writerValues = wm.List();
-            var headingValues = hm.List();
+            var categoryValues = categoryManager.List();
+            var writerValues = writerManager.List();
+            var headingValues = headingManager.List();
             StatisticModel statisticModel = new StatisticModel
             {
                 CategoryCount = categoryValues.Count(),

@@ -1,0 +1,37 @@
+﻿@using EntityLayer.Concrete
+@model List<Heading>
+
+@{
+    ViewBag.Title = "Başlıklar";
+    Layout = "~/Views/Shared/_WriterLayout.cshtml";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-12 col-md">
+            <h2>@ViewBag.Title<span class="badge bg-primary ms-2 align-top">@Model.Count()</span></h2>
+        </div>
+        <div class="col-12 col-md order-last text-end">
+            <a href="@Url.Action("HeadingInsert", "WriterHeading")" class="btn btn-primary">Başlık ekle</a>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col">
+            <nav>
+                <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                    <button class="nav-link active" id="heading-active-tab" data-bs-toggle="tab" data-bs-target="#heading-active" type="button" role="tab" aria-controls="heading-active" aria-selected="true">Açık başlıklar</button>
+                    <button class="nav-link" id="heading-passive-tab" data-bs-toggle="tab" data-bs-target="#heading-passive" type="button" role="tab" aria-controls="heading-passive" aria-selected="false">Silinmiş başlıklar</button>
+                </div>
+            </nav>
+            <div class="tab-content" id="nav-tabContent">
+                <div class="tab-pane fade show active" id="heading-active" role="tabpanel" aria-labelledby="heading-active-tab">
+                    @Html.Action("HeadingListActivePartial", "WriterHeading")
+                </div>
+                <div class="tab-pane fade" id="heading-passive" role="tabpanel" aria-labelledby="heading-passive-tab">
+                    @Html.Action("HeadingListPassivePartial", "WriterHeading")
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

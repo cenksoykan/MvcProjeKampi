@@ -1,0 +1,40 @@
+﻿@model EntityLayer.Concrete.Heading
+
+@{
+    ViewBag.Title = "Başlık Güncelle";
+    Layout = "~/Views/Shared/_WriterLayout.cshtml";
+}
+
+<div class="container">
+    <h2 class="text-center">@ViewBag.Title</h2>
+
+    <div class="row mt-4">
+        <div class="col-12 col-sm-10 col-md-8 col-lg-6 col-xl-5 mx-auto">
+            @using (Html.BeginForm("HeadingUpdate", "WriterHeading", FormMethod.Post))
+            {
+                <div class="form-floating mb-3">
+                    @Html.HiddenFor(x => x.HeadingId, new { @class = "form-control", @placeholder = "Başlık Id", @requiered = "", @readonly = "" })
+                    @Html.LabelFor(x => x.HeadingId, "Yazar Id")
+                </div>
+                <div class="form-floating mb-3">
+                    @Html.TextBoxFor(x => x.HeadingName, new { @class = "form-control", @placeholder = "Başlık", @requiered = "" })
+                    @Html.LabelFor(x => x.HeadingName, "Başlık adı")
+                    @Html.ValidationMessageFor(x => x.HeadingName)
+                </div>
+                <div class="form-floating mb-3">
+                    @Html.DropDownListFor(x => x.CategoryId, (List<SelectListItem>)ViewBag.CategoryNames, new { @class = "form-select", @placeholder = "Kategori", @requiered = "" })
+                    @Html.LabelFor(x => x.CategoryId, "Başlık kategorisi")
+                    @Html.ValidationMessageFor(x => x.CategoryId)
+                </div>
+                <div class="mb-3 form-check form-switch">
+                    @Html.CheckBoxFor(x => x.HeadingStatus, new { @class = "form-check-input" })
+                    @Html.LabelFor(x => x.HeadingStatus, "Görünürlük durumu", new { @class = "form-check-label" })
+                </div>
+                <div class="text-end">
+                    <a href="@Url.Action("Index", "WriterHeading")" class="btn btn-outline-primary btn-lg">Vazgeç</a>
+                    <button type="submit" class="btn btn-primary btn-lg">Güncelle</button>
+                </div>
+            }
+        </div>
+    </div>
+</div>

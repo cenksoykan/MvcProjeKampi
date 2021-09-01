@@ -1,0 +1,54 @@
+﻿@model EntityLayer.Concrete.Message
+
+<div class="modal fade" id="messageNew" tabindex="-1" aria-labelledby="messageNewLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-dialog-scrollable modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="messageNewLabel">Yeni ileti oluştur</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Kapat"></button>
+            </div>
+            <div class="modal-body">
+                @using (Html.BeginForm("MessageInsert", "AdminMessage", FormMethod.Post, new { @id = "messageForm" }))
+                {
+                    <div class="container-fluid">
+                        <div class="row mb-3">
+                            @Html.LabelFor(x => x.MessageReceiver, "Alıcı", new { @class = "col-sm-2 col-form-label" })
+                            <div class="col-sm-10">
+                                @Html.TextBoxFor(x => x.MessageReceiver, new { @class = "form-control", @placeholder = "name@example.com", @requiered = "", @type = "email" })
+                            </div>
+                            @Html.ValidationMessageFor(x => x.MessageReceiver)
+                        </div>
+                        <div class="row mb-3">
+                            @Html.LabelFor(x => x.MessageSubject, "Konu", new { @class = "col-sm-2 col-form-label" })
+                            <div class="col-sm-10">
+                                @Html.TextBoxFor(x => x.MessageSubject, new { @class = "form-control", @placeholder = "Konu başlığı", @requiered = "" })
+                            </div>
+                            @Html.ValidationMessageFor(x => x.MessageSubject)
+                        </div>
+                        <div class="row mb-3">
+                            @Html.LabelFor(x => x.MessageBody, "İleti", new { @class = "col-sm-2 col-form-label" })
+                            <div class="col-sm-10">
+                                @Html.TextAreaFor(x => x.MessageBody, new { @class = "form-control", @placeholder = "İleti içeriği", @requiered = "", @id = "summernote" })
+                            </div>
+                            @Html.ValidationMessageFor(x => x.MessageBody)
+                        </div>
+                        <div class="row mb-3">
+                            <label for="formFile" class="col-sm-2 col-form-label">Belge</label>
+                            <div class="col-sm-10">
+                                <input class="form-control" type="file" id="formFile" accept="image/png, image/jpeg">
+                                <div id="fileHelpBlock" class="form-text">
+                                    Allowed file size is maximum 32 megabyte.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-secondary me-auto">Taslağa kaydet</button>
+                <button type="reset" form="messageForm" class="btn btn-outline-primary" data-bs-dismiss="modal">Vazgeç</button>
+                <button type="submit" form="messageForm" class="btn btn-primary">Gönder</button>
+            </div>
+        </div>
+    </div>
+</div>

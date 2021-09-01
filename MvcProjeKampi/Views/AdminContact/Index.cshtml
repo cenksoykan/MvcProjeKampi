@@ -1,0 +1,34 @@
+﻿@using System.Text.RegularExpressions;
+@using EntityLayer.Concrete
+@model List<Contact>
+
+@{
+    ViewBag.Title = "İletişim";
+    Layout = "~/Views/Shared/_AdminContactLayout.cshtml";
+}
+
+@foreach (var item in Model)
+{
+    bool isRead = item.ContactStatusRead;
+
+    <tr class="position-relative @(isRead ? "bg-light" : "")">
+        <th scope="row" class="text-end position-relative" style="z-index:2;">
+            <input class="form-check-input m-1" type="checkbox" name="domainList" value="" aria-label="Seç" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Seç">
+        </th>
+        <td class="text-truncate" style="max-width: 32rem;">
+            <a href="@Url.Action("ContactDetails/" + item.ContactId, "AdminContact")" class="stretched-link text-decoration-none text-reset @(isRead ? "fw-normal" : "fw-bold") me-2">
+                @item.ContactUserName
+            </a>
+        </td>
+        <td class="text-truncate fw-light" style="max-width: 1px;">
+            <span class="@(isRead ? "fw-normal" : "fw-bold")">@item.ContactSubject</span>
+            <span class="mx-2">&ndash;</span>
+            @item.ContactMessage
+        </td>
+        <td class="text-nowrap">
+            <small class="text-muted @(isRead ? "fw-normal" : "fw-bold")">
+                @item.ContactDate.ToString("d MMM yyy")
+            </small>
+        </td>
+    </tr>
+}

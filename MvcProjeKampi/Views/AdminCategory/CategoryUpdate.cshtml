@@ -5,34 +5,36 @@
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
-<h2 class="text-center">@ViewBag.Title</h2>
+<div class="container">
+    <h2 class="text-center">@ViewBag.Title</h2>
 
-<div class="row mt-4">
-    <div class="col-12 col-sm-10 col-md-8 col-lg-6 col-xl-5 mx-auto">
-        @using (Html.BeginForm("CategoryUpdate", "AdminCategory", FormMethod.Post))
-        {
-            <div class="form-floating mb-3">
-                @Html.HiddenFor(x => x.CategoryId, new { @class = "form-control", @placeholder = "Kategori Id", @requiered = "" })
-                @Html.LabelFor(x => x.CategoryId, "Kategori Id")
-                @Html.ValidationMessageFor(x => x.CategoryId)
-            </div>
-            <div class="form-floating mb-3">
-                @Html.TextBoxFor(x => x.CategoryName, new { @class = "form-control", @placeholder = "Kategori adı", @requiered = "" })
-                @Html.LabelFor(x => x.CategoryName, "Kategori adı")
-                @Html.ValidationMessageFor(x => x.CategoryName)
-            </div>
-            <div class="form-floating mb-3">
-                @Html.TextAreaFor(x => x.CategoryDescription, new { @class = "form-control", @placeholder = "Kategori açıklaması", @requiered = "" })
-                @Html.LabelFor(x => x.CategoryDescription, "Kategori açıklaması")
-                @Html.ValidationMessageFor(x => x.CategoryDescription)
-            </div>
-            <div class="mb-3 form-check form-switch">
-                @Html.CheckBoxFor(x => x.CategoryStatus, new { @class = "form-check-input", @onclick = "this.value = this.checked;" })
-                @Html.LabelFor(x => x.CategoryStatus, "Görünürlük durumu", new { @class = "form-check-label" })
-            </div>
-            <div class="d-grid">
-                <button type="submit" class="btn btn-primary btn-lg">Güncelle</button>
-            </div>
-        }
+    <div class="row mt-4">
+        <div class="col-12 col-sm-10 col-md-8 col-lg-6 col-xl-5 mx-auto">
+            @using (Html.BeginForm("CategoryUpdate", "AdminCategory", FormMethod.Post))
+            {
+                <div class="form-floating mb-3">
+                    @Html.HiddenFor(x => x.CategoryId, new { @class = "form-control", @placeholder = "Kategori Id", @requiered = "", @readonly = "" })
+                    @Html.LabelFor(x => x.CategoryId, "Kategori Id")
+                </div>
+                <div class="form-floating mb-3">
+                    @Html.TextBoxFor(x => x.CategoryName, new { @class = "form-control", @placeholder = "Kategori adı", @requiered = "" })
+                    @Html.LabelFor(x => x.CategoryName, "Kategori adı")
+                    @Html.ValidationMessageFor(x => x.CategoryName)
+                </div>
+                <div class="form-floating mb-3">
+                    @Html.TextAreaFor(x => x.CategoryDescription, new { @class = "form-control", @placeholder = "Kategori açıklaması", @requiered = "" })
+                    @Html.LabelFor(x => x.CategoryDescription, "Kategori açıklaması")
+                    @Html.ValidationMessageFor(x => x.CategoryDescription)
+                </div>
+                <div class="mb-3 form-check form-switch">
+                    @Html.CheckBoxFor(x => x.CategoryStatus, new { @class = "form-check-input" })
+                    @Html.LabelFor(x => x.CategoryStatus, "Görünürlük durumu", new { @class = "form-check-label" })
+                </div>
+                <div class="text-end">
+                    <a href="@Url.Action("Index", "AdminCategory")" class="btn btn-outline-primary btn-lg">Vazgeç</a>
+                    <button type="submit" class="btn btn-primary btn-lg">Güncelle</button>
+                </div>
+            }
+        </div>
     </div>
 </div>

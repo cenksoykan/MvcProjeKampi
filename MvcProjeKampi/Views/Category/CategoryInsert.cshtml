@@ -22,7 +22,7 @@
                 @Html.ValidationMessageFor(x => x.CategoryDescription)
             </div>
             <div class="mb-3 form-check form-switch">
-                @Html.CheckBoxFor(x => x.CategoryStatus, new { @class = "form-check-input", @onclick = "this.value = this.checked;", @value = "true", @checked = "" })
+                @Html.CheckBoxFor(x => x.CategoryStatus, new { @class = "form-check-input", @value = "true", @checked = "" })
                 @Html.LabelFor(x => x.CategoryStatus, "Görünürlük durumu", new { @class = "form-check-label" })
             </div>
             <div class="d-grid">

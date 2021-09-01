@@ -1,0 +1,30 @@
+﻿@using EntityLayer.Concrete
+@model List<Content>
+
+@{
+    ViewBag.Title = "Yazılar";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="container">
+    <h2>@ViewBag.Title<span class="badge bg-primary ms-2 align-top">@Model.Count()</span></h2>
+
+    <div class="list-group mt-4">
+        @foreach (var item in Model)
+        {
+            <a href="@Url.Action("ContentByHeading/" + item.HeadingId, "AdminContent")" class="list-group-item list-group-item-action" aria-current="true">
+                <div class="d-flex w-100 justify-content-between">
+                    <h5 class="mb-1">@item.Heading.HeadingName</h5>
+                    <small>
+                        @item.ContentCreatedOn.ToString("d MMM yyy")
+                        <span class="badge rounded-circle p-1 ms-2 border border-light @(item.ContentStatus ? "bg-success" : "bg-danger")" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="@(item.ContentStatus ? "Aktif" : "Pasif")">
+                            <span class="visually-hidden">@item.ContentStatus ? Aktif : Pasif</span>
+                        </span>
+                    </small>
+                </div>
+                <p class="mb-1">@item.ContentValue</p>
+                <small>@item.Writer.WriterName @item.Writer.WriterSurname</small>
+            </a>
+        }
+    </div>
+</div>

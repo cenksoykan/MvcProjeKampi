@@ -6,97 +6,57 @@
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
-<div class="row">
-    <div class="col-12 col-md">
-        <h2>@ViewBag.Title</h2>
-    </div>
-    <div class="col-12 col-md order-last text-end">
-        <a href="@Url.Action("CategoryInsert", "AdminCategory")" class="btn btn-primary" data-bs-toggle="tooltip" data-bs-placement="left" title="Kategori Ekle">
-            <i class="bi-plus me-2"></i>Kategori Ekle
-        </a>
-    </div>
-</div>
-
-<div class="row mt-4">
-    <div class="col">
-        <div class="table-responsive">
-            <table class="table table-striped align-middle">
-                <caption>Kategori listesi</caption>
-                <thead class="table-light">
-                    <tr>
-                        <th scope="col" class="text-end">#</th>
-                        <th scope="col">Adı</th>
-                        <th scope="col" colspan="2">Açıklama</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var item in Model)
-                    {
-                        <tr class="@(@item.CategoryStatus ? "table-default" : "table-warning")">
-                            <th scope="row" class="text-end">@item.CategoryId</th>
-                            <td>@item.CategoryName</td>
-                            <td>@item.CategoryDescription</td>
-                            <td>
-                                <a href="@Url.Action("CategoryUpdate/" + item.CategoryId, "AdminCategory")" class="btn btn-link py-0 border-0 align-top"><i class="bi-pencil me-2"></i>Güncelle</a>
-                                <a href="@Url.Action("CategoryDelete/" + item.CategoryId, "AdminCategory")" class="btn btn-link py-0 border-0 align-top link-danger"><i class="bi-trash me-2"></i>Sil</a>
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-        </div>
-    </div>
-</div>
-
-
-@*@{
-        ViewBag.Title = "Kategoriler";
-        Layout = "~/Views/Shared/_AdminLayout.cshtml";
-    }
-
+<div class="container">
     <div class="row">
         <div class="col-12 col-md">
-            <h2>@ViewBag.Title</h2>
+            <h2>@ViewBag.Title<span class="badge bg-primary ms-2 align-top">@Model.Count()</span></h2>
         </div>
         <div class="col-12 col-md order-last text-end">
-            <button type="button" class="btn btn-outline-info">Açıklamalar</button>
-            @Html.ActionLink("Liste", "CategoryList", "AdminCategory", new { area = "" }, new { @class = "btn btn-outline-primary" })
+            <a href="@Url.Action("CategoryInsert", "AdminCategory")" class="btn btn-primary">Kategori ekle</a>
         </div>
     </div>
 
     <div class="row mt-4">
         <div class="col">
-            <div class="table-responsive">
+            <div class="text-nowrap">
                 <table class="table table-striped align-middle">
                     <caption>Kategori listesi</caption>
                     <thead class="table-light">
                         <tr>
                             <th scope="col" class="text-end">#</th>
-                            <th scope="col">Adı</th>
+                            <th scope="col"><span class="visually-hidden">Durum</span></th>
+                            <th scope="col">Kategori</th>
                             <th scope="col" colspan="2">Açıklama</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <th scope="row" class="text-end">1</th>
-                            <td>Eğitim</td>
-                            <td>Açıklama yaptık</td>
-                            <td>
-                                <a href="@Url.Action("CategoryUpdate", "AdminCategory")" class="btn btn-link py-0 border-0 align-top"><i class="bi-pencil me-2"></i>Güncelle</a>
-                                <a href="@Url.Action("CategoryDelete", "AdminCategory")" class="btn btn-link py-0 border-0 align-top link-danger"><i class="bi-trash me-2"></i>Sil</a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <th scope="row" class="text-end">2</th>
-                            <td>Spor</td>
-                            <td>Açıklama yaptık</td>
-                            <td>
-                                <a href="@Url.Action("CategoryUpdate", "AdminCategory")" class="btn btn-link py-0 border-0 align-top"><i class="bi-pencil me-2"></i>Güncelle</a>
-                                <a href="@Url.Action("CategoryDelete", "AdminCategory")" class="btn btn-link py-0 border-0 align-top link-danger"><i class="bi-trash me-2"></i>Sil</a>
-                            </td>
-                        </tr>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                @*<tr class="@(@item.CategoryStatus ? "table-default" : "table-warning")">*@
+                                <th scope="row" class="text-end">@item.CategoryId</th>
+                                <td class="text-center">
+                                    <span class="badge rounded-circle p-1 border border-light @(item.CategoryStatus ? "bg-success" : "bg-danger")" data-bs-toggle="tooltip" data-bs-placement="left" data-bs-title="@(item.CategoryStatus ? "Aktif" : "Pasif")">
+                                        <span class="visually-hidden">@item.CategoryStatus ? Aktif : Pasif</span>
+                                    </span>
+                                </td>
+                                <td><span class="user-select-all">@item.CategoryName</span></td>
+                                <td class="fw-light">@item.CategoryDescription</td>
+                                <td class="p-0">
+                                    <div class="btn-group" role="group" aria-label="Yönet">
+                                        <a href="@Url.Action("CategoryUpdate/" + item.CategoryId, "AdminCategory")" class="btn btn-link py-0 border-0 align-top mx-2">
+                                            <i class="bi-pencil mx-2"></i>Düzenle
+                                        </a>
+                                        <a href="@Url.Action("CategoryDelete/" + item.CategoryId, "AdminCategory")" class="btn btn-link py-0 border-0 align-top mx-2 link-@(item.CategoryStatus ? "danger" : "success")">
+                                            <i class="bi-@(item.CategoryStatus ? "dash-circle" : "plus-circle") mx-2"></i>@(item.CategoryStatus ? "Kaldır" : "Ekle")
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
                     </tbody>
                 </table>
             </div>
         </div>
-    </div>*@
+    </div>
+</div>

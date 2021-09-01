@@ -1,6 +1,4 @@
-﻿@import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css");
-
-html {
+﻿html {
     height: 100%;
 }
 
@@ -15,15 +13,72 @@ body {
     white-space: normal;
 }
 
-.navbar.sticky-top,
-.navbar.fixed-top {
-    background-color: rgba(255,255,255,0.95);
-    box-shadow: 0 0.5rem 1rem rgb(0 0 0 / 5%), inset 0 -1px 0 rgb(0 0 0 / 15%);
-}
-
 .sidebar {
     min-width: 280px;
     max-width: 25vw;
+    max-height: 100vh;
+    height: 100%!important;
+    overflow-y: auto;
+}
+
+.sidebar .nav-link {
+    margin-bottom: .2rem;
+}
+
+.sidebar .nav-link:not(.active):hover,
+.sidebar .nav-link:not(.active):focus {
+    background-color: #1a1e21;
+}
+
+textarea.form-control {
+    min-height: calc(1.5em + 4.5rem + 2px);
+}
+
+.sidebar .btn-toggle {
+    position: relative;
+}
+
+.sidebar .btn-toggle::after {
+    display: inline-block;
+    font-family: bootstrap-icons !important;
+    font-style: normal;
+    font-weight: normal !important;
+    font-variant: normal;
+    text-transform: none;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    width: 1.25em;
+    line-height: 1;
+    content: "\f230";
+    transition: transform 0.35s ease;
+    transform-origin: .5em 50%;
+    vertical-align: middle;
+    position: absolute;
+    right: 0;
+    top: .75em;
+}
+
+.sidebar .btn-toggle[aria-expanded="true"]::after {
+    transform: rotate(-90deg);
+}
+
+.scrollbar::-webkit-scrollbar {
+    width: 1rem;
+}
+
+.scrollbar::-webkit-scrollbar-track {
+    background-color: transparent;
+}
+
+.scrollbar::-webkit-scrollbar-thumb {
+    background-color: var(--bs-gray-600);
+    border-radius: 1rem;
+    border: 6px solid transparent;
+    background-clip: content-box;
+}
+
+.scrollbar::-webkit-scrollbar-thumb:hover {
+    background-color: var(--bs-gray-500);
 }
 
 .field-validation-valid,
@@ -31,6 +86,64 @@ body {
     display: none;
 }
 
-textarea.form-control {
-    min-height: calc(1.5em + 4.5rem + 2px);
+.form-floating:focus-within {
+    z-index: 2;
 }
+
+.container-fill {
+    margin: -1.5rem auto -3rem;
+}
+
+#admin-session {
+    background-color: #f5f5f5;
+}
+
+#admin-session .container {
+    max-width: 330px;
+}
+
+#personal-skill {
+    background: var(--bs-secondary) url('https://picsum.photos/id/491/968/480') no-repeat center;
+    background-size: cover;
+    min-height: 100vh;
+}
+
+#personal-skill .container {
+    min-width: 360px;
+    max-width: 440px;
+}
+
+.letter-space {
+    letter-spacing: .035em;
+    word-spacing: .035em
+}
+
+/*@media (min-width: calc(576px + 280px)) {
+    .container-sm, .container {
+        max-width: 540px;
+    }
+}
+
+@media (min-width: calc(768px + 280px)) {
+    .container-md, .container-sm, .container {
+        max-width: 720px;
+    }
+}
+
+@media (min-width: calc(992px + 280px)) {
+    .container-lg, .container-md, .container-sm, .container {
+        max-width: 960px;
+    }
+}
+
+@media (min-width: calc(1200px + 280px)) {
+    .container-xl, .container-lg, .container-md, .container-sm, .container {
+        max-width: 1140px;
+    }
+}
+
+@media (min-width: calc(1400px + 280px)) {
+    .container-xxl, .container-xl, .container-lg, .container-md, .container-sm, .container {
+        max-width: 1320px;
+    }
+}*/

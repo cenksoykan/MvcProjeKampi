@@ -1,0 +1,55 @@
+﻿@using MvcProjeKampi.Models
+@model ContactModel
+
+@{ 
+    string actionName = ViewContext.ParentActionViewContext.ViewBag.ActionName != null ? ViewContext.ParentActionViewContext.ViewBag.ActionName : ViewContext.ParentActionViewContext.RouteData.Values["Action"].ToString();
+}
+
+<div class="col-lg-4 col-xl-3">
+    <div class="d-grid col-4 col-lg-12 mb-3">
+        <button type="button" class="btn btn-danger shadow py-2 border-1" data-bs-toggle="modal" data-bs-target="#messageNew">İleti oluştur</button>
+    </div>
+    <div class="list-group">
+        @if (User.IsInRole("A"))
+        {
+            <a href="@Url.Action("Index", "AdminContact")" class="list-group-item list-group-item-action @(actionName == "Index" ? "active" : "")">
+                <div class="d-flex w-100 justify-content-between align-items-center">
+                    <span><i class="bi-at me-2"></i>İletişim</span>
+                    <span class="badge bg-danger rounded-pill @(Model.ContactCount > 0 ? "" : "visually-hidden")">@Model.ContactCount</span>
+                </div>
+            </a>
+
+        }
+        <a href="@Url.Action("MessageInbox", "AdminMessage")" class="list-group-item list-group-item-action @(actionName == "MessageInbox" ? "active" : "")">
+            <div class="d-flex w-100 justify-content-between align-items-center">
+                <span><i class="bi-inbox me-2"></i>Gelen kutusu</span>
+                <span class="badge bg-danger rounded-pill @(Model.MessageInboxCount > 0 ? "" : "visually-hidden")">@Model.MessageInboxCount</span>
+            </div>
+        </a>
+        <a href="@Url.Action("MessageSent", "AdminMessage")" class="list-group-item list-group-item-action @(actionName == "MessageSent" ? "active" : "")">
+            <div class="d-flex w-100 justify-content-between align-items-center">
+                <span><i class="bi-file-arrow-up me-2"></i>Gönderilmiş iletiler</span>
+            </div>
+        </a>
+        <a href="@Url.Action("MessageDraft", "AdminMessage")" class="list-group-item list-group-item-action @(actionName == "MessageDraft" ? "active" : "")">
+            <div class="d-flex w-100 justify-content-between align-items-center">
+                <span><i class="bi-file-earmark-text me-2"></i>Taslaklar</span>
+                <span class="badge bg-secondary rounded-pill @(Model.MessageDraftCount > 0 ? "" : "visually-hidden")">@Model.MessageDraftCount</span>
+            </div>
+        </a>
+        @*<a href="@Url.Action("MessageSpam", "AdminMessage")" class="list-group-item list-group-item-action @(actionName == "MessageSpam" ? "active" : "")">
+                <div class="d-flex w-100 justify-content-between align-items-center">
+                    <span><i class="bi bi-exclamation-octagon me-2"></i>Spam</span>
+                    <span class="badge bg-danger rounded-pill">?</span>
+                </div>
+            </a>*@
+        <a href="@Url.Action("MessageTrash", "AdminMessage")" class="list-group-item list-group-item-action @(actionName == "MessageTrash" ? "active" : "")">
+            <div class="d-flex w-100 justify-content-between align-items-center">
+                <span><i class="bi-trash me-2"></i>Çöp kutusu</span>
+                <span class="badge bg-secondary rounded-pill @(Model.MessageTrashCount > 0 ? "" : "visually-hidden")">@Model.MessageTrashCount</span>
+            </div>
+        </a>
+    </div>
+</div>
+
+@Html.Action("MessageNewPartial", "AdminMessage")

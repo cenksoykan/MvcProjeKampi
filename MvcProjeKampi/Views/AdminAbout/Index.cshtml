@@ -1,0 +1,63 @@
+﻿@using EntityLayer.Concrete
+@model List<About>
+
+@{
+    ViewBag.Title = "Hakkımızda";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-12 col-md">
+            <h2>@ViewBag.Title<span class="badge bg-primary ms-2 align-top">@Model.Count()</span></h2>
+        </div>
+        <div class="col-12 col-md order-last text-end">
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#aboutModal">Yazı ekle</button>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col">
+            <div class="table-responsive">
+                <table class="table table-striped align-middle">
+                    <caption>Kategori listesi</caption>
+                    <thead class="table-light">
+                        <tr>
+                            <th scope="col" class="text-end">#</th>
+                            <th scope="col"><span class="visually-hidden">Durum</span></th>
+                            <th scope="col">Kategori</th>
+                            <th scope="col" colspan="2">Açıklama</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <th scope="row" class="text-end">@item.AboutId</th>
+                                @*<td class="text-center">
+                                        <span class="badge rounded-circle p-1 @(item.AboutStatus ? "bg-success" : "bg-danger")" data-bs-toggle="tooltip" data-bs-placement="left" data-bs-title="@(item.AboutStatus ? "Aktif" : "Pasif")">
+                                            <span class="visually-hidden">@item.AboutStatus ? Aktif : Pasif</span>
+                                        </span>
+                                    </td>*@
+                                <td>@item.AboutDetails1</td>
+                                <td class="fw-light">@item.AboutDetails2</td>
+                                @*<td class="p-0">
+                                        <div class="btn-group" role="group" aria-label="Yönet">
+                                            <a href="@Url.Action("AboutUpdate/" + item.AboutId, "AdminAbout")" class="btn btn-link py-0 border-0 align-top mx-2">
+                                                <i class="bi-pencil mx-2"></i>Düzenle
+                                            </a>
+                                            <a href="@Url.Action("AboutDelete/" + item.AboutId, "AdminAbout")" class="btn btn-link py-0 border-0 align-top mx-2 link-@(item.AboutStatus ? "danger" : "success")">
+                                                <i class="bi-@(item.AboutStatus ? "trash" : "recycle") mx-2"></i>@(item.AboutStatus ? "Kaldır" : "Ekle")
+                                            </a>
+                                        </div>
+                                    </td>*@
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    @Html.Action("AboutModalPartial", "AdminAbout");
+</div>

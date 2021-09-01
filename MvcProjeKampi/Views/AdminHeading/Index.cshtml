@@ -1,0 +1,94 @@
+﻿@using EntityLayer.Concrete
+@model List<Heading>
+
+@{
+    ViewBag.Title = "Başlıklar";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    string color = "";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-12 col-md">
+            <h2>@ViewBag.Title<span class="badge bg-primary ms-2 align-top">@Model.Count()</span></h2>
+        </div>
+        <div class="col-12 col-md order-last text-end">
+            <a href="@Url.Action("HeadingInsert", "AdminHeading")" class="btn btn-primary">Başlık ekle</a>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col">
+            <table class="table table-striped align-middle">
+                <caption>Başlık listesi</caption>
+                <thead class="table-light">
+                    <tr>
+                        <th scope="col"><span class="visually-hidden">Durum</span></th>
+                        <th scope="col" colspan="2">Başlık</th>
+                        <th scope="col" colspan="2">Yazar</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        if (item.CategoryId == 1)
+                        {
+                            color = "warning text-dark";
+                        }
+                        else if (item.CategoryId == 2)
+                        {
+                            color = "danger";
+                        }
+                        else if (item.CategoryId == 3)
+                        {
+                            color = "info text-dark";
+                        }
+                        else if (item.CategoryId == 4)
+                        {
+                            color = "success";
+                        }
+                        else if (item.CategoryId == 5)
+                        {
+                            color = "dark";
+                        }
+                        else if (item.CategoryId == 6)
+                        {
+                            color = "secondary";
+                        }
+                        else if (item.CategoryId == 7)
+                        {
+                            color = "primary";
+                        }
+                        else { color = "light text-dark"; }
+                        <tr>
+                            <td class="text-center">
+                                <span class="badge rounded-circle p-1 border border-light @(item.HeadingStatus ? "bg-success" : "bg-danger")" data-bs-toggle="tooltip" data-bs-placement="left" data-bs-title="@(item.HeadingStatus ? "Aktif" : "Pasif")">
+                                    <span class="visually-hidden">@item.HeadingStatus ? Aktif : Pasif</span>
+                                </span>
+                            </td>
+                            <td class="text-nowrap"><span class="user-select-all">@item.HeadingName</span><small class="d-block text-muted user-select-all">@item.HeadingCreatedOn.ToString("D")</small></td>
+                            <td class="text-center"><span class="badge bg-@color user-select-all">@item.Category.CategoryName</span></td>
+                            <td class="text-nowrap">
+                                <img src="@item.Writer.WriterProfilePicture" alt="@item.Writer.WriterName @item.Writer.WriterSurname" width="44" height="44" class="img-fluid rounded-circle border me-2 d-none d-xl-inline" />
+                                <span class="user-select-all">@item.Writer.WriterName @item.Writer.WriterSurname</span>
+                            </td>
+                            <td class="p-0">
+                                <div class="btn-group" role="group" aria-label="Yönet">
+                                    <a href="@Url.Action("ContentByHeading/" + item.HeadingId, "AdminContent")" class="btn btn-link py-0 border-0 align-top mx-2 link-dark">
+                                        <i class="bi-journal-richtext mx-2"></i>Yazılar
+                                    </a>
+                                    <a href="@Url.Action("HeadingUpdate/" + item.HeadingId, "AdminHeading")" class="btn btn-link py-0 border-0 align-top mx-2">
+                                        <i class="bi-pencil mx-2"></i>Düzenle
+                                    </a>
+                                    <a href="@Url.Action("HeadingDelete/" + item.HeadingId, "AdminHeading")" class="btn btn-link py-0 border-0 align-top mx-2 link-@(item.HeadingStatus ? "danger" : "success")">
+                                        <i class="bi-@(item.HeadingStatus ? "dash-circle" : "plus-circle") mx-2"></i>@(item.HeadingStatus ? "Kaldır" : "Ekle")
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

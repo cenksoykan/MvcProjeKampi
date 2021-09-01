@@ -1,0 +1,62 @@
+﻿@using EntityLayer.Concrete
+@model List<Writer>
+
+@{
+    ViewBag.Title = "Yazarlar";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-12 col-md">
+            <h2>@ViewBag.Title<span class="badge bg-primary ms-2 align-top">@Model.Count()</span></h2>
+        </div>
+        <div class="col-12 col-md order-last text-end">
+            <a href="@Url.Action("WriterInsert", "AdminWriter")" class="btn btn-primary">Yazar ekle</a>
+        </div>
+    </div>
+
+    <div class="row row-cols-1 row-cols-lg-2 row-cols-xxl-3 gy-3 gy-lg-4 d-flex justify-content-around align-items-stretch align-content-center flex-wrap mt-1 mt-lg-0">
+        @foreach (var item in Model)
+        {
+            <div class="col">
+                <div class="card h-100 bg-light">
+                    @*<div class="card-header">Header</div>*@
+                    <div class="card-body">
+                        <div class="d-flex flex-column justify-content-center flex-md-row mb-3">
+                            <div class="flex-shrink-0 align-self-center me-md-3 mb-3 mb-md-0 position-relative">
+                                <img src="https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y" alt="user profile picture" width="64" height="64" class="img-fluid rounded-circle border shadow-sm" />
+                                <span class="position-absolute top-50 start-50 m-4 translate-middle border border-light badge rounded-circle p-2 @(item.WriterStatus ? "bg-success" : "bg-danger")" data-bs-toggle="tooltip" data-bs-placement="left" data-bs-title="@(item.WriterStatus ? "Aktif" : "Pasif")">
+                                    <span class="visually-hidden">@item.WriterStatus ? Aktif : Pasif</span>
+                                </span>
+                            </div>
+                            <div class="flex-grow-1">
+                                <h6 class="card-text text-center text-md-start"><small class="text-muted text-uppercase letter-space user-select-all">@item.WriterTitle</small></h6>
+                                <h5 class="card-title text-center text-md-start user-select-all">@item.WriterName @item.WriterSurname</h5>
+                                <p class="card-text"><small class="text-muted user-select-all"><i class="bi-envelope me-1"></i>@item.WriterEmailAddress</small></p>
+                            </div>
+                        </div>
+                        <p class="card-text">@item.WriterAbout</p>
+                    </div>
+                    <div class="card-footer d-flex align-items-center">
+                        <div class="btn-group" role="group" aria-label="Yazar içerikleri">
+                            <a href="@Url.Action("HeadingByWriter/" + item.WriterId, "AdminHeading")" class="btn btn-outline-primary flex-shrink-0" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Başlıklar">
+                                <i class="bi-card-heading"></i>
+                            </a>
+                            <a href="@Url.Action("ContentByWriter/" + item.WriterId, "AdminContent")" class="btn btn-outline-primary flex-shrink-0" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Yazılar">
+                                <i class="bi-journal-richtext"></i>
+                            </a>
+                        </div>
+                        <small class="flex-grow-1 text-muted text-truncate mx-3"></small>
+                        <a href="@Url.Action("WriterUpdate/" + item.WriterId, "AdminWriter")" class="btn btn-primary flex-shrink-0 me-3" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Profili düzenle">
+                            <i class="bi-pencil"></i>
+                        </a>
+                        <a href="@Url.Action("WriterDelete/" + item.WriterId, "AdminWriter")" class="btn btn-outline-@(item.WriterStatus ? "danger" : "success") flex-shrink-0" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="@(item.WriterStatus ? "Kaldır" : "Ekle")">
+                            <i class="bi-@(item.WriterStatus ? "dash" : "plus")"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

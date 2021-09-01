@@ -1,0 +1,41 @@
+﻿@model EntityLayer.Concrete.About
+
+<div class="modal fade" id="aboutModal" tabindex="-1" aria-labelledby="aboutModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="aboutModalLabel">Yeni yazı ekle</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Kapat"></button>
+            </div>
+            <div class="modal-body">
+                @using (Html.BeginForm("WriterInsert", "AdminWriter", FormMethod.Post))
+                {
+                    <div class="form-floating mb-3">
+                        @Html.TextAreaFor(x => x.AboutDetails1, new { @class = "form-control", @placeholder = "Hakkında detay 1", @requiered = "" })
+                        @Html.LabelFor(x => x.AboutDetails1, "Yazar hakkında detay 1")
+                        @Html.ValidationMessageFor(x => x.AboutDetails1)
+                    </div>
+                    <div class="form-floating mb-3">
+                        @Html.TextAreaFor(x => x.AboutDetails2, new { @class = "form-control", @placeholder = "Hakkında detay 2", @requiered = "" })
+                        @Html.LabelFor(x => x.AboutDetails2, "Yazar hakkında detay 1")
+                        @Html.ValidationMessageFor(x => x.AboutDetails1)
+                    </div>
+                    <div class="form-floating mb-3">
+                        @Html.TextBoxFor(x => x.AboutImage1, new { @class = "form-control", @placeholder = "https://example.com/image.png" })
+                        @Html.LabelFor(x => x.AboutImage1, "Hakkında resim 1 URL")
+                        @Html.ValidationMessageFor(x => x.AboutImage1)
+                    </div>
+                    <div class="form-floating mb-3">
+                        @Html.TextBoxFor(x => x.AboutImage2, new { @class = "form-control", @placeholder = "https://example.com/image.png" })
+                        @Html.LabelFor(x => x.AboutImage2, "Hakkında resim 2 URL")
+                        @Html.ValidationMessageFor(x => x.AboutImage2)
+                    </div>
+                }
+            </div>
+            <div class="modal-footer">
+                <button type="reset" class="btn btn-outline-primary btn-lg" data-bs-dismiss="modal">Vazgeç</button>
+                <button type="submit" class="btn btn-primary btn-lg">Kaydet</button>
+            </div>
+        </div>
+    </div>
+</div>

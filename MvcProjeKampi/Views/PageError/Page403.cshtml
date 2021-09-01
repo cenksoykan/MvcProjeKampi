@@ -1,0 +1,18 @@
+﻿
+@{
+    ViewBag.Title = "403";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="d-flex justify-content-center m-5">
+    <div>
+        <h2 class="display-1">@ViewBag.Title</h2>
+
+        <h3 class="display-4">Forbidden</h3>
+
+        <p class="lead">You don't have permission to access <strong class="user-select-all">@Request.Url.AbsolutePath</strong> on this server.</p>
+
+        @Html.ActionLink("Önceki sayfaya dön", null, null, null, new { @class = Request.UrlReferrer == null ? "d-none" : "btn btn-lg btn-outline-primary", href = Request.UrlReferrer })
+        <a href="@Url.Action("Index", "Home")" class="btn btn-lg btn-primary ms-3">Anasayfaya git</a>
+    </div>
+</div>

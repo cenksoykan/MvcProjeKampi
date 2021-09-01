@@ -1,0 +1,75 @@
+﻿@using EntityLayer.Concrete
+@model List<Heading>
+
+@{
+    string color = "";
+}
+
+@if (Model.Count() > 0)
+{
+    <table class="table table-striped align-middle">
+        <caption>Başlık listesi</caption>
+        <thead class="table-light">
+            <tr>
+                <th scope="col" colspan="3">Başlık</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                if (item.CategoryId == 1)
+                {
+                    color = "warning text-dark";
+                }
+                else if (item.CategoryId == 2)
+                {
+                    color = "danger";
+                }
+                else if (item.CategoryId == 3)
+                {
+                    color = "info text-dark";
+                }
+                else if (item.CategoryId == 4)
+                {
+                    color = "success";
+                }
+                else if (item.CategoryId == 5)
+                {
+                    color = "dark";
+                }
+                else if (item.CategoryId == 6)
+                {
+                    color = "secondary";
+                }
+                else if (item.CategoryId == 7)
+                {
+                    color = "primary";
+                }
+                else { color = "light text-dark"; }
+                <tr>
+                    <td class="text-nowrap"><span class="user-select-all">@item.HeadingName</span><small class="d-block text-muted user-select-all">@item.HeadingCreatedOn.ToString("D")</small></td>
+                    <td class="text-center"><span class="badge bg-@color user-select-all">@item.Category.CategoryName</span></td>
+                    <td class="p-0">
+                        <div class="btn-group" role="group" aria-label="Yönet">
+                            <a href="@Url.Action("ContentByHeading/" + item.HeadingId, "WriterContent")" class="btn btn-link py-0 border-0 align-top mx-2 link-dark">
+                                <i class="bi-journal-richtext mx-2"></i>Yazılar
+                            </a>
+                            <a href="@Url.Action("HeadingUpdate/" + item.HeadingId, "WriterHeading")" class="btn btn-link py-0 border-0 align-top mx-2">
+                                <i class="bi-pencil mx-2"></i>Düzenle
+                            </a>
+                            <a href="@Url.Action("HeadingDelete/" + item.HeadingId, "WriterHeading")" class="btn btn-link py-0 border-0 align-top mx-2 link-@(item.HeadingStatus ? "danger" : "success")">
+                                <i class="bi-@(item.HeadingStatus ? "dash-circle" : "plus-circle") mx-2"></i>@(item.HeadingStatus ? "Kaldır" : "Ekle")
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <div class="col">
+        @Html.Action("AlertNoResultPartial", "Alert")
+    </div>
+}

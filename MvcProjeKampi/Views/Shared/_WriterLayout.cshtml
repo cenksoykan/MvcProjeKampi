@@ -1,0 +1,75 @@
+﻿
+@{
+    Layout = null;
+    string Action = ViewContext.RouteData.Values["Controller"].ToString();
+}
+
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - MVC Proje Kampı</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body class="d-flex flex-nowrap">
+    <nav class="d-flex flex-shrink-0 text-white bg-dark">
+        <div class="d-flex flex-column px-3 pt-4 pb-3 sticky-top sidebar scrollbar">
+            <a href="@Url.Action("Index", "WriterHome")" class="d-flex align-items-center text-white text-decoration-none fs-4">
+                <i class="bi-code-slash mx-2"></i>MVC Proje Kampı
+            </a>
+            <hr class="border-top" />
+            <div class="nav nav-pills flex-column mb-auto">
+                <a href="@Url.Action("Index", "WriterHome")" class="nav-link link-light @(Action == "WriterProfile" ? "active" : "")">
+                    <i class="bi-house me-2"></i>Anasayfa
+                </a>
+                <a href="@Url.Action("Index", "WriterCategory")" class="nav-link link-light @(Action == "WriterCategory" ? "active" : "")">
+                    <i class="bi-tags me-2"></i>Kategoriler
+                </a>
+                <a href="@Url.Action("Index", "WriterHeading")" class="nav-link link-light @(Action == "WriterHeading" ? "active" : "")">
+                    <i class="bi-card-heading me-2"></i>Başlıklar
+                </a>
+                <a href="@Url.Action("Index", "WriterContent")" class="nav-link link-light @(Action == "WriterContent" ? "active" : "")">
+                    <i class="bi-journal-richtext me-2"></i>Yazılar
+                </a>
+                <a href="@Url.Action("Index", "WriterContact")" class="nav-link link-light @(Action == "WriterContact" ? "active" : "")">
+                    <i class="bi-chat-dots me-2"></i>Mesajlar
+                </a>
+                <a href="@Url.Action("Index", "Home")" class="nav-link link-light">
+                    <i class="bi-door-open me-2"></i>Siteye Git
+                </a>
+            </div>
+            <hr class="border-top" />
+            <div class="btn-group dropup my-1">
+                <button type="button" class="btn btn-dark dropdown-toggle text-light text-start border-0 py-1 ps-3" data-bs-toggle="dropdown" aria-expanded="false" data-bs-offset="14,6">
+                    <img src="https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y&s=32" alt="user profile picture" width="32" height="32" class="rounded-circle me-2" />
+                    <strong>user</strong>
+                </button>
+                <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="User dropdown">
+                    <li><a class="dropdown-item" href="#">Ayarlar</a></li>
+                    <li><a class="dropdown-item" href="@Url.Action("Index", "WriterHome")">Profil</a></li>
+                    <li><hr class="dropdown-divider" /></li>
+                    <li><a class="dropdown-item" href="@Url.Action("Index", "WriterLogin", new { ReturnUrl = Request.Url.AbsolutePath })">Oturum aç</a></li>
+                    <li><a class="dropdown-item" href="#">Oturumu kapat</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="d-flex flex-column flex-fill">
+        <main class="mt-4 mb-5">
+            @RenderBody()
+        </main>
+        <footer class="bg-light py-5 mt-auto">
+            <div class="container">
+                <span class="text-muted"><small>&copy; @DateTime.Now.Year - MVC Proje Kampı</small></span>
+            </div>
+        </footer>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/app")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

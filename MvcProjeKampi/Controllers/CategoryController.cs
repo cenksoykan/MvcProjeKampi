@@ -14,21 +14,23 @@ namespace MvcProjeKampi.Controllers
     public class CategoryController : Controller
     {
         // GET: Category
-        CategoryManager cm = new CategoryManager(new EfCategoryDal());
+        CategoryManager categoryManager = new CategoryManager(new EfCategoryDal());
         public ActionResult Index()
         {
             return View();
         }
         public ActionResult CategoryList()
         {
-            var categoryValues = cm.List();
+            var categoryValues = categoryManager.List();
             return View(categoryValues);
         }
+
         [HttpGet]
         public ActionResult CategoryInsert()
         {
             return View();
         }
+
         [HttpPost]
         public ActionResult CategoryInsert(Category p)
         {
@@ -36,7 +38,7 @@ namespace MvcProjeKampi.Controllers
             ValidationResult results = cv.Validate(p);
             if (results.IsValid)
             {
-                cm.Insert(p);
+                categoryManager.Insert(p);
                 return RedirectToAction("CategoryList");
             } else
             {

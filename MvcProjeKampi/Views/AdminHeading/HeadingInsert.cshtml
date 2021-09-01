@@ -1,0 +1,47 @@
+﻿@model EntityLayer.Concrete.Heading
+
+@{
+    ViewBag.Title = "Yeni Başlık Ekle";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="container">
+    <h2 class="text-center">@ViewBag.Title</h2>
+
+    <div class="row mt-4">
+        <div class="col-12 col-sm-10 col-md-8 col-lg-6 col-xl-5 mx-auto">
+            @using (Html.BeginForm("HeadingInsert", "AdminHeading", FormMethod.Post))
+            {
+                <div class="form-floating mb-3">
+                    @Html.TextBoxFor(x => x.HeadingName, new { @class = "form-control", @placeholder = "Başlık", @requiered = "" })
+                    @Html.LabelFor(x => x.HeadingName, "Başlık adı")
+                    @Html.ValidationMessageFor(x => x.HeadingName)
+                </div>
+                <div class="row g-3 mb-3">
+                    <div class="col">
+                        <div class="form-floating">
+                            @Html.DropDownListFor(x => x.CategoryId, (List<SelectListItem>)ViewBag.CategoryNames, new { @class = "form-select", @placeholder = "Kategori", @requiered = "" })
+                            @Html.LabelFor(x => x.CategoryId, "Başlık kategorisi")
+                            @Html.ValidationMessageFor(x => x.CategoryId)
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-floating">
+                            @Html.DropDownListFor(x => x.WriterId, (List<SelectListItem>)ViewBag.WriterNames, new { @class = "form-select", @placeholder = "Yazar", @requiered = "" })
+                            @Html.LabelFor(x => x.WriterId, "Başlık yazarı")
+                            @Html.ValidationMessageFor(x => x.WriterId)
+                        </div>
+                    </div>
+                </div>
+                <div class="mb-3 form-check form-switch">
+                    @Html.CheckBoxFor(x => x.HeadingStatus, new { @class = "form-check-input", @value = "true", @checked = "" })
+                    @Html.LabelFor(x => x.HeadingStatus, "Görünürlük durumu", new { @class = "form-check-label" })
+                </div>
+                <div class="text-end">
+                    <a href="@Url.Action("Index", "AdminHeading")" class="btn btn-outline-primary btn-lg">Vazgeç</a>
+                    <button type="submit" class="btn btn-primary btn-lg">Ekle</button>
+                </div>
+            }
+        </div>
+    </div>
+</div>

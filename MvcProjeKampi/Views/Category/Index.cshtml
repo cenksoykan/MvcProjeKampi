@@ -10,7 +10,7 @@
     </div>
     <div class="col-12 col-md order-last text-end">
         <button type="button" class="btn btn-outline-info">Açıklamalar</button>
-        @Html.ActionLink("Liste", "CategoryList", "Category", new { area = "" }, new { @class = "btn btn-outline-primary" })
+        <a href="@Url.Action("CategoryList", "Category")" class="btn btn-outline-primary">Liste</a>
     </div>
 </div>
 
