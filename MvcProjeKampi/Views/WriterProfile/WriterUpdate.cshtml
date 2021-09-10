@@ -1,0 +1,77 @@
+﻿@using EntityLayer.Concrete
+@model Writer
+
+@{
+    ViewBag.Title = "Profil";
+    Layout = "~/Views/Shared/_PanelLayout.cshtml";
+}
+
+<div class="container">
+    <h2 class="text-center">@ViewBag.Title</h2>
+
+    <div class="row mt-4">
+        <div class="col-12 col-sm-10 col-md-8 col-lg-6 col-xl-5 mx-auto">
+            @using (Html.BeginForm("WriterUpdate", "WriterProfile", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            {
+                @Html.HiddenFor(x => x.WriterId, new { @class = "form-control", @requiered = "", @readonly = "" })
+                <div class="row g-3 mb-3">
+                    <div class="col">
+                        <div class="form-floating mb-3">
+                            @Html.TextBoxFor(x => x.WriterName, new { @class = "form-control", @placeholder = "Ad", @requiered = "" })
+                            @Html.LabelFor(x => x.WriterName, "Yazar adı")
+                            @Html.ValidationMessageFor(x => x.WriterName)
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-floating mb-3">
+                            @Html.TextBoxFor(x => x.WriterSurname, new { @class = "form-control", @placeholder = "Soyad", @requiered = "" })
+                            @Html.LabelFor(x => x.WriterSurname, "Yazar soyadı")
+                            @Html.ValidationMessageFor(x => x.WriterSurname)
+                        </div>
+                    </div>
+                </div>
+                <div class="form-floating mb-3">
+                    @Html.TextBoxFor(x => x.WriterEmailAddress, new { @class = "form-control", @placeholder = "name@example.com", @requiered = "" })
+                    @Html.LabelFor(x => x.WriterEmailAddress, "Yazar email adresi")
+                    @Html.ValidationMessageFor(x => x.WriterEmailAddress)
+                </div>
+                <div class="form-floating mb-3">
+                    @Html.PasswordFor(x => x.WriterPassword, new { @class = "form-control", @placeholder = "Parola", @requiered = "", @aria_describedby = "passwordHelpBlock" })
+                    @Html.LabelFor(x => x.WriterPassword, "Kullanıcı parolası")
+                    @Html.ValidationMessageFor(x => x.WriterPassword)
+                    <div id="passwordHelpBlock" class="form-text">
+                        Your password must be 8-20 characters long, contain letters and numbers, and must not contain spaces, special characters, or emoji.
+                    </div>
+                </div>
+                <div class="form-floating mb-3">
+                    @Html.TextBoxFor(x => x.WriterTitle, new { @class = "form-control", @placeholder = "Ünvan", @requiered = "" })
+                    @Html.LabelFor(x => x.WriterTitle, "Yazar ünvanı")
+                    @Html.ValidationMessageFor(x => x.WriterTitle)
+                </div>
+                <div class="form-floating mb-3">
+                    @Html.TextAreaFor(x => x.WriterAbout, new { @class = "form-control", @placeholder = "Hakkında", @requiered = "" })
+                    @Html.LabelFor(x => x.WriterAbout, "Yazar hakkında")
+                    @Html.ValidationMessageFor(x => x.WriterAbout)
+                </div>
+                <div class="mb-3">
+                    @Html.LabelFor(x => x.WriterProfilePicture, "Yazar profil resmi yükle")
+                    @Html.TextBoxFor(x => x.WriterProfilePicture, new { type = "file", accept = "image/png, image/jpeg", @class = "form-control", @requiered = "" })
+                    @*<div id="fileHelpBlock" class="form-text">
+                        Allowed file size is maximum 32 megabytes.
+                    </div>*@
+                    @Html.ValidationMessageFor(x => x.WriterProfilePicture)
+                </div>
+                <div class="mb-3 form-check form-switch">
+                    @Html.CheckBoxFor(x => x.WriterStatus, new { @class = "form-check-input" })
+                    @Html.LabelFor(x => x.WriterStatus, "Görünürlük durumu", new { @class = "form-check-label" })
+                </div>
+                <div class="text-end">
+                    <a href="@Url.Action("Index")" class="btn btn-outline-primary btn-lg">
+                        Vazgeç
+                    </a>
+                    <button type="submit" class="btn btn-primary btn-lg">Güncelle</button>
+                </div>
+            }
+        </div>
+    </div>
+</div>

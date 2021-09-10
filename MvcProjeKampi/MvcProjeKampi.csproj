@@ -61,6 +61,12 @@
     <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="PagedList, Version=1.17.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\PagedList.1.17.0.0\lib\net40\PagedList.dll</HintPath>
+    </Reference>
+    <Reference Include="PagedList.Mvc, Version=4.5.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\PagedList.Mvc.4.5.0.0\lib\net40\PagedList.Mvc.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -129,13 +135,15 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\AdminAboutController.cs" />
     <Compile Include="Controllers\AdminAuthorizationController.cs" />
+    <Compile Include="Controllers\AdminCalendarController.cs" />
     <Compile Include="Controllers\AdminCategoryController.cs" />
-    <Compile Include="Controllers\AdminContactController.cs" />
+    <Compile Include="Controllers\AdminChartController.cs" />
     <Compile Include="Controllers\AdminContentController.cs" />
     <Compile Include="Controllers\AdminGalleryImageController.cs" />
+    <Compile Include="Controllers\AdminReportController.cs" />
     <Compile Include="Controllers\AdminHeadingController.cs" />
     <Compile Include="Controllers\AdminHomeController.cs" />
-    <Compile Include="Controllers\AdminLoginController.cs" />
+    <Compile Include="Controllers\PanelController.cs" />
     <Compile Include="Controllers\AdminMessageController.cs" />
     <Compile Include="Controllers\AdminStatisticController.cs" />
     <Compile Include="Controllers\AdminWriterController.cs" />
@@ -143,14 +151,18 @@
     <Compile Include="Controllers\AlertController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\PageErrorController.cs" />
-    <Compile Include="Controllers\PersonalController.cs" />
-    <Compile Include="Controllers\TestController.cs" />
+    <Compile Include="Controllers\AdminPersonalController.cs" />
+    <Compile Include="Controllers\WriterContentController.cs" />
+    <Compile Include="Controllers\WriterHeadingAllController.cs" />
     <Compile Include="Controllers\WriterHeadingController.cs" />
     <Compile Include="Controllers\WriterHomeController.cs" />
+    <Compile Include="Controllers\WriterMessageController.cs" />
     <Compile Include="Controllers\WriterProfileController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\HeadingModel.cs" />
+    <Compile Include="Models\CategoryModel.cs" />
     <Compile Include="Models\ContactDetailModel.cs" />
     <Compile Include="Models\ContactModel.cs" />
     <Compile Include="Models\StatisticModel.cs" />
@@ -175,6 +187,9 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\bootstrap.rtl.css" />
     <Content Include="Content\bootstrap.rtl.min.css" />
+    <Content Include="Content\fancybox-4.0.0.min.css" />
+    <Content Include="Content\gallery.css" />
+    <Content Include="Content\PagedList.css" />
     <Content Include="Content\summernote-lite-0.8.18.min.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
@@ -193,6 +208,9 @@
     <Content Include="Content\font\summernote.woff" />
     <Content Include="Content\font\summernote.woff2" />
     <None Include="Scripts\jquery-3.6.0.intellisense.js" />
+    <Content Include="Scripts\fancybox-4.0.0.umd.min.js" />
+    <Content Include="Scripts\gallery.js" />
+    <Content Include="Scripts\imagesloaded-4.1.4.pkgd.min.js" />
     <Content Include="Scripts\jquery-3.6.0.js" />
     <Content Include="Scripts\jquery-3.6.0.min.js" />
     <Content Include="Scripts\jquery-3.6.0.slim.js" />
@@ -202,10 +220,13 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\masonry-4.2.2.pkgd.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Scripts\summernote-0.8.18.min.js" />
+    <None Include="Scripts\summernote-lite.min.js.map" />
     <Content Include="Scripts\summernote-lite-0.8.18.min.js" />
     <Content Include="Scripts\summernote-tr-TR-0.8.18.js" />
+    <Content Include="Scripts\sweetalert2-11.1.4.min.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -219,15 +240,10 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
-    <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\Home\Test.cshtml" />
-    <Content Include="Views\Shared\_Test.cshtml" />
-    <Content Include="Views\Test\Index.cshtml" />
-    <Content Include="Views\Test\Experimental.cshtml" />
+    <Content Include="Views\Home\Content.cshtml" />
     <Content Include="Views\Category\Index.cshtml" />
     <Content Include="Views\Category\CategoryList.cshtml" />
     <Content Include="Views\Category\CategoryInsert.cshtml" />
-    <Content Include="Views\Shared\_AdminLayout.cshtml" />
     <Content Include="Views\AdminCategory\Index.cshtml" />
     <Content Include="Views\AdminCategory\CategoryInsert.cshtml" />
     <Content Include="Views\AdminCategory\CategoryUpdate.cshtml" />
@@ -241,30 +257,52 @@
     <Content Include="Views\AdminContent\Index.cshtml" />
     <Content Include="Views\AdminAbout\Index.cshtml" />
     <Content Include="Views\AdminAbout\AboutModalPartial.cshtml" />
-    <Content Include="Views\AdminContact\Index.cshtml" />
-    <Content Include="Views\AdminContact\ContactDetails.cshtml" />
-    <Content Include="Views\AdminContact\ContactNavPartial.cshtml" />
-    <Content Include="Views\Shared\_AdminContactLayout.cshtml" />
+    <Content Include="Views\Shared\_MessageLayout.cshtml" />
     <Content Include="Views\AdminMessage\MessageNewPartial.cshtml" />
     <Content Include="Views\PageError\Page404.cshtml" />
-    <Content Include="Views\Shared\_AdminContactDetailsLayout.cshtml" />
+    <Content Include="Views\Shared\_MessageDetailsLayout.cshtml" />
     <Content Include="Views\PageError\Page403.cshtml" />
     <Content Include="Views\AdminContent\ContentFilteredPartial.cshtml" />
     <Content Include="Views\AdminMessage\MessageDetails.cshtml" />
     <Content Include="Views\AdminGalleryImage\Index.cshtml" />
-    <Content Include="Views\AdminLogin\Index.cshtml" />
     <Content Include="Views\AdminAuthorization\Index.cshtml" />
     <Content Include="Views\AdminHeading\HeadingFilteredPartial.cshtml" />
-    <Content Include="Views\Shared\_WriterLayout.cshtml" />
-    <Content Include="Views\WriterProfile\Index.cshtml" />
+    <Content Include="Views\WriterProfile\WriterUpdate.cshtml" />
     <Content Include="Views\WriterHeading\Index.cshtml" />
-    <Content Include="Views\Personal\Index.cshtml" />
+    <Content Include="Views\AdminPersonal\Index.cshtml" />
     <Content Include="Views\WriterHeading\HeadingInsert.cshtml" />
     <Content Include="Views\WriterHeading\HeadingUpdate.cshtml" />
     <Content Include="Views\AdminMessage\MessageBoxPartial.cshtml" />
     <Content Include="Views\WriterHeading\HeadingListPartial.cshtml" />
     <Content Include="Views\Alert\AlertNoResultPartial.cshtml" />
-    <Content Include="Views\Personal\Hash.cshtml" />
+    <Content Include="Views\AdminPersonal\Hash.cshtml" />
+    <Content Include="Views\WriterMessage\MessageNewPartial.cshtml" />
+    <Content Include="Views\WriterMessage\MessageBoxPartial.cshtml" />
+    <Content Include="Views\WriterMessage\MessageDetails.cshtml" />
+    <Content Include="Views\WriterMessage\MessageNavPartial.cshtml" />
+    <Content Include="Views\AdminMessage\MessageNavPartial.cshtml" />
+    <Content Include="Views\AdminMessage\MessageContact.cshtml" />
+    <Content Include="Views\Panel\Admin.cshtml" />
+    <Content Include="Views\Panel\Writer.cshtml" />
+    <Content Include="Views\Panel\Index.cshtml" />
+    <Content Include="Views\Shared\_PanelLayout.cshtml" />
+    <Content Include="Views\WriterContent\Index.cshtml" />
+    <Content Include="Views\WriterContent\ContentFilteredPartial.cshtml" />
+    <Content Include="Views\Home\ContentByHeadingPartial.cshtml" />
+    <Content Include="Views\WriterContent\ContentInsert.cshtml" />
+    <Content Include="Views\WriterContent\ContentUpdate.cshtml" />
+    <Content Include="Views\WriterHeadingAll\Index.cshtml" />
+    <Content Include="Views\WriterProfile\Index.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\AdminChart\ChartCategory.cshtml" />
+    <Content Include="Views\AdminReport\ReportHeading.cshtml" />
+    <Content Include="Views\AdminAuthorization\AdminInsert.cshtml" />
+    <Content Include="Views\AdminAuthorization\AdminUpdate.cshtml" />
+    <Content Include="Views\AdminChart\ChartHeading.cshtml" />
+    <Content Include="Views\AdminCalendar\Index.cshtml" />
+    <Content Include="Views\AdminGalleryImage\GalleryImageInsert.cshtml" />
+    <Content Include="Views\AdminGalleryImage\GalleryImageUpdate.cshtml" />
+    <Content Include="Views\Shared\ErrorSession.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

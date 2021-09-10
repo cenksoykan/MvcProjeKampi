@@ -4,20 +4,18 @@
 
 body {
     min-height: 100%;
+    --webkit-scrollbar-gutter: stable both-edges;
 }
 
-/* Override the default bootstrap behavior where horizontal description lists 
-   will truncate terms that are too long to fit in the left column 
-*/
-.dl-horizontal dt {
-    white-space: normal;
+img[src="Error.src"] {
+    visibility: hidden
 }
 
 .sidebar {
     min-width: 280px;
     max-width: 25vw;
     max-height: 100vh;
-    height: 100%!important;
+    height: 100% !important;
     overflow-y: auto;
 }
 
@@ -45,8 +43,8 @@ textarea.form-control {
     font-weight: normal !important;
     font-variant: normal;
     text-transform: none;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+    --webkit-font-smoothing: antialiased;
+    --moz-osx-font-smoothing: grayscale;
     width: 1.25em;
     line-height: 1;
     content: "\f230";
@@ -94,28 +92,49 @@ textarea.form-control {
     margin: -1.5rem auto -3rem;
 }
 
-#admin-session {
-    background-color: #f5f5f5;
+.carousel-item:before {
+    box-shadow: inset 0 0 20rem rgba(var(--bs-dark-rgb), 1);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    content: "";
 }
 
-#admin-session .container {
-    max-width: 330px;
+.carousel-item {
+    min-width: 36rem;
+    height: 36vw;
 }
 
-#personal-skill {
-    background: var(--bs-secondary) url('https://picsum.photos/id/491/968/480') no-repeat center;
-    background-size: cover;
-    min-height: 100vh;
-}
-
-#personal-skill .container {
-    min-width: 360px;
-    max-width: 440px;
+.carousel-item img {
+    width: 100%;
+    height: 100%;
+    max-height: 36vw;
+    object-fit: contain;
 }
 
 .letter-space {
     letter-spacing: .035em;
     word-spacing: .035em
+}
+
+@supports (backdrop-filter: blur(.3em)) or (--webkit-backdrop-filter: blur(.3em)) {
+    .frosted {
+        --bs-bg-opacity: 0.8;
+        backdrop-filter: blur(.3em);
+        --webkit-backdrop-filter: blur(.3em);
+    }
+
+    .swal2-backdrop-show,
+    .fancybox__backdrop {
+        backdrop-filter: blur(.4em);
+        --webkit-backdrop-filter: blur(.4em);
+    }
+}
+
+button.note-btn.dropdown-toggle:after {
+    display: none !important;
 }
 
 /*@media (min-width: calc(576px + 280px)) {

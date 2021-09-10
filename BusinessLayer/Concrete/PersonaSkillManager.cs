@@ -23,7 +23,7 @@ namespace BusinessLayer.Concrete
             return _personaSkillDal.List(x => x.PersonaSkillIndex > 0 && x.Persona.PersonaStatus).OrderBy(x => x.PersonaSkillIndex).ToList();
         }
 
-        public List<PersonaSkill> ListByPersona(int id)
+        public List<PersonaSkill> ListByPersona(int id = 0)
         {
             return _personaSkillDal.List(x => x.PersonaId == id && x.PersonaSkillIndex > 0 && x.Persona.PersonaStatus).OrderBy(x => x.PersonaSkillIndex).ToList();
         }
@@ -33,7 +33,7 @@ namespace BusinessLayer.Concrete
             _personaSkillDal.Insert(personaSkill);
         }
 
-        public PersonaSkill GetById(int id)
+        public PersonaSkill GetById(int id = 0)
         {
             return _personaSkillDal.Get(x => x.PersonaSkillId == id);
         }

@@ -1,0 +1,206 @@
+﻿
+@{
+    ViewBag.AppName = "MVC Proje Kampı";
+    Layout = null;
+    string actionName = ViewContext.RouteData.Values["Action"].ToString();
+    string controllerName = ViewContext.RouteData.Values["Controller"].ToString();
+    string controllerPrefix = controllerName.Substring(0, controllerName.Remove(0, 1).Select((c, i) => new { Char = c, Index = i }).First(o => Char.IsUpper(o.Char)).Index + 1);
+    string user = "_anonim_";
+}
+
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title &ndash; @ViewBag.AppName</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    @RenderSection("styles", required: false)
+</head>
+<body class="d-flex flex-nowrap">
+    <nav class="d-flex flex-shrink-0 text-white bg-dark">
+        <div class="d-flex flex-column px-3 pt-4 pb-3 sticky-top sidebar scrollbar">
+            <a href="@Url.Action("Index", controllerPrefix + "Home")" class="text-white text-decoration-none fs-4">
+                <i class="bi-code-slash mx-2"></i>@ViewBag.AppName
+            </a>
+            <hr class="border-top" />
+            <div class="nav nav-pills flex-column mb-auto">
+                <a href="@Url.Action("Index", controllerPrefix + "Home")" class="nav-link link-light @(controllerName == controllerPrefix + "Statistic" ? "active" : "")">
+                    <i class="bi-house me-2"></i>Anasayfa
+                </a>
+                <a href="@Url.Action("Index", controllerPrefix + "Heading")" class="nav-link link-light @(controllerName == controllerPrefix + "Heading" ? "active" : "")">
+                    <i class="bi-card-heading me-2"></i>Başlıklar
+                </a>
+                @if (Session["WriterEmailAddress"] != null)
+                {
+                    <a href="@Url.Action("Index", controllerPrefix + "HeadingAll")" class="nav-link link-light @(controllerName == controllerPrefix + "HeadingAll" ? "active" : "")">
+                        <i class="bi-newspaper me-2"></i>Tüm başlıklar
+                    </a>
+                }
+                <a href="@Url.Action("Index", controllerPrefix + "Content")" class="nav-link link-light @(controllerName == controllerPrefix + "Content" ? "active" : "")">
+                    <i class="bi-journal-richtext me-2"></i>Yazılar
+                </a>
+                @if (Session["AdminUsername"] != null)
+                {
+                    <a href="@Url.Action("Index", controllerPrefix + "Writer")" class="nav-link link-light @(controllerName == controllerPrefix + "Writer" ? "active" : "")">
+                        <i class="bi-person-lines-fill me-2"></i>Yazarlar
+                    </a>
+                    <a href="@Url.Action("Index", controllerPrefix + "Category")" class="nav-link link-light @(controllerName == controllerPrefix + "Category" ? "active" : "")">
+                        <i class="bi-tags me-2"></i>Kategoriler
+                    </a>
+                    <a href="@Url.Action("Index", controllerPrefix + "GalleryImage")" class="nav-link link-light @(controllerName == controllerPrefix + "GalleryImage" ? "active" : "")">
+                        <i class="bi-images me-2"></i>Galeri
+                    </a>
+                    <button class="btn btn-toggle align-items-center text-start w-100 nav-link link-light" data-bs-toggle="collapse" data-bs-target="#charts-collapse" aria-expanded="false">
+                        <i class="bi-graph-up me-2"></i>Grafikler
+                    </button>
+                    <div class="@(controllerName == controllerPrefix + "Chart" ? "" : "collapse")" id="charts-collapse">
+                        <div class="btn-toggle-nav fw-light ms-4 p-1 small">
+                            <a href="@Url.Action("ChartCategory", controllerPrefix + "Chart")" class="nav-link link-light @(controllerName == controllerPrefix + "Chart" && actionName == "ChartCategory" ? "active" : "")">
+                                Kategori/Başlık grafiği
+                            </a>
+                            <a href="@Url.Action("ChartHeading", controllerPrefix + "Chart")" class="nav-link link-light @(controllerName == controllerPrefix + "Chart" && actionName == "ChartHeading" ? "active" : "")">
+                                Başlık/İçerik grafiği
+                            </a>
+                        </div>
+                    </div>
+                    <button class="btn btn-toggle align-items-center text-start w-100 nav-link link-light" data-bs-toggle="collapse" data-bs-target="#reports-collapse" aria-expanded="false">
+                        <i class="bi-file-earmark-spreadsheet me-2"></i>Raporlar
+                    </button>
+                    <div class="@(controllerName == controllerPrefix + "Report" ? "" : "collapse")" id="reports-collapse">
+                        <div class="btn-toggle-nav fw-light ms-4 p-1 small">
+                            <a href="@Url.Action("ReportHeading", controllerPrefix + "Report")" class="nav-link link-light @(controllerName == controllerPrefix + "Report" && actionName == "ReportHeading" ? "active" : "")">
+                                Başlık raporu
+                            </a>
+                            <a href="@Url.Action("ReportCategory", controllerPrefix + "Report")" class="nav-link link-light @(controllerName == controllerPrefix + "Report" && actionName == "ReportCategory" ? "active" : "")">
+                                Kategori raporu
+                            </a>
+                            <a href="@Url.Action("WriterCategory", controllerPrefix + "Report")" class="nav-link link-light @(controllerName == controllerPrefix + "Report" && actionName == "WriterCategory" ? "active" : "")">
+                                Yazar raporu
+                            </a>
+                        </div>
+                    </div>
+                    <a href="@Url.Action("Index", controllerPrefix + "Calendar")" class="nav-link link-light @(controllerName == controllerPrefix + "Calendar" ? "active" : "")">
+                        <i class="bi-calendar-week me-2"></i>Takvim
+                    </a>
+                    if (User.IsInRole("S") || User.IsInRole("A"))
+                    {
+                        <a href="@Url.Action("Index", controllerPrefix + "Authorization")" class="nav-link link-light @(controllerName == controllerPrefix + "Authorization" ? "active" : "")">
+                            <i class="bi-shield-lock me-2"></i>Yetkilendirmeler
+                        </a>
+                        <button class="btn btn-toggle align-items-center text-start w-100 nav-link link-light" data-bs-toggle="collapse" data-bs-target="#errorpages-collapse" aria-expanded="false">
+                            <i class="bi-bug me-2"></i>Hata Sayfaları
+                        </button>
+                        <div class="collapse" id="errorpages-collapse">
+                            <div class="btn-toggle-nav fw-light ms-4 p-1 small">
+                                <a href="@Url.Action("Page403", "PageError")" class="nav-link link-light">403</a>
+                                <a href="@Url.Action("Page404", "PageError")" class="nav-link link-light">404</a>
+                            </div>
+                        </div>
+                        <a href="@Url.Action("Index", controllerPrefix + "Personal")" class="nav-link link-light @(controllerName == controllerPrefix + "Personal" ? "active" : "")">
+                            <i class="bi-person-badge-fill me-2"></i>Yetenek kartım
+                        </a>
+                    }
+                    <a href="@Url.Action("Index", controllerPrefix + "About")" class="nav-link link-light @(controllerName == controllerPrefix + "About" ? "active" : "")">
+                        <i class="bi-info-square me-2"></i>Hakkımızda
+                    </a>
+                }
+                <a href="@Url.Action("Index", controllerPrefix + "Message")" class="nav-link link-light @(controllerName == controllerPrefix + "Message" ? "active" : "")">
+                    <i class="bi-chat-dots me-2"></i>Mesajlar
+                </a>
+                <a href="@Url.Action("Index", "Home")" class="nav-link link-light">
+                    <i class="bi-door-open me-2"></i>Siteye Git
+                </a>
+            </div>
+            <hr class="border-top" />
+            @if (Session == null)
+            {
+                <a href="@Url.Action("Index", "Panel", new { ReturnUrl = Request.Url.AbsolutePath })" class="nav-link link-light">
+                    Oturum aç
+                </a>
+            }
+            else
+            {
+                <div class="btn-group dropup my-1">
+                    <button class="btn btn-dark dropdown-toggle text-light text-start border-0 py-1 ps-3" data-bs-toggle="dropdown" aria-expanded="false" data-bs-offset="14,6">
+                        @if (Session["WriterProfilePicture"] != null)
+                        {
+                            <img src="@Session["WriterProfilePicture"].ToString()" alt="user profile picture" width="32" height="32" class="bg-black rounded-circle me-2" />
+                        }
+                        else if (Session["AdminRoleCode"] != null)
+                        {
+                            string color = string.Empty;
+                            string roleCode = Session["AdminRoleCode"].ToString();
+                            bool isRoot = roleCode == "S";
+
+                            if (isRoot)
+                            {
+                                color = "danger";
+                            }
+                            else if (roleCode == "A")
+                            {
+                                color = "warning text-dark";
+                            }
+                            else if (roleCode == "B")
+                            {
+                                color = "info text-dark";
+                            }
+                            else { color = "light text-dark"; }
+
+                            <span class="badge bg-@color user-select-none align-middle text-center fs-6 p-0 me-2" style="width: 32px; line-height: 32px;">@roleCode</span>
+                        }
+                        @if (Session["WriterName"] != null)
+                        {
+                            user = Session["WriterName"].ToString();
+                        }
+                        else if (Session["AdminUsername"] != null)
+                        {
+                            user = Session["AdminUsername"].ToString();
+                        }
+                        @if (user.Length > 9)
+                        {
+                            user = user.Substring(0, 8);
+                            user += "&hellip;";
+                        }
+                        <strong>@Html.Raw(user)</strong>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="User dropdown">
+                        <li><a class="dropdown-item" href="#">Ayarlar</a></li>
+                        @if (Session["WriterEmailAddress"] != null)
+                        {
+                            <li><a class="dropdown-item" href="@Url.Action(controllerPrefix + "Update", controllerPrefix + "Profile")">Profil</a></li>
+                        }
+                        <li><hr class="dropdown-divider" /></li>
+                        @*<li><a class="dropdown-item" href="@Url.Action("Index", "Panel", new { ReturnUrl = Request.Url.AbsolutePath })">Oturum aç</a></li>*@
+                        <li><a class="dropdown-item" href="@Url.Action("SignOut", "Panel")">Oturumu kapat</a></li>
+                    </ul>
+                </div>
+            }
+        </div>
+    </nav>
+    <div class="d-flex flex-column flex-fill">
+        <main class="mt-4 mb-5">
+            @if ((Session["WriterName"] != null && controllerPrefix != "Writer") || (Session["AdminUsername"] != null && controllerPrefix != "Admin"))
+            {
+                @RenderPage("ErrorSession.cshtml")
+                RenderBody();
+            }
+            else
+            {
+                @RenderBody()
+            }
+        </main>
+        <footer class="bg-light py-5 mt-auto">
+            <div class="container">
+                <span class="text-muted"><small>&copy; @DateTime.Now.Year &ndash; <span class="user-select-all">@ViewBag.AppName</span></small></span>
+            </div>
+        </footer>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/app")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

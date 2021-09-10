@@ -3,7 +3,7 @@
 
 @{
     ViewBag.Title = "Yazarlar";
-    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    Layout = "~/Views/Shared/_PanelLayout.cshtml";
 }
 
 <div class="container">
@@ -12,7 +12,7 @@
             <h2>@ViewBag.Title<span class="badge bg-primary ms-2 align-top">@Model.Count()</span></h2>
         </div>
         <div class="col-12 col-md order-last text-end">
-            <a href="@Url.Action("WriterInsert", "AdminWriter")" class="btn btn-primary">Yazar ekle</a>
+            <a href="@Url.Action("WriterInsert")" class="btn btn-primary">Yazar ekle</a>
         </div>
     </div>
 
@@ -25,7 +25,7 @@
                     <div class="card-body">
                         <div class="d-flex flex-column justify-content-center flex-md-row mb-3">
                             <div class="flex-shrink-0 align-self-center me-md-3 mb-3 mb-md-0 position-relative">
-                                <img src="https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y" alt="user profile picture" width="64" height="64" class="img-fluid rounded-circle border shadow-sm" />
+                                <img src="@item.WriterProfilePicture" alt="user profile picture" width="64" height="64" class="img-fluid rounded-circle border shadow-sm" />
                                 <span class="position-absolute top-50 start-50 m-4 translate-middle border border-light badge rounded-circle p-2 @(item.WriterStatus ? "bg-success" : "bg-danger")" data-bs-toggle="tooltip" data-bs-placement="left" data-bs-title="@(item.WriterStatus ? "Aktif" : "Pasif")">
                                     <span class="visually-hidden">@item.WriterStatus ? Aktif : Pasif</span>
                                 </span>
@@ -48,15 +48,53 @@
                             </a>
                         </div>
                         <small class="flex-grow-1 text-muted text-truncate mx-3"></small>
-                        <a href="@Url.Action("WriterUpdate/" + item.WriterId, "AdminWriter")" class="btn btn-primary flex-shrink-0 me-3" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Profili düzenle">
+                        <a href="@Url.Action("WriterUpdate/" + item.WriterId)" class="btn btn-primary flex-shrink-0 me-2" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Profili düzenle">
                             <i class="bi-pencil"></i>
                         </a>
-                        <a href="@Url.Action("WriterDelete/" + item.WriterId, "AdminWriter")" class="btn btn-outline-@(item.WriterStatus ? "danger" : "success") flex-shrink-0" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="@(item.WriterStatus ? "Kaldır" : "Ekle")">
+                        <button onclick="confirmDelete(@item.WriterId, @item.WriterStatus)" class="btn btn-outline-@(item.WriterStatus ? "danger" : "success") flex-shrink-0" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="@(item.WriterStatus ? "Kaldır" : "Ekle")">
                             <i class="bi-@(item.WriterStatus ? "dash" : "plus")"></i>
-                        </a>
+                        </button>
                     </div>
                 </div>
             </div>
         }
     </div>
 </div>
+
+@section scripts {
+    <script type="text/javascript">
+        function confirmDelete(id, status) {
+            Swal.fire({
+                title: status ? 'Kaldır' : 'Ekle',
+                text: "İşleme devam etmek istiyor musunuz?",
+                icon: status ? 'warning' : 'question',
+                showCancelButton: true,
+                confirmButtonColor: status ? '#DC3545' : '#198754',
+                confirmButtonText: status ? 'Pasifleştir' : 'Aktifleştir',
+                showLoaderOnConfirm: true,
+                preConfirm: function () {
+                    $.ajax({
+                        type: "POST",
+                        data: {
+                            'id': id
+                        },
+                        url: "@Url.Action("WriterDelete")",
+                        success: function () {
+                            SwalTimer.fire({
+                                title: status ? "Kaldırıldı" : "Eklendi",
+                                text: "Yazar görünürlük durumu " + (status ? "pasif" : "aktif") + " yapıldı",
+                                icon: status ? "info" : "success"
+                            }).then(function () {
+                                $(location).attr('href', '');
+                            });
+                        },
+                        error: function () {
+                            Swal.fire("Hata", "İşlem başarısız oldu", "error");
+                        }
+                    });
+                },
+                allowOutsideClick: function () { !Swal.isLoading(); }
+            })
+        }
+    </script>
+}

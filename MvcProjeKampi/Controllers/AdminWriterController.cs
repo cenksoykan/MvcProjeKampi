@@ -5,17 +5,21 @@ using EntityLayer.Concrete;
 using FluentValidation.Results;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
+using System.Web.Helpers;
 using System.Web.Mvc;
 
 namespace MvcProjeKampi.Controllers
 {
+    [Authorize]
     public class AdminWriterController : Controller
     {
-        // GET: AdminWriter
         WriterManager writerManager = new WriterManager(new EfWriterDal());
         WriterValidator writerValidator = new WriterValidator();
+
+        [AllowAnonymous]
         public ActionResult Index()
         {
             var writerValues = writerManager.List();
@@ -31,11 +35,27 @@ namespace MvcProjeKampi.Controllers
         [HttpPost]
         public ActionResult WriterInsert(Writer p)
         {
+            var writerValues = writerManager.List();
+            if (writerValues.Select(w => w.WriterEmailAddress).Contains(p.WriterEmailAddress))
+            {
+                ModelState.AddModelError(nameof(p.WriterEmailAddress), "Eposta adresi kayıtlı");
+            }
             ValidationResult results = writerValidator.Validate(p);
             if (results.IsValid)
             {
-                writerManager.Insert(p);
-                return RedirectToAction("Index");
+                WebImage photo = WebImage.GetImageFromRequest();
+                if (photo != null)
+                {
+                    string avatarWriterPath = "/images/avatar/writer/";
+                    string newFileName = Guid.NewGuid().ToString() + "_" + Path.GetFileName(photo.FileName);
+
+                    p.WriterProfilePicture = avatarWriterPath + newFileName;
+                    photo.Resize(width: 64, height: 64, preserveAspectRatio: false, preventEnlarge: true);
+                    photo.Save("~" + p.WriterProfilePicture);
+
+                    writerManager.Insert(p);
+                    return RedirectToAction("Index");
+                }
             }
             else
             {
@@ -60,8 +80,19 @@ namespace MvcProjeKampi.Controllers
             ValidationResult results = writerValidator.Validate(p);
             if (results.IsValid)
             {
-                writerManager.Update(p);
-                return RedirectToAction("Index");
+                WebImage photo = WebImage.GetImageFromRequest();
+                if (photo != null)
+                {
+                    string avatarWriterPath = "/images/avatar/writer/";
+                    string newFileName = Guid.NewGuid().ToString() + "_" + Path.GetFileName(photo.FileName);
+
+                    p.WriterProfilePicture = avatarWriterPath + newFileName;
+                    photo.Resize(width: 64, height: 64, preserveAspectRatio: false, preventEnlarge: true);
+                    photo.Save("~" + p.WriterProfilePicture);
+
+                    writerManager.Update(p);
+                    return RedirectToAction("Index");
+                }
             }
             else
             {

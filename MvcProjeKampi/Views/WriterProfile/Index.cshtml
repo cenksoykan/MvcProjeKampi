@@ -1,9 +1,37 @@
-﻿
+﻿@using EntityLayer.Concrete
+@model Writer
+
 @{
     ViewBag.Title = "Profil";
-    Layout = "~/Views/Shared/_WriterLayout.cshtml";
+    Layout = "~/Views/Shared/_PanelLayout.cshtml";
 }
 
 <div class="container">
-    <h2>@ViewBag.Title</h2>
+    <div class="row">
+        <div class="col-12 col-md">
+            <h2>@ViewBag.Title</h2>
+        </div>
+        <div class="col-12 col-md order-last text-end">
+            <a href="@Url.Action("WriterUpdate")" class="btn btn-primary">Profili düzenle</a>
+        </div>
+    </div>
+
+    <div class="card bg-light mt-4">
+        <div class="card-body">
+            <div class="d-flex flex-column justify-content-center flex-md-row mb-3">
+                <div class="flex-shrink-0 align-self-center me-md-3 mb-3 mb-md-0 position-relative">
+                    <img src="@Model.WriterProfilePicture" alt="user profile picture" width="64" height="64" class="img-fluid rounded-circle border shadow-sm" />
+                    <span class="position-absolute top-50 start-50 m-4 translate-middle border border-light badge rounded-circle p-2 bg-@(Model.WriterStatus ? "success" : "danger")" data-bs-toggle="tooltip" data-bs-placement="left" data-bs-title="@(Model.WriterStatus ? "Aktif" : "Pasif")">
+                        <span class="visually-hidden">@Model.WriterStatus ? Aktif : Pasif</span>
+                    </span>
+                </div>
+                <div class="flex-grow-1">
+                    <h6 class="card-text text-center text-md-start"><small class="text-muted text-uppercase letter-space user-select-all">@Model.WriterTitle</small></h6>
+                    <h5 class="card-title text-center text-md-start user-select-all">@Model.WriterName @Model.WriterSurname</h5>
+                    <p class="card-text"><small class="text-muted user-select-all"><i class="bi-envelope me-1"></i>@Model.WriterEmailAddress</small></p>
+                </div>
+            </div>
+            <p class="card-text">@Model.WriterAbout</p>
+        </div>
+    </div>
 </div>

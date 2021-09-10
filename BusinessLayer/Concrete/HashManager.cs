@@ -17,7 +17,7 @@ namespace BusinessLayer.Concrete
             byte[] data = Encoding.UTF8.GetBytes(text);
             byte[] hash = md5.ComputeHash(data);
             return Convert.ToBase64String(hash);
-            //return BitConverter.ToString(hash).Replace("-", "");
+            //return BitConverter.ToString(hash).Replace("-", String.Empty);
         }
 
 
@@ -26,7 +26,7 @@ namespace BusinessLayer.Concrete
             byte[] data = Encoding.UTF8.GetBytes(secret);
             byte[] hash = sha1.ComputeHash(data);
             return Convert.ToBase64String(hash);
-            //return BitConverter.ToString(hash).Replace("-", "");
+            //return BitConverter.ToString(hash).Replace("-", String.Empty);
         }
     }
 }

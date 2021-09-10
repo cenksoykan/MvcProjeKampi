@@ -1,0 +1,28 @@
+﻿
+@{
+    ViewBag.Title = "Hata";
+}
+
+<div class="container">
+    <div class="d-flex justify-content-center m-5">
+        <div>
+            <hgroup>
+                <h2 class="display-1">@ViewBag.Title</h2>
+                <h3 class="display-4">Yetkisiz Oturum</h3>
+            </hgroup>
+
+            <p class="lead">Görüntülemek istediğiniz sayfa farklı bir kullanıcı türüne ait olabilir.</p>
+
+            <a class="btn btn-lg btn-outline-primary" href="@Url.Action("SignOut", "Panel")">Oturumu kapat</a>
+
+            @if (Session["WriterName"] != null)
+            {
+                <a class="btn btn-lg btn-primary ms-3" href="@Url.Action("Index", "WriterHome")">Yazar anasayfasına git</a>
+            }
+            else if (Session["AdminUsername"] != null)
+            {
+                <a class="btn btn-lg btn-primary ms-3" href="@Url.Action("Index", "AdminHome")">Yönetici anasayfasına git</a>
+            }
+        </div>
+    </div>
+</div>

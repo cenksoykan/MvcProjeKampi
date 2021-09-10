@@ -1,0 +1,104 @@
+﻿@using EntityLayer.Concrete
+@using PagedList
+@using PagedList.Mvc
+@model PagedList.IPagedList<Heading>
+
+@{
+    ViewBag.Title = "Başlıklar";
+    Layout = "~/Views/Shared/_PanelLayout.cshtml";
+    string color = "";
+}
+
+<div class="container">
+    <h2>@ViewBag.Title<span class="badge bg-primary ms-2 align-top">@Model.Count()</span></h2>
+
+    @if (Model.Count() > 0)
+    {
+        <table class="table table-striped align-middle">
+            <caption>Başlık listesi</caption>
+            <thead class="table-light">
+                <tr>
+                    <th scope="col" colspan="3">Başlık</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    if (item.CategoryId == 1)
+                    {
+                        color = "warning text-dark";
+                    }
+                    else if (item.CategoryId == 2)
+                    {
+                        color = "danger";
+                    }
+                    else if (item.CategoryId == 3)
+                    {
+                        color = "info text-dark";
+                    }
+                    else if (item.CategoryId == 4)
+                    {
+                        color = "success";
+                    }
+                    else if (item.CategoryId == 5)
+                    {
+                        color = "dark";
+                    }
+                    else if (item.CategoryId == 6)
+                    {
+                        color = "secondary";
+                    }
+                    else if (item.CategoryId == 7)
+                    {
+                        color = "primary";
+                    }
+                    else { color = "light text-dark"; }
+                    <tr>
+                        <td class="text-nowrap"><span class="user-select-all">@item.HeadingName</span><small class="d-block text-muted user-select-all">@item.HeadingCreatedOn.ToString("D")</small></td>
+                        <td class="text-center"><span class="badge bg-@color user-select-all">@item.Category.CategoryName</span></td>
+                        <td class="p-0">
+                            <div class="btn-group" role="group" aria-label="Yönet">
+                                <a href="@Url.Action("Index/" + item.HeadingId, "Home")" class="btn btn-link py-0 border-0 align-top mx-2 link-dark" target="_blank">
+                                    <i class="bi-journal-richtext mx-2"></i>Yazılar
+                                </a>
+                                <a href="@Url.Action("ContentInsert/" + item.HeadingId, "WriterContent")" class="btn btn-link py-0 border-0 align-top mx-2">
+                                    <i class="bi-pencil mx-2"></i>İçerik yaz
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        @Html.PagedListPager((IPagedList)Model, page => @Url.Action("Index", new { page }),
+            new PagedListRenderOptions
+            {
+                UlElementClasses = new List<string> { "pagination" },
+                LiElementClasses = new List<string> { "page-item" },
+                //PageClasses = new string[] { "page-link" },
+                DisplayEllipsesWhenNotShowingAllPageNumbers = true,
+                DisplayLinkToFirstPage = PagedListDisplayMode.IfNeeded,
+                DisplayLinkToLastPage = PagedListDisplayMode.IfNeeded,
+                Display = PagedListDisplayMode.IfNeeded
+            }
+        )
+    }
+    else
+    {
+        <div class="col">
+            @Html.Action("AlertNoResultPartial", "Alert")
+        </div>
+    }
+</div>
+
+@section scripts {
+    <script type="text/javascript">
+        var pageItem = Array.from(document.querySelectorAll('.page-item'))
+        pageItem.forEach((arrayElement, i) => {
+            var pageLink = Array.from(pageItem[i].getElementsByTagName("a"));
+            pageLink.forEach((arrayElement, j) => {
+                pageLink[j].classList.add("page-link");
+            });
+        });
+    </script>
+}

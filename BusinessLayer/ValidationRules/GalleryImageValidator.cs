@@ -12,7 +12,7 @@ namespace BusinessLayer.ValidationRules
     {
         public GalleryImageValidator()
         {
-            RuleFor(x => x.GalleryImageName).NotEmpty().WithMessage("Resim adı boş bırakılamaz");
+            RuleFor(x => x.GalleryImageName).NotEmpty().WithMessage("Görsel adı boş bırakılamaz");
             RuleFor(x => x.GalleryImageName).MaximumLength(50).WithMessage("Lütfen en fazla 50 karakter giriniz");
         }
     }

@@ -23,7 +23,7 @@ namespace BusinessLayer.Concrete
             return _headingDal.List();
         }
 
-        public List<Heading> ListByWriter(int id)
+        public List<Heading> ListByWriter(int id = 0)
         {
             return _headingDal.List(x => x.WriterId == id);
         }
@@ -33,7 +33,7 @@ namespace BusinessLayer.Concrete
             _headingDal.Insert(heading);
         }
 
-        public Heading GetById(int id)
+        public Heading GetById(int id = 0)
         {
             return _headingDal.Get(x => x.HeadingId == id);
         }

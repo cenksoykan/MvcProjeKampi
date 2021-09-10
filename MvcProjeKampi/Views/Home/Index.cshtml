@@ -1,31 +1,167 @@
-﻿@{
-    ViewBag.Title = "Home Page";
+﻿@using EntityLayer.Concrete
+@model List<GalleryImage>
+
+@{
+    ViewBag.Title = "Anasayfa";
 }
 
-<div class="jumbotron">
-    <h1>ASP.NET</h1>
-    <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
-    <p><a href="https://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
+@section styles {
+    @Styles.Render("~/Content/gallery")
+
+    <style>
+        #features i {
+            margin-top: 1px;
+        }
+
+        #divider {
+            background: url('https://picsum.photos/id/24/1280/360') no-repeat center;
+            background-size: cover;
+        }
+
+            #divider .flex-column {
+                min-height: 38vw;
+            }
+    </style>
+}
+
+<div class="container">
+    <div class="px-4 pt-5 my-5 text-center border-bottom">
+        <h2 class="display-4 fw-bold">@ViewBag.AppName</h2>
+        <div class="col-lg-6 mx-auto">
+            <p class="lead mb-4">Bu site 100 derslik ücretsiz sertifikalı eğitim serisi kapsamında <abbr lang="en" title="Model-View-Controller" class="initialism">MVC</abbr> katmanlı mimari ile <i class="fst-normal" lang="en">solid</i> prensiplerine uygun geliştirilmiş bir içerik sözlüğü sitesidir. Çeşitli kütüphanelerden faydalanarak yaklaşık beş haftada tasarlanmıştır.</p>
+            <div class="d-grid gap-2 d-sm-flex justify-content-sm-center mb-5">
+                <a href="@Url.Action("Content")" class="btn btn-primary btn-lg px-4 me-sm-3">Sözlük</a>
+                <a href="@Url.Action("Index", "Panel")" class="btn btn-outline-primary btn-lg px-4">Panel</a>
+            </div>
+        </div>
+        <div class="overflow-hidden user-select-none">
+            <div class="container px-5" style="max-height: 30vh; max-width: 50rem;">
+                <img src="/images/gallery/MvcProjeKampi_HeadingView.png" class="img-fluid border rounded-3 shadow-lg" alt="Örnek ürün görseli - başlıklar sayfası" loading="lazy">
+            </div>
+        </div>
+    </div>
+
+    <div id="features" class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4 py-5 px-4">
+        <div class="col d-flex align-items-start">
+            <i class="fs-3 lh-1 bi-speedometer text-muted flex-shrink-0 me-3"></i>
+            <div>
+                <h4 class="fw-bold mb-0">Panel</h4>
+                <p>Sayfa yöneticileri için yönetim paneli ve yeni içerikler oluşturabilmek için ek olarak yazar paneline sahiptir.</p>
+            </div>
+        </div>
+        <div class="col d-flex align-items-start">
+            <i class="fs-3 lh-1 bi-card-heading text-muted flex-shrink-0 me-3"></i>
+            <div>
+                <h4 class="fw-bold mb-0">Başlıklar</h4>
+                <p>Hakkında konuşulmasını istediğiniz konulara ait başlıklar oluşturabilirsiniz.</p>
+            </div>
+        </div>
+        <div class="col d-flex align-items-start">
+            <i class="fs-3 lh-1 bi-journal-richtext text-muted flex-shrink-0 me-3"></i>
+            <div>
+                <h4 class="fw-bold mb-0">Yazılar</h4>
+                <p>Başlıklar altında yazmaya başlayarak fikirlerinizi paylaşabilirsiniz.</p>
+            </div>
+        </div>
+        <div class="col d-flex align-items-start">
+            <i class="fs-3 lh-1 bi-tags text-muted flex-shrink-0 me-3"></i>
+            <div>
+                <h4 class="fw-bold mb-0">Kategori</h4>
+                <p>Başlıkları kategorilendirebilir, ihtiyaç halinde yeni kategoriler oluşturabilirsiniz.</p>
+            </div>
+        </div>
+        <div class="col d-flex align-items-start">
+            <i class="fs-3 lh-1 bi-images text-muted flex-shrink-0 me-3"></i>
+            <div>
+                <h4 class="fw-bold mb-0">Galeri</h4>
+                <p>Görsellerinizi yükleyerek galeride görüntülenmesini sağlayabilrisiniz.</p>
+            </div>
+        </div>
+        <div class="col d-flex align-items-start">
+            <i class="fs-3 lh-1 bi-bar-chart-steps text-muted flex-shrink-0 me-3"></i>
+            <div>
+                <h4 class="fw-bold mb-0">İstatistik</h4>
+                <p>İçerikle birlikte güncellenen istatistikleri görüntüleyebilirsiniz.</p>
+            </div>
+        </div>
+        <div class="col d-flex align-items-start">
+            <i class="fs-3 lh-1 bi-graph-up text-muted flex-shrink-0 me-3"></i>
+            <div>
+                <h4 class="fw-bold mb-0">Grafik</h4>
+                <p>Grafik üzerinde istatistik gösterimi ile daha kolay anlaşılır sonuçlar elde edebilirsiniz.</p>
+            </div>
+        </div>
+        <div class="col d-flex align-items-start">
+            <i class="fs-3 lh-1 bi-file-earmark-spreadsheet text-muted flex-shrink-0 me-3"></i>
+            <div>
+                <h4 class="fw-bold mb-0">Raporlama</h4>
+                <p>Tabloları rapor olarak görüntüleme ve kaydetme imkanı sağlar.</p>
+            </div>
+        </div>
+        <div class="col d-flex align-items-start">
+            <i class="fs-3 lh-1 bi-calendar-week text-muted flex-shrink-0 me-3"></i>
+            <div>
+                <h4 class="fw-bold mb-0">Takvim</h4>
+                <p>Aylık takvim görünümü üzerinde başlıkların hangi gün ve saat açıldığını görebilirsiniz.</p>
+            </div>
+        </div>
+        <div class="col d-flex align-items-start">
+            <i class="fs-3 lh-1 bi-shield-lock text-muted flex-shrink-0 me-3"></i>
+            <div>
+                <h4 class="fw-bold mb-0">Yetkilendirme</h4>
+                <p>Yönetici hesaplar için yetki kontrolünün yapılmasını sağlar.</p>
+            </div>
+        </div>
+        <div class="col d-flex align-items-start">
+            <i class="fs-3 lh-1 bi-person-badge-fill text-muted flex-shrink-0 me-3"></i>
+            <div>
+                <h4 class="fw-bold mb-0">Yetenek kartı</h4>
+                <p>Yeteneklerinizi sergilemek için oluşturulmuş sayfa.</p>
+            </div>
+        </div>
+        <div class="col d-flex align-items-start">
+            <i class="fs-3 lh-1 bi-chat-dots text-muted flex-shrink-0 me-3"></i>
+            <div>
+                <h4 class="fw-bold mb-0">Mesajlaşma</h4>
+                <p>Kayıtlı kullanıcıların birbirleri ile epostaya deneyimine benzer şekilde haberleşmelerini sağlar.</p>
+            </div>
+        </div>
+    </div>
 </div>
 
-<div class="row">
-    <div class="col-md-4">
-        <h2>Getting started</h2>
-        <p>
-            ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-            enables a clean separation of concerns and gives you full control over markup
-            for enjoyable, agile development.
-        </p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Get more libraries</h2>
-        <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Web Hosting</h2>
-        <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
+<div id="divider" class="my-5 bg-dark bg-op">
+    <div class="container">
+        <div class="d-flex justify-content-center align-self-stretch align-self-stretch align-items-stretch">
+            <div class="d-flex flex-column align-items-center justify-content-center col col-md-10 col-lg-8 col-xl-7 col-xxl-6">
+                <figure class="text-center my-5 pt-5 pb-4 px-4 card bg-light frosted shadow-lg">
+                    <blockquote class="blockquote">
+                        <p>Bu proje bir süredir aklımda olan <abbr lang="en" title="Model-View-Controller" class="initialism">MVC</abbr> dünyasına kurumsal mimari ile giriş yaptığım, 100 derslik <cite class="user-select-all">MVC Proje Kampı</cite> eğitimi sonunda ortaya çıkan güzel bir ürün oldu. Ben geliştirme esnasında gerçekten çok keyif aldım ve kendimi geliştirdim, umarım sizler de bu projeyi beğenirsiniz.</p>
+                    </blockquote>
+                    <figcaption class="blockquote-footer mt-3">
+                        <span class="user-select-all">Cenk Soykan</span>
+                    </figcaption>
+                </figure>
+            </div>
+        </div>
     </div>
 </div>
+
+<div class="container-fluid">
+    <div class="container">
+        <h3 class="pb-2 border-bottom">Proje görselleri</h3>
+    </div>
+    <div id="img-grid" class="row">
+        @foreach (var item in Model)
+        {
+            <div class="img-item col-12 col-md-6 col-lg-4 col-xl-3 mt-4">
+                <a class="d-block rounded overflow-hidden user-select-none" href="@item.GalleryImagePath" data-fancybox="gallery" data-caption="@item.GalleryImageName">
+                    <img class="w-100" src="@item.GalleryImageThumbPath" alt="@item.GalleryImageName" loading="lazy" />
+                </a>
+            </div>
+        }
+    </div>
+</div>
+
+@section scripts {
+    @Scripts.Render("~/bundles/gallery")
+}

@@ -1,8 +1,9 @@
-﻿@model EntityLayer.Concrete.Category
+﻿@using EntityLayer.Concrete
+@model Category
 
 @{
     ViewBag.Title = "Yeni Kategori Ekle";
-    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    Layout = "~/Views/Shared/_PanelLayout.cshtml";
 }
 
 <div class="container">
@@ -27,7 +28,7 @@
                     @Html.LabelFor(x => x.CategoryStatus, "Görünürlük durumu", new { @class = "form-check-label" })
                 </div>
                 <div class="text-end">
-                    <a href="@Url.Action("Index", "AdminCategory")" class="btn btn-outline-primary btn-lg">Vazgeç</a>
+                    <a href="@Url.Action("Index")" class="btn btn-outline-primary btn-lg">Vazgeç</a>
                     <button type="submit" class="btn btn-primary btn-lg">Ekle</button>
                 </div>
             }

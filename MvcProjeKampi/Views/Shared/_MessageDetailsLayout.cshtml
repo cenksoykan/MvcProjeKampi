@@ -1,0 +1,40 @@
+﻿
+@{
+    Layout = "~/Views/Shared/_PanelLayout.cshtml";
+    bool isAddressReceiver = String.IsNullOrEmpty(Model.Receiver);
+}
+
+<div class="container-fluid">
+    <h2>@ViewBag.Title</h2>
+
+    <div class="row g-3 mt-4">
+        @Html.Action("MessageNavPartial")
+        <div class="col-lg-8 col-xl-9">
+            <div class="container">
+                <div class="d-flex mb-2">
+                    <div class="flex-column flex-grow-1">
+                        <h3>@Model.Subject</h3>
+                        <h6 class="mt-4 text-muted">
+                            @(isAddressReceiver ? "Gönderen" : "Alıcı"):
+                            @if (String.IsNullOrEmpty(Model.User))
+                            {
+                                <span class="ms-1 user-select-all">@(isAddressReceiver ? Model.Sender : Model.Receiver)</span>
+                            }
+                            else
+                            {
+                                <span class="m-1 user-select-all">@Model.User</span>
+                                <small class="fw-light">&lt;<span class="user-select-all">@Model.Sender</span>&gt;</small>
+                            }
+                        </h6>
+                    </div>
+                    <div class="flex-column flex-shrink-0 align-self-end mb-2">
+                        <small class="text-muted fw-bold user-select-all">@Model.Date.ToString("D")</small>
+                    </div>
+                </div>
+            </div>
+            <div class="container bg-light rounded-2 px-3 py-4 shadow-sm">
+                @RenderBody()
+            </div>
+        </div>
+    </div>
+</div>

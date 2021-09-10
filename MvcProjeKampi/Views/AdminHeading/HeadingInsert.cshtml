@@ -1,8 +1,9 @@
-﻿@model EntityLayer.Concrete.Heading
+﻿@using EntityLayer.Concrete
+@model Heading
 
 @{
     ViewBag.Title = "Yeni Başlık Ekle";
-    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    Layout = "~/Views/Shared/_PanelLayout.cshtml";
 }
 
 <div class="container">
@@ -38,7 +39,7 @@
                     @Html.LabelFor(x => x.HeadingStatus, "Görünürlük durumu", new { @class = "form-check-label" })
                 </div>
                 <div class="text-end">
-                    <a href="@Url.Action("Index", "AdminHeading")" class="btn btn-outline-primary btn-lg">Vazgeç</a>
+                    <a href="@Url.Action("Index")" class="btn btn-outline-primary btn-lg">Vazgeç</a>
                     <button type="submit" class="btn btn-primary btn-lg">Ekle</button>
                 </div>
             }

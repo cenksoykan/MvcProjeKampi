@@ -46,6 +46,7 @@
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -56,35 +57,44 @@
   <ItemGroup>
     <Compile Include="Abstract\IAboutService.cs" />
     <Compile Include="Abstract\IAdminRoleProviderService.cs" />
+    <Compile Include="Abstract\IAdminRoleService.cs" />
     <Compile Include="Abstract\ICategoryService.cs" />
     <Compile Include="Abstract\IContactService.cs" />
     <Compile Include="Abstract\IContentService.cs" />
     <Compile Include="Abstract\IGalleryImageService.cs" />
     <Compile Include="Abstract\IHeadingService.cs" />
-    <Compile Include="Abstract\ILoginService.cs" />
+    <Compile Include="Abstract\IPanelWriterService.cs" />
+    <Compile Include="Abstract\IPanelAdminService.cs" />
     <Compile Include="Abstract\IMessageService.cs" />
     <Compile Include="Abstract\IPersonaSkillService.cs" />
+    <Compile Include="Abstract\IAdminService.cs" />
     <Compile Include="Abstract\IWriterService.cs" />
     <Compile Include="Concrete\AboutManager.cs" />
+    <Compile Include="Concrete\AdminRoleManager.cs" />
     <Compile Include="Concrete\AdminRoleProviderManager.cs" />
     <Compile Include="Concrete\CategoryManager.cs" />
     <Compile Include="Concrete\ContactManager.cs" />
     <Compile Include="Concrete\ContentManager.cs" />
     <Compile Include="Concrete\GalleryImageManager.cs" />
     <Compile Include="Concrete\HeadingManager.cs" />
-    <Compile Include="Concrete\LoginManager.cs" />
+    <Compile Include="Concrete\PanelWriterManager.cs" />
+    <Compile Include="Concrete\PanelAdminManager.cs" />
     <Compile Include="Concrete\MessageManager.cs" />
     <Compile Include="Concrete\HashManager.cs" />
     <Compile Include="Concrete\PersonaSkillManager.cs" />
+    <Compile Include="Concrete\AdminManager.cs" />
     <Compile Include="Concrete\WriterManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ValidationRules\AboutValidator.cs" />
     <Compile Include="ValidationRules\CategoryValidator.cs" />
     <Compile Include="ValidationRules\ContactValidator.cs" />
     <Compile Include="ValidationRules\GalleryImageValidator.cs" />
+    <Compile Include="ValidationRules\ContentValidator.cs" />
     <Compile Include="ValidationRules\HeadingValidator.cs" />
-    <Compile Include="ValidationRules\LoginValidator.cs" />
+    <Compile Include="ValidationRules\PanelAdminValidator.cs" />
+    <Compile Include="ValidationRules\PanelWriterValidator.cs" />
     <Compile Include="ValidationRules\MessageValidator.cs" />
+    <Compile Include="ValidationRules\AdminValidator.cs" />
     <Compile Include="ValidationRules\WriterValidator.cs" />
   </ItemGroup>
   <ItemGroup />

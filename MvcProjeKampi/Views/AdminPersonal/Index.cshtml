@@ -1,0 +1,86 @@
+﻿@using EntityLayer.Concrete
+@model List<PersonaSkill>
+
+@{
+    ViewBag.Title = "Yetenek kartım";
+    Layout = "~/Views/Shared/_PanelLayout.cshtml";
+    //int average = Convert.ToInt32(Math.Round(Model.Average(p => p.PersonaSkillLevel)));
+    string color = "";
+}
+
+@section styles {
+    <style>
+        #personal-skill {
+            background: var(--bs-secondary) url('https://picsum.photos/id/491/968/480') no-repeat center;
+            background-size: cover;
+            min-height: 100vh;
+        }
+
+        #personal-skill .container {
+            min-width: 360px;
+            max-width: 440px;
+        }
+    </style>
+}
+
+<div id="personal-skill" class="container-fill d-flex justify-content-center align-self-stretch align-self-stretch align-items-stretch">
+    <div class="d-flex flex-column align-items-center justify-content-center lh-1 py-5 bg-dark bg-opacity-50 w-100">
+        <h2 class="display-4 text-light">
+            @ViewBag.Title
+        </h2>
+        <div class="container my-3">
+            <div class="card shadow-sm bg-white frosted">
+                @if (Model.Count() > 0)
+                {
+                    <div class="card-header d-flex align-items-center">
+                        <div class="flex-shrink-0">
+                            <img src="@Model.Select(p => p.Persona.PersonaProfilePicture).FirstOrDefault()" alt="profile picture" width="96" height="96" class="img-fluid rounded-circle border shadow m-3" />
+                        </div>
+                        <div class="flex-grow-1 ms-2">
+                            <h5 class="card-title h4 mb-3">
+                                @Model.Select(p => p.Persona.PersonaName + " " + p.Persona.PersonaSurname).FirstOrDefault()
+                            </h5>
+                            <h6 class="card-subtitle mb-2">
+                                <small class="text-muted text-uppercase letter-space">
+                                    @Model.Select(p => p.Persona.PersonaTitle).FirstOrDefault()
+                                </small>
+                            </h6>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        @foreach (var item in Model)
+                        {
+                            if (item.PersonaSkillLevel < 30)
+                            {
+                                color = "danger";
+                            }
+                            else if (item.PersonaSkillLevel < 80)
+                            {
+                                color = "warning";
+                            }
+                            else if (item.PersonaSkillLevel < 90)
+                            {
+                                color = "info";
+                            }
+                            else { color = "primary"; }
+                            <p class="card-text mx-1 mb-1 mt-3">@item.PersonaSkillName</p>
+                            <div class="progress mb-3 fw-bold fs-6" style="height: 1.3rem;">
+                                <div class="progress-bar progress-bar-striped progress-bar-animated text-end bg-@color" role="progressbar" aria-valuenow="@item.PersonaSkillLevel" aria-valuemin="0" aria-valuemax="100" style="width: @(item.PersonaSkillLevel + "%")"><span class="mx-3">%@item.PersonaSkillLevel</span></div>
+                            </div>
+                        }
+                    </div>
+                    @*<div class="card-footer">
+                            <p class="card-text mx-1 mb-1 mt-3">Ortalama</p>
+                            <div class="progress mb-3 fw-bold fs-6" style="height: 1.3rem;">
+                                <div class="progress-bar progress-bar-striped progress-bar-animated text-end bg-success" role="progressbar" aria-valuenow="@average" aria-valuemin="0" aria-valuemax="100" style="width: @average%"><span class="mx-3">%@average</span></div>
+                            </div>
+                        </div>*@
+                }
+                else
+                {
+                    @Html.Action("AlertNoResultPartial", "Alert")
+                }
+            </div>
+        </div>
+    </div>
+</div>

@@ -3,40 +3,118 @@
 
 @{
     ViewBag.Title = "Galeri";
-    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    Layout = "~/Views/Shared/_PanelLayout.cshtml";
+}
+
+@section styles {
+    @Styles.Render("~/Content/gallery")
 }
 
 <div class="container-fluid">
-    <h2>@ViewBag.Title</h2>
+    <div class="row">
+        <div class="col-12 col-md">
+            <h2>@ViewBag.Title<span class="badge bg-primary ms-2 align-top">@Model.Count()</span></h2>
+        </div>
+        <div class="col-12 col-md order-last text-end">
+            <a href="@Url.Action("GalleryImageInsert")" class="btn btn-primary">Görsel ekle</a>
+        </div>
+    </div>
 
-    <div id="carousel-gallery" class="carousel slide mt-3" data-bs-ride="carousel">
-        <div class="carousel-indicators">
+    <div id="img-grid" class="row">
         @foreach (var item in Model)
         {
-            int Key = Model.IndexOf(item);
-                <button type="button" data-bs-target="#carousel-gallery" data-bs-slide-to="@Key" @(Key == 0 ? "class=active aria-current=true" : "") aria-label="Resim @(Key + 1)"></button>
+            string imgUrlUpdate = Url.Action("GalleryImageUpdate/" + item.GalleryImageId);
+            string imgUrlDelete = "confirmDelete(" + item.GalleryImageId + ", " + (item.GalleryImageStatus ? 1 : 0) + ", $(location).attr(`href`))";
+            string imgClassUpdate = "btn btn-link py-0 border-0 align-top mx-2";
+            string imgClassDelete = "btn btn-link py-0 border-0 align-top mx-2 link-" + (item.GalleryImageStatus ? "danger" : "success");
+            string imgIconUpdate = "bi-pencil mx-2";
+            string imgIconDelete = "bi-" + (item.GalleryImageStatus ? "dash" : "plus") + "-circle mx-2";
+            string imgCaptionUpdate = "Düzenle";
+            string imgCaptionDelete = item.GalleryImageStatus ? "Kaldır" : "Ekle";
+
+            <div class="img-item col-12 col-md-6 col-lg-4 col-xl-3 mt-4">
+                <a class="d-block rounded overflow-hidden user-select-none" href="@item.GalleryImagePath"
+                   data-fancybox="gallery"
+                   data-caption="<p>@item.GalleryImageName</p><a class='@imgClassUpdate' href='@imgUrlUpdate'><i class='@imgIconUpdate'></i>@imgCaptionUpdate</a><button class='@imgClassDelete' onclick='@imgUrlDelete'><i class='@(imgIconDelete)'></i>@(imgCaptionDelete)</a>">
+                    <img class="w-100" src="@item.GalleryImageThumbPath" alt="@item.GalleryImageName" loading="lazy" />
+                </a>
+            </div>
         }
-        </div>
-        <div class="carousel-inner rounded-3">
-            @foreach (var item in Model)
-            {
-                int Key = Model.IndexOf(item);
+    </div>
+
+    @*<div id="carousel-gallery" class="carousel slide mt-3" data-bs-ride="carousel">
+            <div class="carousel-indicators">
+                @foreach (var item in Model)
+                {
+                    int Key = Model.IndexOf(item);
+                    <button type="button" data-bs-target="#carousel-gallery" data-bs-slide-to="@Key" @(Key == 0 ? "class=active aria-current=true" : "") aria-label="Resim @(Key + 1)"></button>
+                }
+            </div>
+            <div class="carousel-inner rounded-3 bg-dark">
+                @foreach (var item in Model)
+                {
+                    int Key = Model.IndexOf(item);
                     <div class="carousel-item @(Key == 0 ? "active" : "")">
-                        <img src="@item.GalleryImagePath" class="d-block w-100" alt="Resim @(Key + 1)">
+                        <img src="@item.GalleryImagePath" alt="Resim @(Key + 1)">
                         <div class="carousel-caption d-none d-md-block">
-                            <h5>@item.GalleryImageName</h5>
-                            <p>Some representative placeholder content for the number @(Key + 1) slide.</p>
+                            <h5>@(Key + 1)</h5>
+                            <p>@item.GalleryImageName</p>
                         </div>
                     </div>
-            }
-        </div>
-        <button class="carousel-control-prev" type="button" data-bs-target="#carousel-gallery" data-bs-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Önceki</span>
-        </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#carousel-gallery" data-bs-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Sonraki</span>
-        </button>
-    </div>
+                }
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carousel-gallery" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Önceki</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carousel-gallery" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Sonraki</span>
+            </button>
+        </div>*@
 </div>
+
+@section scripts {
+    @Scripts.Render("~/bundles/gallery")
+
+    <script type="text/javascript">
+        function confirmDelete(id, status, href) {
+            Swal.fire({
+                title: status ? 'Kaldır' : 'Ekle',
+                text: "İşleme devam etmek istiyor musunuz?",
+                icon: status ? 'warning' : 'question',
+                showCancelButton: true,
+                confirmButtonColor: status ? '#DC3545' : '#198754',
+                confirmButtonText: status ? 'Pasifleştir' : 'Aktifleştir',
+                showLoaderOnConfirm: true,
+                preConfirm: function () {
+                    $.ajax({
+                        type: "POST",
+                        data: {
+                            'id': id
+                        },
+                        url: "@Url.Action("GalleryImageDelete")",
+                        success: function () {
+                            SwalTimer.fire({
+                                title: status ? "Kaldırıldı" : "Eklendi",
+                                text: "Görsel görünürlük durumu " + (status ? "pasif" : "aktif") + " yapıldı",
+                                icon: status ? "info" : "success"
+                            }).then(function () {
+                                history.replaceState({}, null, href);
+                                location.reload();
+                            });
+                        },
+                        error: function () {
+                            Swal.fire("Hata", "İşlem başarısız oldu", "error");
+                        }
+                    });
+                },
+                allowOutsideClick: function () { !Swal.isLoading(); }
+            }).then(function (result) {
+                if (result.isDismissed) {
+                    $(location).attr('href', href);
+                }
+            })
+        }
+    </script>
+}

@@ -1,0 +1,69 @@
+﻿
+@{
+    ViewBag.Title = "Grafikler";
+    Layout = "~/Views/Shared/_PanelLayout.cshtml";
+}
+
+<div class="container">
+    <h2>@ViewBag.Title</h2>
+
+    <div id="chart" class="mt-4"></div>
+</div>
+
+@section scripts {
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $.ajax({
+                type: "POST",
+                dataType: "json",
+                contentType: "application/json",
+                url: '@Url.Action("JsonCategory")',
+                success: function (response) {
+                    google.charts.load('current', { 'packages': ['corechart'] });
+                    google.charts.setOnLoadCallback(function () {
+                        drawChart(response);
+                    });
+                }
+            });
+        });
+
+        @*var url = '@Url.Action("JsonCategory")';
+        var req = new XMLHttpRequest();
+
+        req.responseType = 'json';
+        req.open('GET', url, true);
+        req.onload = function () {
+            var jsonResponse = req.response;
+
+            google.charts.load('current', { 'packages': ['corechart'] });
+            google.charts.setOnLoadCallback(function () {
+                drawChart(jsonResponse);
+            });
+        };
+        req.send(null);*@
+
+        function drawChart(result) {
+            var data = new google.visualization.DataTable();
+            data.addColumn('string', 'Kategori adı');
+            data.addColumn('number', 'Başlık adedi');
+
+            var dataArray = [];
+            $.each(result, function (_, obj) {
+                dataArray.push([obj.CategoryName, obj.CategoryCount]);
+            });
+            data.addRows(dataArray);
+
+            var chartOptions = {
+                title: "Kategori/Başlık grafiği",
+                width: 600,
+                height: 350
+            };
+
+            var chart = new google.visualization.PieChart(document.getElementById('chart'));
+
+            chart.draw(data, chartOptions);
+        }
+    </script>
+}

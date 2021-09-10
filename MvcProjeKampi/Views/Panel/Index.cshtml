@@ -1,0 +1,64 @@
+﻿
+@{
+    ViewBag.AppName = "MVC Proje Kampı";
+    Layout = null;
+    string controllerName = ViewContext.RouteData.Values["Controller"].ToString();
+    string absolutePath = Request.UrlReferrer == null ? "" : Request.UrlReferrer.AbsolutePath.Substring(1);
+    bool isPanel = absolutePath.IndexOf("/") > 0 ? absolutePath.Substring(0, absolutePath.IndexOf("/")) == controllerName : absolutePath == controllerName;
+}
+
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel giriş &ndash; @ViewBag.AppName</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    <style>
+        body {
+            background-color: #f5f5f5;
+        }
+
+        .container {
+            max-width: 330px;
+        }
+    </style>
+</head>
+<body class="d-flex align-items-center text-center">
+    <main class="container py-5">
+        <hgroup>
+            <h1 class="mb-5">
+                <span class="display-3">
+                    <i class="bi-code-slash me-3"></i>MVC
+                </span>
+                <wbr />
+                <span class="display-5">Proje&nbsp;Kampı</span>
+            </h1>
+            <h2 class="h3 mb-3 fw-normal">Panel girişi</h2>
+        </hgroup>
+        <div class="d-grid gap-2 d-sm-flex justify-content-sm-center mb-5">
+            <a href="@Url.Action("Writer", "Panel")" class="btn btn-lg btn-primary px-4 me-sm-3">Yazar</a>
+            <a href="@Url.Action("Admin", "Panel")" class="btn btn-lg btn-outline-primary px-4">Yönet</a>
+        </div>
+        <div class="hstack gap-3 justify-content-center">
+            @if (Request.UrlReferrer != null || !isPanel)
+            {
+                <a href="@Request.UrlReferrer" class="link-secondary text-nowrap">
+                    <i class="bi-chevron-left"></i>Önceki sayfaya dön
+                </a>
+                <div class="vr"></div>
+            }
+            <a href="@Url.Action("Index", "Home")" class="link-secondary text-nowrap">
+                Anasayfaya git<i class="bi-chevron-right"></i>
+            </a>
+        </div>
+        <div class="text-muted mt-5">
+            <small>&copy; @DateTime.Now.Year &ndash; <span class="user-select-all">@ViewBag.AppName</span></small>
+        </div>
+    </main>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+</body>
+</html>

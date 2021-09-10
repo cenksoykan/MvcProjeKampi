@@ -1,0 +1,39 @@
+﻿@using EntityLayer.Concrete
+@model List<Heading>
+
+@{
+    ViewBag.Title = "Sözlük";
+    int actionId = ViewContext.RouteData.Values["id"] == null ? 0 : Int32.Parse(ViewContext.RouteData.Values["id"].ToString());
+}
+
+<div class="container">
+    <h2>@ViewBag.Title</h2>
+
+    <div class="row mt-4">
+        <div class="col-lg-4 col-xl-3">
+            <div class="list-group list-group-flush rounded-2">
+                @foreach (var item in Model.Where(h => h.HeadingId == actionId).Union(Model.Take(50)).Distinct())
+                {
+                    <a href="@Url.Action("Content/" + item.HeadingId)" class="list-group-item list-group-item-action @(actionId == item.HeadingId ? "active" : "")">
+                        <div class="d-flex w-100 justify-content-between align-items-center">
+                            <span>@item.HeadingName</span>
+                            <span class="badge bg-primary rounded-pill">@Model.Count(x => x.HeadingId == item.HeadingId)</span>
+                        </div>
+                    </a>
+                }
+            </div>
+        </div>
+        <div class="col-lg-8 col-xl-9">
+            @Html.Action("ContentByHeadingPartial")
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    <script type="text/javascript">
+        if (!$(".list-group-item.active").length) {
+            var item = shuffle($(".list-group-item")).slice(0, 1);
+            $(location).attr('href', item.attr('href'));
+        }
+    </script>
+}

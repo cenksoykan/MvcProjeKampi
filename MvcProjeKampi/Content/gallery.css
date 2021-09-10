@@ -1,0 +1,35 @@
+﻿a[data-fancybox] {
+    cursor: zoom-in;
+    transition-property: transform, box-shadow;
+    transition-duration: .256s;
+}
+
+a[data-fancybox]:hover {
+    transform: scale(1.04, 1.04);
+    box-shadow: 0 0.5rem 1rem rgb(0 0 0 / 30%) !important;
+}
+
+.fancybox__caption {
+    text-align: center;
+}
+
+.fancybox__container {
+    --fancybox-thumbs-ratio: 1;
+    --fancybox-thumbs-width: 3.6rem;
+    --carousel-button-svg-width: 2.4rem;
+    --carousel-button-svg-height: 2.4rem;
+}
+
+.fancybox__thumb {
+    --fancybox-accent-color: var(--bs-primary);
+    opacity: .4;
+}
+
+.fancybox__thumb:hover,
+.is-nav-selected .fancybox__thumb {
+    opacity: 1;
+}
+
+.fancybox__thumbs .carousel__slide .fancybox__thumb::after {
+    border-width: .2rem !important;
+}

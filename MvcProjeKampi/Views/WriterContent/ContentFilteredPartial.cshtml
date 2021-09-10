@@ -1,0 +1,61 @@
+﻿@using EntityLayer.Concrete
+@model List<Content>
+
+@{
+    ViewBag.Title = "Yazılar";
+    Layout = "~/Views/Shared/_PanelLayout.cshtml";
+}
+
+<div class="container">
+    <h2>
+        <a href="@(Request.UrlReferrer?.ToString() ?? Url.Action("Index"))" class="text-reset text-decoration-none">
+            <i class="bi-chevron-left me-2"></i>@ViewBag.Title
+        </a>
+        <span class="badge bg-primary ms-2 align-top">@Model.Count()</span>
+    </h2>
+
+    <h3 class="mt-5 mb-4">
+        @if (Model.Count() > 0)
+        {
+            if (ViewBag.Subtitle == true)
+            {
+                <span>Yazar: </span><span class="user-select-all">@Model.Select(w => w.Writer.WriterName + " " + w.Writer.WriterSurname).FirstOrDefault()</span>
+            }
+            else
+            {
+                <span>Başlık: </span><span class="user-select-all">@Model.Select(h => h.Heading.HeadingName).FirstOrDefault()</span>
+            }
+        }
+    </h3>
+
+    <div class="row row-cols-1 row-cols-xl-2 gy-4">
+        @if (Model.Count() == 0)
+        {
+            <div class="col">
+                @Html.Action("AlertNoResultPartial", "Alert")
+            </div>
+        }
+        @foreach (var item in Model)
+        {
+            <div class="col">
+                <div class="bg-light rounded-2 p-4 pb-3 shadow-sm">
+                    <p class="mb-1">@item.ContentValue</p>
+                    <small>
+                        <span class="fw-bold">
+                            @if (ViewBag.Subtitle == true)
+                            {
+                                <span class="user-select-all">@item.Heading.HeadingName</span>
+                            }
+                            else
+                            {
+                                <span class="user-select-all">@item.Writer.WriterName @item.Writer.WriterSurname</span>
+                            }
+                        </span>
+                        &nbsp;&middot;&nbsp;
+                        <span class="user-select-all">@item.ContentCreatedOn.ToString("D")</span>
+                    </small>
+                </div>
+            </div>
+        }
+    </div>
+</div>

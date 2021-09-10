@@ -18,10 +18,11 @@ namespace BusinessLayer.Concrete
             _contactDal = contactDal;
         }
 
-        public List<Contact> List()
+        public List<Contact> List(string q = null)
         {
-            return _contactDal.List()
-                .OrderByDescending(x => x.ContactDate)
+            var messages = String.IsNullOrEmpty(q) ? _contactDal.List() : _contactDal.List(m => m.ContactEmailAddress.Contains(q) || m.ContactUserName.Contains(q) || m.ContactSubject.Contains(q) || m.ContactMessage.Contains(q));
+
+            return messages.OrderByDescending(x => x.ContactDate)
                 .ThenByDescending(x => x.ContactId)
                 .ToList();
         }
@@ -30,7 +31,7 @@ namespace BusinessLayer.Concrete
             _contactDal.Insert(contact);
         }
 
-        public Contact GetById(int id)
+        public Contact GetById(int id = 0)
         {
             return _contactDal.Get(x => x.ContactId == id);
         }

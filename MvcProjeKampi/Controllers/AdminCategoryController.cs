@@ -11,11 +11,12 @@ using System.Web.Mvc;
 
 namespace MvcProjeKampi.Controllers
 {
+    [Authorize]
     public class AdminCategoryController : Controller
     {
-        // GET: AdminCategory
         CategoryManager categoryManager = new CategoryManager(new EfCategoryDal());
         CategoryValidator categoryValidator = new CategoryValidator();
+
         public ActionResult Index()
         {
             var categoryValues = categoryManager.List();

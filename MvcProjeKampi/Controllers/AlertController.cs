@@ -6,14 +6,9 @@ using System.Web.Mvc;
 
 namespace MvcProjeKampi.Controllers
 {
+    [AllowAnonymous]
     public class AlertController : Controller
     {
-        // GET: Helper
-        public ActionResult Index()
-        {
-            return View();
-        }
-
         public PartialViewResult AlertNoResultPartial()
         {
             return PartialView();

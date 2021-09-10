@@ -1,0 +1,35 @@
+﻿@using EntityLayer.Concrete
+@model Content
+
+@{
+    ViewBag.Title = "İçerik güncelle";
+    Layout = "~/Views/Shared/_PanelLayout.cshtml";
+}
+
+<div class="container">
+    <h2 class="text-center">@ViewBag.Title</h2>
+
+    <div class="row mt-4">
+        <div class="col-12 col-sm-10 col-md-8 col-lg-6 col-xl-5 mx-auto">
+            @using (Html.BeginForm("ContentUpdate", "WriterContent", FormMethod.Post))
+            {
+                @Html.HiddenFor(x => x.ContentId, new { @class = "form-control", @requiered = "", @readonly = "" })
+                <div class="form-floating mb-3">
+                    @Html.TextAreaFor(x => x.ContentValue, new { @class = "form-control", @placeholder = "İçerik", @requiered = "" })
+                    @Html.LabelFor(x => x.ContentValue, "Yazı içeriği")
+                    @Html.ValidationMessageFor(x => x.ContentValue)
+                </div>
+                <div class="mb-3 form-check form-switch">
+                    @Html.CheckBoxFor(x => x.ContentStatus, new { @class = "form-check-input", @value = "true", @checked = "" })
+                    @Html.LabelFor(x => x.ContentStatus, "Görünürlük durumu", new { @class = "form-check-label" })
+                </div>
+                <div class="text-end">
+                    <a href="@Url.Action("Index")" class="btn btn-outline-primary btn-lg">
+                        Vazgeç
+                    </a>
+                    <button type="submit" class="btn btn-primary btn-lg">Güncelle</button>
+                </div>
+            }
+        </div>
+    </div>
+</div>

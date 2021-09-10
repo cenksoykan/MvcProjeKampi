@@ -3,7 +3,7 @@
 
 @{
     ViewBag.Title = "Kategoriler";
-    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    Layout = "~/Views/Shared/_PanelLayout.cshtml";
 }
 
 <div class="container">
@@ -12,7 +12,7 @@
             <h2>@ViewBag.Title<span class="badge bg-primary ms-2 align-top">@Model.Count()</span></h2>
         </div>
         <div class="col-12 col-md order-last text-end">
-            <a href="@Url.Action("CategoryInsert", "AdminCategory")" class="btn btn-primary">Kategori ekle</a>
+            <a href="@Url.Action("CategoryInsert")" class="btn btn-primary">Kategori ekle</a>
         </div>
     </div>
 
@@ -36,7 +36,7 @@
                                 @*<tr class="@(@item.CategoryStatus ? "table-default" : "table-warning")">*@
                                 <th scope="row" class="text-end">@item.CategoryId</th>
                                 <td class="text-center">
-                                    <span class="badge rounded-circle p-1 border border-light @(item.CategoryStatus ? "bg-success" : "bg-danger")" data-bs-toggle="tooltip" data-bs-placement="left" data-bs-title="@(item.CategoryStatus ? "Aktif" : "Pasif")">
+                                    <span class="badge rounded-circle p-1 border border-light bg-@(item.CategoryStatus ? "success" : "danger")" data-bs-toggle="tooltip" data-bs-placement="left" data-bs-title="@(item.CategoryStatus ? "Aktif" : "Pasif")">
                                         <span class="visually-hidden">@item.CategoryStatus ? Aktif : Pasif</span>
                                     </span>
                                 </td>
@@ -44,12 +44,12 @@
                                 <td class="fw-light">@item.CategoryDescription</td>
                                 <td class="p-0">
                                     <div class="btn-group" role="group" aria-label="Yönet">
-                                        <a href="@Url.Action("CategoryUpdate/" + item.CategoryId, "AdminCategory")" class="btn btn-link py-0 border-0 align-top mx-2">
+                                        <a href="@Url.Action("CategoryUpdate/" + item.CategoryId)" class="btn btn-link py-0 border-0 align-top mx-2">
                                             <i class="bi-pencil mx-2"></i>Düzenle
                                         </a>
-                                        <a href="@Url.Action("CategoryDelete/" + item.CategoryId, "AdminCategory")" class="btn btn-link py-0 border-0 align-top mx-2 link-@(item.CategoryStatus ? "danger" : "success")">
-                                            <i class="bi-@(item.CategoryStatus ? "dash-circle" : "plus-circle") mx-2"></i>@(item.CategoryStatus ? "Kaldır" : "Ekle")
-                                        </a>
+                                        <button onclick="confirmDelete(@item.CategoryId, @item.CategoryStatus)" class="btn btn-link py-0 border-0 align-top mx-2 link-@(item.CategoryStatus ? "danger" : "success")">
+                                            <i class="bi-@(item.CategoryStatus ? "dash" : "plus")-circle mx-2"></i>@(item.CategoryStatus ? "Kaldır" : "Ekle")
+                                        </button>
                                     </div>
                                 </td>
                             </tr>
@@ -60,3 +60,41 @@
         </div>
     </div>
 </div>
+
+@section scripts {
+    <script type="text/javascript">
+        function confirmDelete(id, status) {
+            Swal.fire({
+                title: status ? 'Kaldır' : 'Ekle',
+                text: "İşleme devam etmek istiyor musunuz?",
+                icon: status ? 'warning' : 'question',
+                showCancelButton: true,
+                confirmButtonColor: status ? '#DC3545' : '#198754',
+                confirmButtonText: status ? 'Pasifleştir' : 'Aktifleştir',
+                showLoaderOnConfirm: true,
+                preConfirm: function () {
+                    $.ajax({
+                        type: "POST",
+                        data: {
+                            'id': id
+                        },
+                        url: "@Url.Action("CategoryDelete")",
+                        success: function () {
+                            SwalTimer.fire({
+                                title: status ? "Kaldırıldı" : "Eklendi",
+                                text: "Kategori görünürlük durumu " + (status ? "pasif" : "aktif") + " yapıldı",
+                                icon: status ? "info" : "success"
+                            }).then(function () {
+                                location.reload();
+                            });
+                        },
+                        error: function () {
+                            Swal.fire("Hata", "İşlem başarısız oldu", "error");
+                        }
+                    });
+                },
+                allowOutsideClick: function () { !Swal.isLoading(); }
+            })
+        }
+    </script>
+}

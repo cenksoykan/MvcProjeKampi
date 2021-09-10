@@ -3,12 +3,12 @@
 
 @{
     ViewBag.Title = "Yazılar";
-    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    Layout = "~/Views/Shared/_PanelLayout.cshtml";
 }
 
 <div class="container">
     <h2>
-        <a href="@(Request.UrlReferrer == null ? Url.Action("Index", "AdminContent") : Request.UrlReferrer.ToString())" class="text-reset text-decoration-none">
+        <a href="@(Request.UrlReferrer?.ToString() ?? Url.Action("Index"))" class="text-reset text-decoration-none">
             <i class="bi-chevron-left me-2"></i>@ViewBag.Title
         </a>
         <span class="badge bg-primary ms-2 align-top">@Model.Count()</span>
@@ -51,7 +51,7 @@
                                 <span class="user-select-all">@item.Writer.WriterName @item.Writer.WriterSurname</span>
                             }
                         </span>
-                        <span class="badge rounded-circle p-1 mx-2 border border-light @(item.ContentStatus ? "bg-success" : "bg-danger")" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="@(item.ContentStatus ? "Aktif" : "Pasif")">
+                        <span class="badge rounded-circle p-1 mx-2 border border-light bg-@(item.ContentStatus ? "success" : "danger")" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="@(item.ContentStatus ? "Aktif" : "Pasif")">
                             <span class="visually-hidden">@item.ContentStatus ? Aktif : Pasif</span>
                         </span>
                         <span class="user-select-all">@item.ContentCreatedOn.ToString("D")</span>

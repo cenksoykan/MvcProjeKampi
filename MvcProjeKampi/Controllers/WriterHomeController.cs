@@ -6,9 +6,9 @@ using System.Web.Mvc;
 
 namespace MvcProjeKampi.Controllers
 {
+    [AllowAnonymous]
     public class WriterHomeController : Controller
     {
-        // GET: WriterHome
         public ActionResult Index()
         {
             return RedirectToAction("Index", "WriterProfile");

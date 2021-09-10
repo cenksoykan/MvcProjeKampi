@@ -51,13 +51,13 @@
                     <td class="text-center"><span class="badge bg-@color user-select-all">@item.Category.CategoryName</span></td>
                     <td class="p-0">
                         <div class="btn-group" role="group" aria-label="Yönet">
-                            <a href="@Url.Action("ContentByHeading/" + item.HeadingId, "WriterContent")" class="btn btn-link py-0 border-0 align-top mx-2 link-dark">
+                            <a href="@Url.Action("Index/" + item.HeadingId, "Home")" class="btn btn-link py-0 border-0 align-top mx-2 link-dark" target="_blank">
                                 <i class="bi-journal-richtext mx-2"></i>Yazılar
                             </a>
-                            <a href="@Url.Action("HeadingUpdate/" + item.HeadingId, "WriterHeading")" class="btn btn-link py-0 border-0 align-top mx-2">
+                            <a href="@Url.Action("HeadingUpdate/" + item.HeadingId)" class="btn btn-link py-0 border-0 align-top mx-2">
                                 <i class="bi-pencil mx-2"></i>Düzenle
                             </a>
-                            <a href="@Url.Action("HeadingDelete/" + item.HeadingId, "WriterHeading")" class="btn btn-link py-0 border-0 align-top mx-2 link-@(item.HeadingStatus ? "danger" : "success")">
+                            <a href="@Url.Action("HeadingDelete/" + item.HeadingId)" class="btn btn-link py-0 border-0 align-top mx-2 link-@(item.HeadingStatus ? "danger" : "success")">
                                 <i class="bi-@(item.HeadingStatus ? "dash-circle" : "plus-circle") mx-2"></i>@(item.HeadingStatus ? "Kaldır" : "Ekle")
                             </a>
                         </div>

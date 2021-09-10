@@ -1,0 +1,47 @@
+﻿@using System.Text.RegularExpressions;
+@using EntityLayer.Concrete
+@model List<Message>
+
+@{
+    Layout = "~/Views/Shared/_MessageLayout.cshtml";
+    string actionName = ViewContext.RouteData.Values["Action"].ToString();
+    bool isTrash = actionName == "MessageTrash";
+}
+
+@foreach (var item in Model)
+{
+    bool isRead = item.MessageSender == null ? item.MessageSenderStatusRead : item.MessageReceiverStatusRead;
+
+<tr class="position-relative bg-@(isRead ? "light" : "white")">
+    <th scope="row" class="text-end position-relative" style="z-index:2;">
+        <input class="form-check-input m-1" type="checkbox" name="domainList" value="" aria-label="Seç" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Seç">
+    </th>
+    <td class="text-truncate" style="max-width: 32rem;">
+        <a href="@Url.Action("MessageDetails/" + item.MessageId)" class="stretched-link text-decoration-none text-reset @(isRead ? "" : "fw-bold") me-2">
+            @item.MessageSender
+        </a>
+    </td>
+    <td class="text-truncate fw-light" style="max-width: 1px;">
+        <span class="fw-@(isRead ? "normal" : "bold")">@item.MessageSubject</span>
+        <span class="mx-2">&ndash;</span>
+        @Regex.Replace(Server.HtmlDecode(item.MessageBody), "<(.|\n)*?>", " ").Trim()
+    </td>
+    <td class="p-0 position-relative" style="z-index:2;">
+        <div class="btn-group" role="group" aria-label="Yönet">
+            <button onclick="confirmMarkRead(@item.MessageId, @isRead)" class="btn btn-link py-0 border-0 align-top mx-1 px-1 link-dark" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="@(isRead ? "Okunmadı olarak işaretle" : "Okundu olarak işaretle")">
+                <i class="bi-envelope@(isRead ? "" : "-open")"></i>
+                <span class="visually-hidden">@isRead ? Okunmadı olarak işaretle : Okundu olarak işaretle</span>
+            </button>
+            <button onclick="confirmDelete(@item.MessageId, @isTrash)" class="btn btn-link py-0 border-0 align-top mx-1 px-1 link-danger" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="@(isTrash ? "Kalıcı olarak sil" : "Sil")">
+                <i class="bi-trash"></i>
+                <span class="visually-hidden">@isTrash ? Kalıcı olarak sil : Sil</span>
+            </button>
+        </div>
+    </td>
+    <td class="text-nowrap">
+        <small class="text-muted @(isRead ? "" : "fw-bold")">
+            @item.MessageDate.ToString("d MMM yyy")
+        </small>
+    </td>
+</tr>
+}

@@ -1,7 +1,28 @@
-﻿@{
-    ViewBag.Title = "About";
+﻿
+@{
+    ViewBag.Title = "Hakkında";
 }
-<h2>@ViewBag.Title.</h2>
-<h3>@ViewBag.Message</h3>
 
-<p>Use this area to provide additional information.</p>
+<div class="container">
+    <h2>@ViewBag.Title</h2>
+
+    <dl class="row mt-4">
+        <dt class="col-sm-3">SQL Veri Tabanı</dt>
+        <dd class="col-sm-9">Projemde veri tabanı olarak MSSQL kullandım, sunucuya taşırken windows hosting desteği olan bir sunucu üzerinde çalıştım.</dd>
+
+        <dt class="col-sm-3">Tasarım Araçları</dt>
+        <dd class="col-sm-9">Projenin frontend tarafında HTML5, CSS3, Bootstrap, JavaScript, jQuery bileşenlerine yer vererek tasarım tarafını gerçekleştirdim.</dd>
+
+        <dt class="col-sm-3">Proje Kampı</dt>
+        <dd class="col-sm-9">100 Derslik Mvc Proje Kampı kapsamında her hafta düzenli olarak kendi yorumlarımı da katarak geliştirme yaptım.</dd>
+
+        <dt class="col-sm-3">ASP.NET MVC 5</dt>
+        <dd class="col-sm-9">Bu projeyi sektörün güncel geliştirme başlıklarından biri olan ASP.NET MVC 5 ile geliştirdim.</dd>
+
+        <dt class="col-sm-3">N Katmanlı Mimari</dt>
+        <dd class="col-sm-9">Projemi Business, Entity, Data Access ve Presentation olmak üzere 4 temel katmanda geliştirdim.</dd>
+
+        <dt class="col-sm-3">Solid Prensipleri</dt>
+        <dd class="col-sm-9">Solid prensiplerini olabildiğince ezmeden ilerleyip doğru formatta kod yazmaya çalıştım.</dd>
+    </dl>
+</div>

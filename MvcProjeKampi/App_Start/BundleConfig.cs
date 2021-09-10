@@ -23,15 +23,26 @@ namespace MvcProjeKampi
                       "~/Scripts/bootstrap.bundle.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/app").Include(
+                      "~/Scripts/sweetalert2-11.1.4.min.js",
                       "~/Scripts/summernote-lite-0.8.18.min.js",
                       "~/Scripts/summernote-tr-TR-0.8.18.js",
                       "~/Scripts/app.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/gallery").Include(
+                      "~/Scripts/imagesloaded-4.1.4.pkgd.min.js",
+                      "~/Scripts/masonry-4.2.2.pkgd.min.js",
+                      "~/Scripts/fancybox-4.0.0.umd.min.js",
+                      "~/Scripts/gallery.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
                       "~/Content/bootstrap-icons-1.5.0.css",
                       "~/Content/summernote-lite-0.8.18.min.css",
                       "~/Content/site.css"));
+
+            bundles.Add(new StyleBundle("~/Content/gallery").Include(
+                      "~/Content/fancybox-4.0.0.min.css",
+                      "~/Content/gallery.css"));
         }
     }
 }

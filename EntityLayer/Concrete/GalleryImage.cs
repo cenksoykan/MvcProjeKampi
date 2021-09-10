@@ -17,5 +17,10 @@ namespace EntityLayer.Concrete
 
         [StringLength(500)]
         public string GalleryImagePath { get; set; }
+        
+        [StringLength(500)]
+        public string GalleryImageThumbPath { get; set; }
+
+        public bool GalleryImageStatus { get; set; }
     }
 }

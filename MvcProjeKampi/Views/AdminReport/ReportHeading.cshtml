@@ -1,0 +1,103 @@
+﻿@using EntityLayer.Concrete
+@model List<Heading>
+
+@{
+    ViewBag.Title = "Başlık raporu";
+    Layout = "~/Views/Shared/_PanelLayout.cshtml";
+}
+
+@section styles {
+    <link href="https://cdn.datatables.net/1.10.25/css/dataTables.bootstrap5.min.css" rel="stylesheet">
+    <link href="https://cdn.datatables.net/buttons/1.7.1/css/buttons.bootstrap5.min.css" rel="stylesheet">
+    @*<link href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.dataTables.min.css" rel="stylesheet">*@
+}
+
+<div class="container">
+    <h2>@ViewBag.Title</h2>
+
+    <div class="row mt-4">
+        <div class="col">
+            <table id="report-heading" class="table table-striped align-middle">
+                <thead class="table-light">
+                    <tr>
+                        <th scope="col" class="text-end">#</th>
+                        <th scope="col">Tarih</th>
+                        <th scope="col">Başlık</th>
+                        <th scope="col">Yazar</th>
+                        <th scope="col">Kategori</th>
+                        <th scope="col">Durum</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <th scope="row" class="text-end">@item.HeadingId</th>
+                            <td class="user-select-all">@item.HeadingCreatedOn.ToString("yyyy-MM-dd")</td>
+                            <td class="user-select-all">@item.HeadingName</td>
+                            <td class="user-select-all">@item.Writer.WriterName @item.Writer.WriterSurname</td>
+                            <td class="user-select-all">@item.Category.CategoryName</td>
+                            <td class="user-select-all">@item.HeadingStatus</td>
+                        </tr>
+                    }
+                </tbody>
+                <tfoot class="table-light">
+                    <tr>
+                        <th scope="col" class="text-end">#</th>
+                        <th scope="col">Tarih</th>
+                        <th scope="col">Başlık</th>
+                        <th scope="col">Yazar</th>
+                        <th scope="col">Kategori</th>
+                        <th scope="col">Durum</th>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.25/js/dataTables.bootstrap5.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.7.1/js/dataTables.buttons.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.7.1/js/buttons.bootstrap5.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.7.1/js/buttons.colVis.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.7.1/js/buttons.html5.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.7.1/js/buttons.print.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.2.0/jszip.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.2/pdfmake.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.2/vfs_fonts.min.js"></script>
+    @*<script type="text/javascript" src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>*@
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            //var table =
+            $('#report-heading').DataTable({
+                language: {
+                    url: '//cdn.datatables.net/plug-ins/1.10.25/i18n/Turkish.json'
+                },
+                //responsive: true,
+                dom: 'B<"row mt-2" <"col-sm-12 col-md-6" l><"col-sm-12 col-md-6" f>>rt<"row mt-2" <"col-sm-12 col-md-6" i><"col-sm-12 col-md-6" p>>',
+                buttons: [
+                    {
+                        extend: 'copy',
+                        text: 'Kopyala'
+                    },
+                    'csv',
+                    'excel',
+                    'pdf',
+                    {
+                        extend: 'print',
+                        text: 'Yazdır'
+                    },
+                    {
+                        extend: 'colvis',
+                        text: 'Kolon görünürlüğü'
+                    },
+                ]
+            });
+
+            //table.buttons().container().appendTo($('.col-sm-6:eq(0)', table.table().container()));
+        });
+    </script>
+}

@@ -11,9 +11,9 @@ using System.Web.Mvc;
 
 namespace MvcProjeKampi.Controllers
 {
+    [Authorize]
     public class AdminHeadingController : Controller
     {
-        // GET: AdminHeading
         HeadingManager headingManager = new HeadingManager(new EfHeadingDal());
         CategoryManager categoryManager = new CategoryManager(new EfCategoryDal());
         WriterManager writerManager = new WriterManager(new EfWriterDal());
@@ -37,6 +37,7 @@ namespace MvcProjeKampi.Controllers
             ViewBag.WriterNames = WriterNames;
         }
 
+        [AllowAnonymous]
         public ActionResult Index()
         {
             var headingValues = headingManager.List();

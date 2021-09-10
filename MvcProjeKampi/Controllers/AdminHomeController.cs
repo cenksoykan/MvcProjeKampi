@@ -6,9 +6,9 @@ using System.Web.Mvc;
 
 namespace MvcProjeKampi.Controllers
 {
+    [AllowAnonymous]
     public class AdminHomeController : Controller
     {
-        // GET: AdminHome
         public ActionResult Index()
         {
             return RedirectToAction("Index", "AdminStatistic");

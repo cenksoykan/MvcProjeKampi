@@ -1,0 +1,168 @@
+﻿
+@{
+    Layout = "~/Views/Shared/_PanelLayout.cshtml";
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12 col-md">
+            <h2>@ViewBag.Title</h2>
+        </div>
+        <div class="col-12 col-md order-last text-end">
+            <form action="" method="get">
+                <div class="input-group">
+                    <input class="form-control ms-auto" type="search" name="q" placeholder="@ViewBag.Title içinde ara" aria-label="Ara" style="max-width: 16em;" value="@Context.Request.QueryString["q"]">
+                    <button class="btn btn-primary" type="submit">Ara</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="row g-3 mt-4">
+        @Html.Action("MessageNavPartial")
+        <div class="col-lg-8 col-xl-9">
+            <div class="row mt-1">
+                <div class="col">
+                    <div class="btn-group">
+                        <label class="btn" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Seç">
+                            <input class="form-check-input" type="checkbox" name="selectAll" value="" aria-label="Seç">
+                        </label>
+                        <button type="button" class="btn dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
+                            <span class="visually-hidden">Seçin</span>
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#">Tümü</a></li>
+                            <li><a class="dropdown-item" href="#">Hiçbiri</a></li>
+                            <li><a class="dropdown-item" href="#">Okunanlar</a></li>
+                            <li><a class="dropdown-item" href="#">Okunmayanlar</a></li>
+                        </ul>
+                    </div>
+                    <button type="button" class="btn" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Yenile">
+                        <i class="bi-arrow-clockwise"></i>
+                        <span class="visually-hidden">Yenile</span>
+                    </button>
+                </div>
+                <div class="col">
+                    <nav aria-label="İleti gezinme">
+                        <ul class="pagination justify-content-end">
+                            <li class="page-item disabled">
+                                <a class="page-link" href="#" aria-label="Daha yeni" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Daha yeni">
+                                    <span aria-hidden="true"><i class="bi-chevron-left"></i></span>
+                                </a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link" href="#" aria-label="Daha eski" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Daha eski">
+                                    <span aria-hidden="true"><i class="bi-chevron-right"></i></span>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+            <div class="border-top rounded-2 bg-light h-100">
+                <table class="table table-hover align-middle m-0">
+                    <colgroup class="invisible">
+                        <col />
+                        <col />
+                        <col class="w-100" />
+                        <col />
+                        <col />
+                    </colgroup>
+                    <tbody>
+                        @RenderBody()
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    <script type="text/javascript">
+        function submitForm(status) {
+            var form = $("#messageForm");
+            var formData = form.serialize();
+            if (!status) formData += '&MessageSenderFolder=DRAFT';
+            $.ajax({
+                type: form.attr('method'),
+                data: formData,
+                cache: false,
+                url: form.attr('action'),
+                success: function (response) {
+                    if (response.success) {
+                        SwalTimer.fire({
+                            title: status ? "Gönderildi" : "Taslağa kaydedildi",
+                            text: "İletiniz başarıyla " + (status ? "gönderilmiştir" : "taslaklara kaydedilmiştir"),
+                            icon: status ? "success" : "info"
+                        }).then(function () {
+                            location.reload();
+                        });
+                    } else {
+                        var message = "İşlem başarısız oldu";
+                        response.Errors.forEach(function (error) { message += '<br /><span class="text-danger">' + error.ErrorMessage + '</span>' });
+                        Swal.fire("Hata", message, "error");
+                    }
+                },
+                error: function () {
+                    Swal.fire("Hata", "İşlem başarısız oldu", "error");
+                }
+            });
+        }
+
+        function confirmMarkRead(id, status) {
+            $.ajax({
+                type: "POST",
+                data: {
+                    'id': id
+                },
+                url: "@Url.Action("MessageMarkRead")",
+                success: function () {
+                    SwalTimer.fire({
+                        title: status ? "Okunmadı" : "Okundu",
+                        text: "İleti " + (status ? "okunmadı" : "okundu") + " olarak işaretlendi",
+                        icon: "success"
+                    }).then(function () {
+                        location.reload();
+                    });
+                },
+                error: function () {
+                    Swal.fire("Hata", "İşlem başarısız oldu", "error");
+                }
+            });
+        }
+
+        function confirmDelete(id, status) {
+            Swal.fire({
+                title: status ? 'Sil' : 'Çöp kutusuna gönder',
+                text: status ? "İleti kalıcı olarak silinecektir" : "İşleme devam etmek istiyor musunuz?",
+                icon: status ? 'warning' : 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#DC3545',
+                confirmButtonText: 'Sil',
+                showLoaderOnConfirm: true,
+                preConfirm: function () {
+                    $.ajax({
+                        type: "POST",
+                        data: {
+                            'id': id
+                        },
+                        url: "@Url.Action("MessageDelete")",
+                        success: function () {
+                            SwalTimer.fire({
+                                title: "Silindi",
+                                text: "İleti " + (status ? "kalıcı olarak silindi" : "çöp kutusuna gönderildi"),
+                                icon: status ? "info" : "success"
+                            }).then(function () {
+                                location.reload();
+                            });
+                        },
+                        error: function () {
+                            Swal.fire("Hata", "İşlem başarısız oldu", "error");
+                        }
+                    });
+                },
+                allowOutsideClick: function () { !Swal.isLoading(); }
+            })
+        }
+    </script>
+}

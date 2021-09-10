@@ -1,8 +1,9 @@
-﻿@model EntityLayer.Concrete.Writer
+﻿@using EntityLayer.Concrete
+@model Writer
 
 @{
-    ViewBag.Title = "Yeni Yazar Ekle";
-    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    ViewBag.Title = "Yeni yazar ekle";
+    Layout = "~/Views/Shared/_PanelLayout.cshtml";
 }
 
 <div class="container">
@@ -10,7 +11,7 @@
 
     <div class="row mt-4">
         <div class="col-12 col-sm-10 col-md-8 col-lg-6 col-xl-5 mx-auto">
-            @using (Html.BeginForm("WriterInsert", "AdminWriter", FormMethod.Post))
+            @using (Html.BeginForm("WriterInsert", "AdminWriter", FormMethod.Post, new { enctype = "multipart/form-data" }))
             {
                 <div class="row g-3 mb-3">
                     <div class="col">
@@ -51,24 +52,20 @@
                     @Html.LabelFor(x => x.WriterAbout, "Yazar hakkında")
                     @Html.ValidationMessageFor(x => x.WriterAbout)
                 </div>
-                <div class="form-floating mb-3">
-                    @Html.TextBoxFor(x => x.WriterProfilePicture, new { @class = "form-control", @placeholder = "https://example.com/image.png" })
-                    @Html.LabelFor(x => x.WriterProfilePicture, "Yazar profil resmi URL")
+                <div class="mb-3">
+                    @Html.LabelFor(x => x.WriterProfilePicture, "Yazar profil resmi yükle")
+                    @Html.TextBoxFor(x => x.WriterProfilePicture, new { type = "file", accept = "image/png, image/jpeg", @class = "form-control", @requiered = "" })
+                    @*<div id="fileHelpBlock" class="form-text">
+                        Allowed file size is maximum 32 megabytes.
+                    </div>*@
                     @Html.ValidationMessageFor(x => x.WriterProfilePicture)
                 </div>
-                @*<div class="mb-3">
-                    <label for="formFile" class="form-label">Yazar profil resmi yükle</label>
-                    <input class="form-control" type="file" id="formFile" accept="image/png, image/jpeg">
-                    <div id="fileHelpBlock" class="form-text">
-                        Allowed file size is maximum 32 megabyte.
-                    </div>
-                </div>*@
                 <div class="mb-3 form-check form-switch">
                     @Html.CheckBoxFor(x => x.WriterStatus, new { @class = "form-check-input", @value = "true", @checked = "" })
                     @Html.LabelFor(x => x.WriterStatus, "Görünürlük durumu", new { @class = "form-check-label" })
                 </div>
                 <div class="text-end">
-                    <a href="@Url.Action("Index", "AdminWriter")" class="btn btn-outline-primary btn-lg">
+                    <a href="@Url.Action("Index")" class="btn btn-outline-primary btn-lg">
                         Vazgeç
                     </a>
                     <button type="submit" class="btn btn-primary btn-lg">Ekle</button>

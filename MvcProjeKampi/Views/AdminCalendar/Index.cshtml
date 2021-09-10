@@ -1,0 +1,74 @@
+﻿@using System.Web.Script.Serialization
+@using EntityLayer.Concrete
+@model List<Heading>
+
+@{
+    ViewBag.Title = "Takvim";
+    Layout = "~/Views/Shared/_PanelLayout.cshtml";
+
+    JavaScriptSerializer serializer = new JavaScriptSerializer();
+    var events = new List<object>();
+
+    foreach (var item in Model)
+    {
+        events.Add(new
+        {
+            title = item.HeadingName,
+            start = item.HeadingCreatedOn.ToString("s"),
+            display = "list-item"
+        });
+    }
+}
+
+@section styles {
+    <link href="https://cdn.jsdelivr.net/npm/fullcalendar@5.9.0/main.min.css" rel="stylesheet">
+    <style>
+        .fc .fc-col-header-cell-cushion,
+        .fc .fc-daygrid-day-number {
+            --bs-text-opacity: 1;
+            color: inherit !important;
+            text-decoration: none !important;
+        }
+
+        .fc .fc-daygrid-day.fc-day-today,
+        .fc .fc-timegrid-col.fc-day-today {
+            background-color: #fff3cd;
+        }
+
+        .fc .fc-button-primary,
+        .fc .fc-button-primary:disabled {
+            background-color: var(--bs-dark);
+        }
+    </style>
+}
+
+<div class="container">
+    <h2>@ViewBag.Title</h2>
+
+    <div id="calendar" class="text-reset text-decoration-none"></div>
+</div>
+
+@section scripts {
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/fullcalendar@5.9.0/main.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/fullcalendar@5.9.0/locales/tr.js"></script>
+
+    <script type="text/javascript">
+        var events = @Html.Raw(serializer.Serialize(events));
+
+        document.addEventListener('DOMContentLoaded', function () {
+            var calendarEl = document.getElementById('calendar');
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                locale: 'tr',
+                initialView: 'dayGridMonth',
+                //themeSystem: 'bootstrap',
+                //close: 'bi-x',
+                //prev: 'bi-chevron-left',
+                //next: 'bi-chevron-right',
+                //prevYear: 'bi-chevron-double-left',
+                //nextYear: 'bi-chevron-double-right',
+                events: events
+            });
+            calendar.render();
+        });
+    </script>
+}

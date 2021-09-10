@@ -11,11 +11,12 @@ using System.Web.Mvc;
 
 namespace MvcProjeKampi.Controllers
 {
+    [Authorize]
     public class AdminAboutController : Controller
     {
-        // GET: About
         AboutManager aboutManager = new AboutManager(new EfAboutDal());
         AboutValidator aboutValidator = new AboutValidator();
+
         public ActionResult Index()
         {
             var aboutValues = aboutManager.List();

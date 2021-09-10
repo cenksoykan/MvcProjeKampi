@@ -11,16 +11,19 @@ using System.Web.Mvc;
 
 namespace MvcProjeKampi.Controllers
 {
+    [Authorize]
     public class WriterHeadingController : Controller
     {
-        // GET: WriterHeading
+        PanelWriterManager panelWriterManager = new PanelWriterManager(new EfWriterDal());
         HeadingManager headingManager = new HeadingManager(new EfHeadingDal());
         CategoryManager categoryManager = new CategoryManager(new EfCategoryDal());
-        WriterManager writerManager = new WriterManager(new EfWriterDal());
         HeadingValidator headingValidator = new HeadingValidator();
+
+        int sessionUserId;
 
         public WriterHeadingController()
         {
+            sessionUserId = panelWriterManager.SessionWriterId();
             var categoryValues = categoryManager.List();
             List<SelectListItem> CategoryNames = categoryValues.Select(c => new SelectListItem
             {
@@ -30,9 +33,10 @@ namespace MvcProjeKampi.Controllers
             ViewBag.CategoryNames = CategoryNames;
         }
 
+        [AllowAnonymous]
         public ActionResult Index()
         {
-            var headingValues = headingManager.ListByWriter(1);
+            var headingValues = headingManager.ListByWriter(sessionUserId);
             return View(headingValues);
         }
 
@@ -49,7 +53,7 @@ namespace MvcProjeKampi.Controllers
             if (results.IsValid)
             {
                 p.HeadingCreatedOn = DateTime.Parse(DateTime.Now.ToShortDateString());
-                p.WriterId = 1;
+                p.WriterId = sessionUserId;
                 headingManager.Insert(p);
                 return RedirectToAction("Index");
             }
@@ -99,13 +103,13 @@ namespace MvcProjeKampi.Controllers
 
         public PartialViewResult HeadingListActivePartial()
         {
-            var headingValues = headingManager.ListByWriter(1).Where(h => h.HeadingStatus).ToList();
+            var headingValues = headingManager.ListByWriter(sessionUserId).Where(h => h.HeadingStatus).ToList();
             return PartialView("HeadingListPartial", headingValues);
         }
 
         public PartialViewResult HeadingListPassivePartial()
         {
-            var headingValues = headingManager.ListByWriter(1).Where(h => !h.HeadingStatus).ToList();
+            var headingValues = headingManager.ListByWriter(sessionUserId).Where(h => !h.HeadingStatus).ToList();
             return PartialView("HeadingListPartial", headingValues);
         }
     }

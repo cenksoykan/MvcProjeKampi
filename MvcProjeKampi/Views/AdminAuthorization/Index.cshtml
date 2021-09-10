@@ -1,9 +1,84 @@
-﻿
+﻿@using EntityLayer.Concrete
+@model List<Admin>
+
 @{
     ViewBag.Title = "Yetkilendirmeler";
-    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    Layout = "~/Views/Shared/_PanelLayout.cshtml";
+    string color = string.Empty;
 }
 
 <div class="container">
-    <h2>@ViewBag.Title</h2>
+    <div class="row">
+        <div class="col-12 col-md">
+            <h2>@ViewBag.Title<span class="badge bg-primary ms-2 align-top">@Model.Count()</span></h2>
+        </div>
+        <div class="col-12 col-md order-last text-end">
+            <a href="@Url.Action("AdminInsert")" class="btn btn-primary">Yönetici ekle</a>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col">
+            <div class="text-nowrap">
+                <table class="table table-striped align-middle">
+                    <caption>Yönetici listesi</caption>
+                    <thead class="table-light">
+                        <tr>
+                            <th scope="col"><span class="visually-hidden">Durum</span></th>
+                            <th scope="col">Yönetici</th>
+                            <th scope="col" colspan="2">Rol</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            bool isRoot = item.AdminRoleCode == "S";
+
+                            if (isRoot)
+                            {
+                                color = "danger";
+                            }
+                            else if (item.AdminRoleCode == "A")
+                            {
+                                color = "warning text-dark";
+                            }
+                            else if (item.AdminRoleCode == "B")
+                            {
+                                color = "info text-dark";
+                            }
+                            else { color = "light text-dark"; }
+                            <tr>
+                                <td class="text-center">
+                                    @if (isRoot)
+                                    {
+                                        <span class="badge rounded-circle p-1 border border-light bg-secondary">
+                                            <span class="visually-hidden">Kök</span>
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge rounded-circle p-1 border border-light bg-@(item.AdminStatus ? "success" : "danger")" data-bs-toggle="tooltip" data-bs-placement="left" data-bs-title="@(item.AdminStatus ? "Aktif" : "Pasif")">
+                                            <span class="visually-hidden">@item.AdminStatus ? Aktif : Pasif</span>
+                                        </span>
+                                    }
+                                </td>
+                                <td class="user-select-all @(isRoot ? "text-muted" : "")">@item.AdminUsername</td>
+                                <td><span class="badge bg-@color user-select-all">@item.AdminRoleCode</span></td>
+                                <td class="p-0">
+                                    @if (!isRoot)
+                                    {
+                                        <div class="btn-group" role="group" aria-label="Yönet">
+                                            <a href="@Url.Action("AdminUpdate/" + item.AdminId)" class="btn btn-link py-0 border-0 align-top mx-2">
+                                                <i class="bi-pencil mx-2"></i>Düzenle
+                                            </a>
+                                        </div>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 </div>

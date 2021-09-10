@@ -1,8 +1,9 @@
-﻿@model EntityLayer.Concrete.Heading
+﻿@using EntityLayer.Concrete
+@model Heading
 
 @{
     ViewBag.Title = "Başlık Güncelle";
-    Layout = "~/Views/Shared/_WriterLayout.cshtml";
+    Layout = "~/Views/Shared/_PanelLayout.cshtml";
 }
 
 <div class="container">
@@ -12,10 +13,7 @@
         <div class="col-12 col-sm-10 col-md-8 col-lg-6 col-xl-5 mx-auto">
             @using (Html.BeginForm("HeadingUpdate", "WriterHeading", FormMethod.Post))
             {
-                <div class="form-floating mb-3">
-                    @Html.HiddenFor(x => x.HeadingId, new { @class = "form-control", @placeholder = "Başlık Id", @requiered = "", @readonly = "" })
-                    @Html.LabelFor(x => x.HeadingId, "Yazar Id")
-                </div>
+                @Html.HiddenFor(x => x.HeadingId, new { @class = "form-control", @requiered = "", @readonly = "" })
                 <div class="form-floating mb-3">
                     @Html.TextBoxFor(x => x.HeadingName, new { @class = "form-control", @placeholder = "Başlık", @requiered = "" })
                     @Html.LabelFor(x => x.HeadingName, "Başlık adı")
@@ -31,7 +29,7 @@
                     @Html.LabelFor(x => x.HeadingStatus, "Görünürlük durumu", new { @class = "form-check-label" })
                 </div>
                 <div class="text-end">
-                    <a href="@Url.Action("Index", "WriterHeading")" class="btn btn-outline-primary btn-lg">Vazgeç</a>
+                    <a href="@Url.Action("Index")" class="btn btn-outline-primary btn-lg">Vazgeç</a>
                     <button type="submit" class="btn btn-primary btn-lg">Güncelle</button>
                 </div>
             }

@@ -1,0 +1,40 @@
+﻿@using EntityLayer.Concrete
+@model GalleryImage
+
+@{
+    ViewBag.Title = "Yeni Görsel Ekle";
+    Layout = "~/Views/Shared/_PanelLayout.cshtml";
+}
+
+<div class="container">
+    <h2 class="text-center">@ViewBag.Title</h2>
+
+    <div class="row mt-4">
+        <div class="col-12 col-sm-10 col-md-8 col-lg-6 col-xl-5 mx-auto">
+            @using (Html.BeginForm("GalleryImageInsert", "AdminGalleryImage", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            {
+                <div class="form-floating mb-3">
+                    @Html.TextBoxFor(x => x.GalleryImageName, new { @class = "form-control", @placeholder = "Görsel", @requiered = "" })
+                    @Html.LabelFor(x => x.GalleryImageName, "Görsel adı")
+                    @Html.ValidationMessageFor(x => x.GalleryImageName)
+                </div>
+                <div class="mb-3">
+                    @Html.LabelFor(x => x.GalleryImagePath, "Görsel yükle")
+                    @Html.TextBoxFor(x => x.GalleryImagePath, new { type = "file", accept = "image/png, image/jpeg", @class = "form-control", @requiered = "" })
+                    @*<div id="fileHelpBlock" class="form-text">
+                        Allowed file size is maximum 32 megabytes.
+                    </div>*@
+                    @Html.ValidationMessageFor(x => x.GalleryImagePath)
+                </div>
+                <div class="mb-3 form-check form-switch">
+                    @Html.CheckBoxFor(x => x.GalleryImageStatus, new { @class = "form-check-input", @value = "true", @checked = "" })
+                    @Html.LabelFor(x => x.GalleryImageStatus, "Görünürlük durumu", new { @class = "form-check-label" })
+                </div>
+                <div class="text-end">
+                    <a href="@Url.Action("Index")" class="btn btn-outline-primary btn-lg">Vazgeç</a>
+                    <button type="submit" class="btn btn-primary btn-lg">Ekle</button>
+                </div>
+            }
+        </div>
+    </div>
+</div>

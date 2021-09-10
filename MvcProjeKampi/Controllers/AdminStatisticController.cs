@@ -11,7 +11,6 @@ namespace MvcProjeKampi.Controllers
 {
     public class AdminStatisticController : Controller
     {
-        // GET: AdminStatistic
         CategoryManager categoryManager = new CategoryManager(new EfCategoryDal());
         WriterManager writerManager = new WriterManager(new EfWriterDal());
         HeadingManager headingManager = new HeadingManager(new EfHeadingDal());

@@ -20,12 +20,12 @@ namespace BusinessLayer.Concrete
 
         public string GetRolesForUser(string username)
         {
-            return _adminRoleProviderDal.Get(x => x.AdminUsername == username).AdminRole;
+            return _adminRoleProviderDal.Get(x => x.AdminUsername == username).AdminRoleCode;
         }
 
         public bool IsUserInRole(string username, string rolename)
         {
-            return _adminRoleProviderDal.Get(x => x.AdminUsername == username && x.AdminRole == rolename) == null;
+            return _adminRoleProviderDal.Get(x => x.AdminUsername == username && x.AdminRoleCode == rolename) == null;
         }
     }
 }

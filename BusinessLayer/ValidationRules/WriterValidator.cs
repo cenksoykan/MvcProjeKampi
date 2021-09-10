@@ -22,7 +22,7 @@ namespace BusinessLayer.ValidationRules
             RuleFor(x => x.WriterName).MaximumLength(50).WithMessage("Lütfen en fazla 50 karakter giriniz");
             RuleFor(x => x.WriterSurname).MaximumLength(50).WithMessage("Lütfen en fazla 50 karakter giriniz");
             RuleFor(x => x.WriterEmailAddress).EmailAddress().WithMessage("Geçerli bir email adresi giriniz");
-            RuleFor(x => x.WriterName).Matches("[Aa]").WithMessage("Yazar adında 'a' karakteri bulunması gerekmektedir");
+            //RuleFor(x => x.WriterName).Matches("[Aa]").WithMessage("Yazar adında 'a' karakteri bulunması gerekmektedir");
         }
     }
 }

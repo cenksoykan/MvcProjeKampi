@@ -3,13 +3,13 @@
 
 @{
     ViewBag.Title = "Başlıklar";
-    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    Layout = "~/Views/Shared/_PanelLayout.cshtml";
     string color = "";
 }
 
 <div class="container">
     <h2>
-        <a href="@(Request.UrlReferrer == null ? Url.Action("Index", "AdminContent") : Request.UrlReferrer.ToString())" class="text-reset text-decoration-none">
+        <a href="@(Request.UrlReferrer?.ToString() ?? Url.Action("Index", "AdminContent"))" class="text-reset text-decoration-none">
             <i class="bi-chevron-left me-2"></i>@ViewBag.Title
         </a>
         <span class="badge bg-primary ms-2 align-top">@Model.Count()</span>
@@ -69,7 +69,7 @@
                             else { color = "light text-dark"; }
                             <tr>
                                 <td class="text-center">
-                                    <span class="badge rounded-circle p-1 border border-light @(item.HeadingStatus ? "bg-success" : "bg-danger")" data-bs-toggle="tooltip" data-bs-placement="left" data-bs-title="@(item.HeadingStatus ? "Aktif" : "Pasif")">
+                                    <span class="badge rounded-circle p-1 border border-light bg-@(item.HeadingStatus ? "success" : "danger")" data-bs-toggle="tooltip" data-bs-placement="left" data-bs-title="@(item.HeadingStatus ? "Aktif" : "Pasif")">
                                         <span class="visually-hidden">@item.HeadingStatus ? Aktif : Pasif</span>
                                     </span>
                                 </td>
@@ -80,11 +80,11 @@
                                         <a href="@Url.Action("ContentByHeading/" + item.HeadingId, "AdminContent")" class="btn btn-link py-0 border-0 align-top mx-2 link-dark">
                                             <i class="bi-journal-richtext mx-2"></i>Yazılar
                                         </a>
-                                        <a href="@Url.Action("HeadingUpdate/" + item.HeadingId, "AdminHeading")" class="btn btn-link py-0 border-0 align-top mx-2">
+                                        <a href="@Url.Action("HeadingUpdate/" + item.HeadingId)" class="btn btn-link py-0 border-0 align-top mx-2">
                                             <i class="bi-pencil mx-2"></i>Düzenle
                                         </a>
-                                        <a href="@Url.Action("HeadingDelete/" + item.HeadingId, "AdminHeading")" class="btn btn-link py-0 border-0 align-top mx-2 link-@(item.HeadingStatus ? "danger" : "success")">
-                                            <i class="bi-@(item.HeadingStatus ? "dash-circle" : "plus-circle") mx-2"></i>@(item.HeadingStatus ? "Kaldır" : "Ekle")
+                                        <a href="@Url.Action("HeadingDelete/" + item.HeadingId)" class="btn btn-link py-0 border-0 align-top mx-2 link-@(item.HeadingStatus ? "danger" : "success")">
+                                            <i class="bi-@(item.HeadingStatus ? "dash" : "plus")-circle mx-2"></i>@(item.HeadingStatus ? "Kaldır" : "Ekle")
                                         </a>
                                     </div>
                                 </td>

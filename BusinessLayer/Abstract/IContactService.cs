@@ -9,7 +9,7 @@ namespace BusinessLayer.Abstract
 {
     public interface IContactService
     {
-        List<Contact> List();
+        List<Contact> List(string q);
         void Insert(Contact contact);
         Contact GetById(int id);
         void Update(Contact contact);

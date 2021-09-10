@@ -25,18 +25,20 @@ namespace BusinessLayer.Concrete
 
         public void Insert(Writer writer)
         {
-            var password = writer.WriterPassword;
+            string password = writer.WriterPassword;
             writer.WriterPassword = HashManager.SHA1(password);
             _writerDal.Insert(writer);
         }
 
-        public Writer GetById(int id)
+        public Writer GetById(int id = 0)
         {
             return _writerDal.Get(x => x.WriterId == id);
         }
 
         public void Update(Writer writer)
         {
+            string password = writer.WriterPassword;
+            writer.WriterPassword = HashManager.SHA1(password);
             _writerDal.Update(writer);
         }
     }

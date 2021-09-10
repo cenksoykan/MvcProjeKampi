@@ -28,13 +28,25 @@ namespace BusinessLayer.Concrete
             _galleryImageDal.Insert(galleryImage);
         }
 
-        public GalleryImage GetById(int id)
+        public GalleryImage GetById(int id = 0)
         {
             return _galleryImageDal.Get(x => x.GalleryImageId == id);
         }
 
         public void Update(GalleryImage galleryImage)
         {
+            //GalleryImage storedGalleryImage = GetById(galleryImage.GalleryImageId);
+            //List<string> galleryImagePath = new List<string>
+            //{
+            //    storedGalleryImage.GalleryImagePath,
+            //    storedGalleryImage.GalleryImageThumbPath
+            //};
+            //_galleryImageDal.Unchanged(storedGalleryImage);
+            //string path = HttpContext.Current.Server.MapPath("~");
+            //foreach (var item in galleryImagePath)
+            //{
+            //    if (File.Exists(path + item)) File.Move(path + item, path + "/.bak" + item);
+            //}
             _galleryImageDal.Update(galleryImage);
         }
     }

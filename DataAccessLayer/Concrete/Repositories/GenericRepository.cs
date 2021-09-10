@@ -13,30 +13,11 @@ namespace DataAccessLayer.Concrete.Repositories
     {
         Context c;
         DbSet<T> _object;
+
         public GenericRepository()
         {
             c = new Context();
             _object = c.Set<T>();
-        }
-        public void Delete(T p)
-        {
-            var deletedEntity = c.Entry(p);
-            deletedEntity.State = EntityState.Deleted;
-            //_object.Remove(p);
-            c.SaveChanges();
-        }
-
-        public T Get(Expression<Func<T, bool>> filter)
-        {
-            return _object.SingleOrDefault(filter);
-        }
-
-        public void Insert(T p)
-        {
-            var addedEntity = c.Entry(p);
-            addedEntity.State = EntityState.Added;
-            //_object.Add(p);
-            c.SaveChanges();
         }
 
         public List<T> List()
@@ -49,10 +30,36 @@ namespace DataAccessLayer.Concrete.Repositories
             return _object.Where(filter).ToList();
         }
 
+        public T Get(Expression<Func<T, bool>> filter)
+        {
+            return _object.SingleOrDefault(filter);
+        }
+
+        public void Insert(T p)
+        {
+            var addedEntity = c.Entry(p);
+            addedEntity.State = EntityState.Added;
+            c.SaveChanges();
+        }
+
         public void Update(T p)
         {
             var updatedEntity = c.Entry(p);
             updatedEntity.State = EntityState.Modified;
+            c.SaveChanges();
+        }
+
+        public void Delete(T p)
+        {
+            var deletedEntity = c.Entry(p);
+            deletedEntity.State = EntityState.Deleted;
+            c.SaveChanges();
+        }
+
+        public void Unchanged(T p)
+        {
+            var deletedEntity = c.Entry(p);
+            deletedEntity.State = EntityState.Unchanged;
             c.SaveChanges();
         }
     }

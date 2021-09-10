@@ -6,48 +6,50 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="row">
-    <div class="col-12 col-md">
-        <h2>@ViewBag.Title</h2>
+<div class="container">
+    <div class="row">
+        <div class="col-12 col-md">
+            <h2>@ViewBag.Title</h2>
+        </div>
+        <div class="col-12 col-md order-last text-end">
+            <a href="@Url.Action("CategoryInsert")" class="btn btn-primary">Kategori ekle</a>
+        </div>
     </div>
-    <div class="col-12 col-md order-last text-end">
-        <a href="@Url.Action("CategoryInsert", "Category")" class="btn btn-primary">Kategori ekle</a>
-    </div>
-</div>
 
-<div class="row mt-4">
-    <div class="col">
-        <div class="table-responsive">
-            <table class="table table-striped align-middle">
-                <caption>Kategori listesi</caption>
-                <thead class="table-light">
-                    <tr>
-                        <th scope="col" class="text-end">#</th>
-                        <th scope="col">Adı</th>
-                        <th scope="col" colspan="3">Açıklama</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var item in Model)
-                    {
-                        <tr class="@(@item.CategoryStatus ? "table-default" : "table-warning")">
-                            <th scope="row" class="text-end">@item.CategoryId</th>
-                            <td>@item.CategoryName</td>
-                            <td>@item.CategoryDescription</td>
-                            <td class="text-center p-0">
-                                <a class="btn btn-link py-0 border-0 align-top">
-                                    <i class="bi-pencil mx-2"></i>Düzenle
-                                </a>
-                            </td>
-                            <td class="text-center p-0">
-                                <a class="btn btn-link py-0 border-0 align-top link-danger">
-                                    <i class="bi-trash mx-2"></i>Sil
-                                </a>
-                            </td>
+    <div class="row mt-4">
+        <div class="col">
+            <div class="table-responsive">
+                <table class="table table-striped align-middle">
+                    <caption>Kategori listesi</caption>
+                    <thead class="table-light">
+                        <tr>
+                            <th scope="col" class="text-end">#</th>
+                            <th scope="col">Adı</th>
+                            <th scope="col" colspan="3">Açıklama</th>
                         </tr>
-                    }
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr class="table-@(@item.CategoryStatus ? "default" : "warning")">
+                                <th scope="row" class="text-end">@item.CategoryId</th>
+                                <td>@item.CategoryName</td>
+                                <td>@item.CategoryDescription</td>
+                                <td class="text-center p-0">
+                                    <a class="btn btn-link py-0 border-0 align-top">
+                                        <i class="bi-pencil mx-2"></i>Düzenle
+                                    </a>
+                                </td>
+                                <td class="text-center p-0">
+                                    <a class="btn btn-link py-0 border-0 align-top link-danger">
+                                        <i class="bi-trash mx-2"></i>Sil
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </div>

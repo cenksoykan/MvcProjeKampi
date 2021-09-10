@@ -1,0 +1,82 @@
+﻿@using EntityLayer.Concrete
+@model Admin
+
+@{
+    ViewBag.AppName = "MVC Proje Kampı";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yönetici giriş &ndash; @ViewBag.AppName</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    <style>
+        body {
+            background-color: #292929;
+        }
+
+        .container {
+            max-width: 330px;
+        }
+    </style>
+</head>
+<body class="d-flex align-items-center text-center">
+    <main class="container py-5">
+        <h1 class="mb-5 text-light">
+            <span class="display-3">
+                <i class="bi-code-slash me-3"></i>MVC
+            </span>
+            <wbr />
+            <span class="display-5">Proje&nbsp;Kampı</span>
+        </h1>
+        @using (Html.BeginForm("Admin", "Panel", FormMethod.Post))
+        {
+            <h2 class="h3 mb-3 fw-normal text-light">Yönetici girişi</h2>
+
+            <div class="form-floating">
+                @Html.TextBoxFor(x => x.AdminUsername, new { @class = "form-control rounded-0 rounded-top", @placeholder = "name@example.com", @requiered = "", @type = "username", @autofocus = "" })
+                @Html.LabelFor(x => x.AdminUsername, "Kullanıcı adı")
+            </div>
+            <div class="form-floating mb-3">
+                @Html.PasswordFor(x => x.AdminPassword, new { @class = "form-control rounded-0 rounded-bottom border-top-0", @placeholder = "Parola", @requiered = "", @type = "password" })
+                @Html.LabelFor(x => x.AdminPassword, "Parola")
+                @Html.ValidationMessageFor(x => x.AdminUsername)
+                @Html.ValidationMessageFor(x => x.AdminPassword)
+            </div>
+            @*<div class="form-check form-switch my-3 text-start">
+                    @Html.CheckBoxFor(x => x.AdminStatus, new { @class = "form-check-input", @value = "true", @checked = "" })
+                    @Html.LabelFor(x => x.AdminStatus, "Beni hatırla", new { @class = "form-check-label" })
+                </div>*@
+            <div class="form-check my-3 text-start">
+                <input class="form-check-input" type="checkbox" value="" id="loginRemember">
+                <label class="form-check-label text-light" for="loginRemember">
+                    Beni hatırla
+                </label>
+            </div>
+            <button type="submit" class="btn btn-warning btn-lg w-100">Giriş yap</button>
+            <div class="hstack gap-3 justify-content-center mt-5">
+                @if (Request.UrlReferrer != null)
+                {
+                    <a href="@Request.UrlReferrer" class="link-secondary text-nowrap">
+                        <i class="bi-chevron-left"></i>Önceki sayfaya dön
+                    </a>
+                    <div class="vr text-light"></div>
+                }
+                <a href="@Url.Action("Index", "Home")" class="link-secondary text-nowrap">
+                    Anasayfaya git<i class="bi-chevron-right"></i>
+                </a>
+            </div>
+            <div class="text-muted mt-5">
+                <small>&copy; @DateTime.Now.Year &ndash; <span class="user-select-all">@ViewBag.AppName</span></small>
+            </div>
+        }
+    </main>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+</body>
+</html>

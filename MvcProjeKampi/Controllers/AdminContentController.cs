@@ -8,15 +8,15 @@ using System.Web.Mvc;
 
 namespace MvcProjeKampi.Controllers
 {
+    [Authorize]
     public class AdminContentController : Controller
     {
-        // GET: AdminContent
         ContentManager contentManager = new ContentManager(new EfContentDal());
-        WriterManager writerManager = new WriterManager(new EfWriterDal());
-        HeadingManager headingManager = new HeadingManager(new EfHeadingDal());
-        public ActionResult Index()
+
+        [AllowAnonymous]
+        public ActionResult Index(string q)
         {
-            var contentValues = contentManager.List();
+            var contentValues = contentManager.List(q);
             return View(contentValues);
         }
 

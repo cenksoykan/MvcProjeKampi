@@ -1,0 +1,92 @@
+﻿
+@{
+    ViewBag.Title = "Grafikler";
+    Layout = "~/Views/Shared/_PanelLayout.cshtml";
+}
+
+<div class="container">
+    <h2>@ViewBag.Title</h2>
+
+    <div id="dashboard">
+        <div id="filter" class="mt-4"></div>
+        <div id="chart" class="mt-4"></div>
+    </div>
+</div>
+
+@section scripts {
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $.ajax({
+                type: "POST",
+                dataType: "json",
+                contentType: "application/json",
+                url: '@Url.Action("JsonHeading")',
+                success: function (response) {
+                    google.charts.load('current', { 'packages': ['corechart', 'controls'] });
+                    google.charts.setOnLoadCallback(function () {
+                        drawChart(response);
+                    });
+                }
+            });
+        });
+
+        @*var url = '@Url.Action("JsonHeading")';
+        var req = new XMLHttpRequest();
+
+        req.responseType = 'json';
+        req.open('GET', url, true);
+        req.onload = function () {
+            var jsonResponse = req.response;
+
+            google.charts.load('current', { 'packages': ['corechart'] });
+            google.charts.setOnLoadCallback(function () {
+                drawChart(jsonResponse);
+            });
+        };
+        req.send(null);*@
+
+        function drawChart(result) {
+            var data = new google.visualization.DataTable();
+            data.addColumn('string', 'Başlık adı');
+            data.addColumn('number', 'Aktif içerik adedi');
+            data.addColumn('number', 'Pasif içerik adedi');
+
+            var dataArray = [];
+            $.each(result, function (_, obj) {
+                dataArray.push([obj.HeadingName, obj.ContentCountActive, obj.ContentCountPassive]);
+            });
+            data.addRows(dataArray);
+
+            var dashboard = new google.visualization.Dashboard(document.getElementById('dashboard'));
+
+            var rangeSlider = new google.visualization.ControlWrapper({
+                'controlType': 'NumberRangeFilter',
+                'containerId': 'filter',
+                'options': {
+                    'filterColumnIndex': 1,
+                    'ui': { 'format': '#' }
+                }
+            });
+
+            var chart = new google.visualization.ChartWrapper({
+                'chartType': 'BarChart',
+                'containerId': 'chart',
+                'options': {
+                    'title': "Başlık/İçerik grafiği",
+                    'width': 600,
+                    'bar': { 'groupWidth': "30%" },
+                    'hAxis': { 'format': '#' },
+                    'legend': {
+                        'position': 'top', 'alignment': 'end' },
+                    'isStacked': true
+                }
+            })
+
+            dashboard.bind(rangeSlider, chart);
+
+            dashboard.draw(data);
+        }
+    </script>
+}

@@ -19,25 +19,35 @@ namespace BusinessLayer.Concrete
             _messageDal = messageDal;
         }
 
-        public List<Message> List(string address, bool status = true, string folder = "TRASH")
+        public List<Message> List(string address, string q = null, bool status = true, string folder = "TRASH")
         {
-            return _messageDal.List(x => (x.MessageReceiver == address || x.MessageSender == address) && x.MessageFolder == (status ? null : folder))
+            string[] words = q?.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+            var messages = String.IsNullOrEmpty(q) ? _messageDal.List() : _messageDal.List(m => words.All(w => m.MessageSender.Contains(w) || m.MessageReceiver.Contains(w) || m.MessageSubject.Contains(w) || m.MessageBody.Contains(w)));
+
+            return messages.Where(x => x.MessageReceiver == address && x.MessageReceiverFolder == (status ? null : folder) && x.MessageSenderFolder != "DRAFT")
+                .Union(messages.Where(x => x.MessageSender == address && x.MessageSenderFolder == (status ? null : folder)))
                 .OrderByDescending(x => x.MessageDate)
                 .ThenByDescending(x => x.MessageId)
                 .ToList();
         }
 
-        public List<Message> ListInbox(string receiver, bool status = true, string folder = "SPAM")
+        public List<Message> ListInbox(string receiver, string q = null, bool status = true, string folder = "SPAM")
         {
-            return _messageDal.List(x => x.MessageReceiver == receiver && x.MessageFolder == (status ? null : folder))
+            string[] words = q?.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+            var messages = String.IsNullOrEmpty(q) ? _messageDal.List() : _messageDal.List(m => words.All(w => m.MessageSender.Contains(w) || m.MessageReceiver.Contains(w) || m.MessageSubject.Contains(w) || m.MessageBody.Contains(w)));
+
+            return messages.Where(x => x.MessageReceiver == receiver && x.MessageReceiverFolder == (status ? null : folder) && x.MessageSenderFolder != "DRAFT")
                 .OrderByDescending(x => x.MessageDate)
                 .ThenByDescending(x => x.MessageId)
                 .ToList();
         }
 
-        public List<Message> ListSent(string sender, bool status = true, string folder = "DRAFT")
+        public List<Message> ListSent(string sender, string q = null, bool status = true, string folder = "DRAFT")
         {
-            return _messageDal.List(x => x.MessageSender == sender && x.MessageFolder == (status ? null : folder))
+            string[] words = q?.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+            var messages = String.IsNullOrEmpty(q) ? _messageDal.List() : _messageDal.List(m => words.All(w => m.MessageSender.Contains(w) || m.MessageReceiver.Contains(w) || m.MessageSubject.Contains(w) || m.MessageBody.Contains(w)));
+
+            return messages.Where(x => x.MessageSender == sender && x.MessageSenderFolder == (status ? null : folder))
                 .OrderByDescending(x => x.MessageDate)
                 .ThenByDescending(x => x.MessageId)
                 .ToList();
@@ -45,11 +55,14 @@ namespace BusinessLayer.Concrete
 
         public void Insert(Message message)
         {
-            message.MessageSender = "admin";
+            message.MessageDate = DateTime.Parse(DateTime.Now.ToShortDateString());
+            message.MessageReceiverStatusRead = false;
+            message.MessageReceiverFolder = null;
+            if (message.MessageSenderFolder != "DRAFT") message.MessageSenderFolder = null;
             _messageDal.Insert(message);
         }
 
-        public Message GetById(int id)
+        public Message GetById(int id = 0)
         {
             return _messageDal.Get(x => x.MessageId == id);
         }

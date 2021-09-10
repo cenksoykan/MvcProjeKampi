@@ -18,19 +18,25 @@ namespace BusinessLayer.Concrete
             _contentDal = contentDal;
         }
 
-        public List<Content> List()
+        public List<Content> List(string q = null)
         {
-            return _contentDal.List();
+            if (String.IsNullOrEmpty(q)) return _contentDal.List();
+            string[] words = q.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+            return _contentDal.List(x => words.All(w => x.ContentValue.Contains(w) || x.Heading.HeadingName.Contains(w) || x.Writer.WriterName.Contains(w)));
         }
 
-        public List<Content> ListByHeading(int id)
+        public List<Content> ListByHeading(int id = 0, string q = null)
         {
-            return _contentDal.List(x => x.HeadingId == id);
+            if (String.IsNullOrEmpty(q)) return _contentDal.List(x => x.HeadingId == id);
+            string[] words = q.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+            return _contentDal.List(x => x.HeadingId == id && words.All(w => x.ContentValue.Contains(w) || x.Heading.HeadingName.Contains(w) || x.Writer.WriterName.Contains(w)));
         }
 
-        public List<Content> ListByWriter(int id)
+        public List<Content> ListByWriter(int id = 0, string q = null)
         {
-            return _contentDal.List(x => x.WriterId == id);
+            if (String.IsNullOrEmpty(q)) return _contentDal.List(x => x.WriterId == id);
+            string[] words = q.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+            return _contentDal.List(x => x.WriterId == id && words.All(w => x.ContentValue.Contains(w) || x.Heading.HeadingName.Contains(w) || x.Writer.WriterName.Contains(w)));
         }
 
         public void Insert(Content content)
@@ -38,7 +44,7 @@ namespace BusinessLayer.Concrete
             _contentDal.Insert(content);
         }
 
-        public Content GetById(int id)
+        public Content GetById(int id = 0)
         {
             return _contentDal.Get(x => x.ContentId == id);
         }

@@ -43,6 +43,7 @@
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -52,29 +53,31 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Abstract\IAboutDal.cs" />
+    <Compile Include="Abstract\IAdminRoleDal.cs" />
     <Compile Include="Abstract\IAdminRoleProviderDal.cs" />
     <Compile Include="Abstract\ICategoryDal.cs" />
     <Compile Include="Abstract\IContactDal.cs" />
     <Compile Include="Abstract\IContentDal.cs" />
     <Compile Include="Abstract\IGalleryImageDal.cs" />
     <Compile Include="Abstract\IHeadingDal.cs" />
-    <Compile Include="Abstract\ILoginDal.cs" />
     <Compile Include="Abstract\IMessageDal.cs" />
     <Compile Include="Abstract\IPersonaSkillDal.cs" />
     <Compile Include="Abstract\IRepository.cs" />
+    <Compile Include="Abstract\IAdminDal.cs" />
     <Compile Include="Abstract\IWriterDal.cs" />
     <Compile Include="Concrete\Context.cs" />
     <Compile Include="Concrete\Repositories\GenericRepository.cs" />
     <Compile Include="EntityFramework\EfAboutDal.cs" />
+    <Compile Include="EntityFramework\EfAdminRoleDal.cs" />
     <Compile Include="EntityFramework\EfAdminRoleProviderDal.cs" />
     <Compile Include="EntityFramework\EfCategoryDal.cs" />
     <Compile Include="EntityFramework\EfContactDal.cs" />
     <Compile Include="EntityFramework\EfContentDal.cs" />
     <Compile Include="EntityFramework\EfGalleryImageDal.cs" />
     <Compile Include="EntityFramework\EfHeadingDal.cs" />
-    <Compile Include="EntityFramework\EfLoginDal.cs" />
     <Compile Include="EntityFramework\EfMessageDal.cs" />
     <Compile Include="EntityFramework\EfPersonaSkillDal.cs" />
+    <Compile Include="EntityFramework\EfAdminDal.cs" />
     <Compile Include="EntityFramework\EfWriterDal.cs" />
     <Compile Include="Migrations\202108071101157_mig1.cs" />
     <Compile Include="Migrations\202108071101157_mig1.designer.cs">
@@ -140,6 +143,30 @@
     <Compile Include="Migrations\202108151533526_mig-messagefolder-add.designer.cs">
       <DependentUpon>202108151533526_mig-messagefolder-add.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202108231307093_mig-messagereceiverfolder-add.cs" />
+    <Compile Include="Migrations\202108231307093_mig-messagereceiverfolder-add.designer.cs">
+      <DependentUpon>202108231307093_mig-messagereceiverfolder-add.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202108231308400_mig-messagesender-rename.cs" />
+    <Compile Include="Migrations\202108231308400_mig-messagesender-rename.designer.cs">
+      <DependentUpon>202108231308400_mig-messagesender-rename.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202108250942294_mig-adminstatus-add.cs" />
+    <Compile Include="Migrations\202108250942294_mig-adminstatus-add.designer.cs">
+      <DependentUpon>202108250942294_mig-adminstatus-add.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202108251203564_mig-adminrole-table.cs" />
+    <Compile Include="Migrations\202108251203564_mig-adminrole-table.designer.cs">
+      <DependentUpon>202108251203564_mig-adminrole-table.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202108281404117_mig-galleryimagestatus-add.cs" />
+    <Compile Include="Migrations\202108281404117_mig-galleryimagestatus-add.designer.cs">
+      <DependentUpon>202108281404117_mig-galleryimagestatus-add.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202109021743570_mig-galleryimagethumb-add.cs" />
+    <Compile Include="Migrations\202109021743570_mig-galleryimagethumb-add.designer.cs">
+      <DependentUpon>202109021743570_mig-galleryimagethumb-add.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -201,6 +228,24 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202108151533526_mig-messagefolder-add.resx">
       <DependentUpon>202108151533526_mig-messagefolder-add.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202108231307093_mig-messagereceiverfolder-add.resx">
+      <DependentUpon>202108231307093_mig-messagereceiverfolder-add.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202108231308400_mig-messagesender-rename.resx">
+      <DependentUpon>202108231308400_mig-messagesender-rename.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202108250942294_mig-adminstatus-add.resx">
+      <DependentUpon>202108250942294_mig-adminstatus-add.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202108251203564_mig-adminrole-table.resx">
+      <DependentUpon>202108251203564_mig-adminrole-table.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202108281404117_mig-galleryimagestatus-add.resx">
+      <DependentUpon>202108281404117_mig-galleryimagestatus-add.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202109021743570_mig-galleryimagethumb-add.resx">
+      <DependentUpon>202109021743570_mig-galleryimagethumb-add.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />

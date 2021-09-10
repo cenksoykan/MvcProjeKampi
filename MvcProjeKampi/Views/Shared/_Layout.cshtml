@@ -1,43 +1,54 @@
-﻿<!DOCTYPE html>
+﻿
+@{
+    ViewBag.AppName = "MVC Proje Kampı";
+    string actionName = ViewContext.RouteData.Values["Action"].ToString();
+}
+
+<!DOCTYPE html>
 <html lang="tr" class="h-100">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - MVC Proje Kampı</title>
+    <title>@ViewBag.Title &ndash; @ViewBag.AppName</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
+    @RenderSection("styles", required: false)
 </head>
 <body class="d-flex flex-column h-100">
-    <nav class="navbar navbar-expand-lg navbar-light sticky-top border-bottom shadow-sm">
+    <nav class="navbar navbar-expand-md navbar-light sticky-top border-bottom shadow-sm bg-white frosted">
         <div class="container">
-            <a href="@Url.Action("Index", "Home")" class="navbar-brand">
-                <i class="bi-code-slash me-2"></i>MVC Proje Kampı
+            <a href="@Url.Action("Index")" class="navbar-brand">
+                <i class="bi-code-slash me-2"></i>@ViewBag.AppName
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <div class="nav navbar-nav">
-                    @Html.ActionLink("Anasayfa", "Index", "Home", new { area = "" }, new { @class = "nav-item nav-link" })
-                    @Html.ActionLink("Hakkımızda", "About", "Home", new { area = "" }, new { @class = "nav-item nav-link" })
-                    @Html.ActionLink("İletişim", "Contact", "Home", new { area = "" }, new { @class = "nav-item nav-link" })
-                    @Html.ActionLink("Kategoriler", "Index", "Category", new { area = "" }, new { @class = "nav-item nav-link" })
+                    <a href="@Url.Action("Index")" class="nav-item nav-link @(actionName == "Index" ? "active" : "")">Anasayfa</a>
+                    <a href="@Url.Action("About")" class="nav-item nav-link @(actionName == "About" ? "active" : "")">Hakkında</a>
+                    <a href="@Url.Action("Contact")" class="nav-item nav-link @(actionName == "Contact" ? "active" : "")">İletişim</a>
+                    <a href="@Url.Action("Content")" class="nav-item nav-link @(actionName == "Content" ? "active" : "")">Sözlük</a>
                 </div>
                 <div class="nav navbar-nav ms-auto">
-                    @Html.ActionLink("Yazar paneli", "Index", "WriterHome", new { area = "" }, new { @class = "nav-item nav-link" })
-                    @Html.ActionLink("Yönetim paneli", "Index", "AdminHome", new { area = "" }, new { @class = "nav-item nav-link" })
+                    <a href="@Url.Action("Index", "Panel")" class="nav-item nav-link pe-0">Panel</a>
                 </div>
             </div>
         </div>
     </nav>
     <main class="flex-shrink-0 mt-4 mb-5">
-        <div class="container">
-            @RenderBody()
-        </div>
+        @RenderBody()
     </main>
     <footer class="bg-light py-5 mt-auto">
         <div class="container">
-            <span class="text-muted"><small>&copy; @DateTime.Now.Year - MVC Proje Kampı</small></span>
+            <div class="row">
+                <div class="col-auto">
+                    <span class="text-muted"><small>&copy; @DateTime.Now.Year &ndash; <span class="user-select-all">@ViewBag.AppName</span></small></span>
+                </div>
+                <div class="col-auto ms-auto">
+                    <small><a href="https://github.com/cenksoykan/MvcProjeKampi" target="_blank" class="pe-0 link-secondary"><i class="bi-github me-2"></i>GitHub</a></small>
+                </div>
+            </div>
         </div>
     </footer>
 

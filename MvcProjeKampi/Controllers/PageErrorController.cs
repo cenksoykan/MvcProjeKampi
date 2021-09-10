@@ -6,9 +6,9 @@ using System.Web.Mvc;
 
 namespace MvcProjeKampi.Controllers
 {
+    [AllowAnonymous]
     public class PageErrorController : Controller
     {
-        // GET: PageError
         public ActionResult Page403()
         {
             Response.StatusCode = 403;
